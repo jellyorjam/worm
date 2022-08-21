@@ -1,6 +1,8 @@
 import { Button, Box, Typography, TextField, Container, Stack, Link} from "@mui/material"
 import { useFormik } from "formik"
 import * as Yup from "yup"
+import axios from "axios"
+import Login from "./Login"
 
 const validationSchema = Yup.object({
   firstName: Yup
@@ -18,10 +20,19 @@ const validationSchema = Yup.object({
   password: Yup
     .string('Enter a password')
     .min(8, 'Password must be a minimum of 8 characters')
-    .required('Password is required')
+    .required('Password is required'),
+  passwordConfirmation: Yup
+    .string()
+    .oneOf([Yup.ref('password')], 'Passwords must match')
 })
 
 const Signup = () => {
+  const testEnd =  async (values) => {
+    await axios.post("http://localhost:8000/users/signup", values).then((response) => {
+      console.log(response.data)
+    });
+    
+  }
 
 
   const formik = useFormik({
@@ -29,10 +40,11 @@ const Signup = () => {
       firstName: "",
       lastName: "",
       email: "",
-      password: ""
+      password: "",
+      passwordConfirmation: ""
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => console.log(values)
+    onSubmit: (values) => testEnd(values)
   })
   return (
     <Container component={"main"} maxWidth="xs">
@@ -55,20 +67,25 @@ const Signup = () => {
               onChange={formik.handleChange}
               error={formik.touched.lastName && Boolean(formik.errors.lastName)}
               helperText={formik.touched.lastName && formik.errors.lastName}/>
-              <TextField id="email" name="email" label="email" variant="outlined" 
+              <TextField id="email" name="email" label="Email" variant="outlined" 
               value={formik.values.email}
               onChange={formik.handleChange}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}/>
-              <TextField id="password" name="password" label="Password" variant="outlined" 
+              <TextField id="password" name="password" label="Create Password" variant="outlined" 
               value={formik.values.password}
               onChange={formik.handleChange}
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}/>
+              <TextField id="passwordConfirmation" name="passwordConfirmation" label="Confirm Password" variant="outlined" 
+              value={formik.values.passwordConfirmation}
+              onChange={formik.handleChange}
+              error={formik.touched.passwordConfirmation && Boolean(formik.errors.passwordConfirmation)}
+              helperText={formik.touched.passwordConfirmation && formik.errors.passwordConfirmation}/>
               <Button variant="contained" type="submit">Let's Go!</Button>
              </Stack>
           </form>
-          <Typography variant={"body1"}>Already have an account?   <Link href="/">Log in</Link></Typography>
+          <Typography variant={"body1"}>Already have an account?   <Link href="login">Log in</Link></Typography>
         </Stack>
     </Box>
   </Container>

@@ -1,11 +1,31 @@
 const express = require('express');
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const passport = require('passport');
+const cors = require('cors')
 require('dotenv').config();
 
+mongoose.connect("mongodb://localhost/worm", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
 const app = express();
+app.use(cors());
 
-const routes = require('./routes/routes')
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
-app.use(routes);
+app.use(passport.initialize());
+require('./config/passport');
+
+app.use("/", require("./routes/index"))
+app.use("/users", require("./routes/users"))
+
 
 const PORT = process.env.PORT || 8000;
 
