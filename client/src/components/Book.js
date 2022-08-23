@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { renderAuthors } from "../hooks/renderAuthors";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import NavBar from "./NavBar";
+import Search from "./Search";
 
 const Book = () => {
   const { state } = useLocation();
@@ -19,7 +21,7 @@ const Book = () => {
     authors: book.volumeInfo.authors || "",
     pageCount: book.volumeInfo.pageCount || "",
     image: book.volumeInfo.imageLinks.thumbnail || "",
-    categories: book.volumeInfo.categories || ""
+    categories: book.volumeInfo.categories || []
   }
 
   console.log(bookObj)
@@ -69,6 +71,9 @@ const Book = () => {
   }
 
   return (
+    <div>
+      <NavBar/>
+      <Search/>
     <Container >
       <Card>
       <Grid container sx={{paddingTop: "15px"}}>
@@ -107,6 +112,7 @@ const Book = () => {
       </Card>
       
     </Container>
+    </div>
   )
 }
 

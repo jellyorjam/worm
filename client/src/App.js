@@ -1,6 +1,6 @@
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import Home from "./components/Home";
+import MyLibrary from "./components/MyLibrary"
 import Logout from "./components/Logout"
 import Book from "./components/Book";
 import NavBar from "./components/NavBar";
@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route path="login" element={<Login/>}/>
         <Route path="signup" element={<Signup/>}/>
-        <Route path="home" element={<Home/>}/>
+        <Route path="home" element={<MyLibrary/>}/>
         <Route path="logout" element={<Logout/>}/>
         <Route path="search" element={<SearchResults/>}/>
         <Route path="books/:book" element={<Book/>}/>

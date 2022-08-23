@@ -2,7 +2,9 @@ import { Button, Box, Typography, TextField, Container, Stack, Link} from "@mui/
 import * as Yup from "yup";
 import {useFormik} from "formik";
 import axios from 'axios';
-import Home from "./Home"
+import { setUser } from "../reducers/userSlice";
+import { useDispatch } from "react-redux";
+
 import { useNavigate } from "react-router";
 import { useState } from "react";
 // import { Link } from "react-router-dom"
@@ -22,14 +24,18 @@ const validationSchema = Yup.object({
 })
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const submitLogin = async (values) => {
     await axios.post("http://localhost:8000/users/login", values).then((response) => {
       localStorage.setItem('token', response.data.token);
-      const user = response.data.user
-      navigate("/home", {state: user})
-    })
+      const user = response.data.user;
+      dispatch(setUser(user))
+      navigate("/home")
+    });
+
+    
   }
 
   const formik = useFormik({
