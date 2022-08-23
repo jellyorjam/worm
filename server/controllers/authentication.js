@@ -57,7 +57,14 @@ exports.login = (req, res) => {
           res.status(200).send({
             success: true,
             message: "Logged in successfully!",
-            token: "Bearer " + token
+            token: "Bearer " + token,
+            user: {
+              id: user._id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              books: user.books
+            }
           })    
         } else {
          res.status(401).send("Incorrect Password")

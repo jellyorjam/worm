@@ -1,13 +1,17 @@
 import { Grid, Card, Container, CardContent, Typography, CardMedia, CardActionArea } from "@mui/material";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import axios from "axios";
 import  {renderAuthors}  from "../hooks/renderAuthors";
 import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
+import Search from "./Search";
+import NavBar from "./NavBar";
 
-const SearchResults = (props) => {
+const SearchResults = () => {
+
   const navigate = useNavigate();
-  const books = props.books;
+  const {state } = useLocation();
+  const books = state;
   const [index, setIndex] = useState("");
 
 
@@ -68,6 +72,8 @@ const SearchResults = (props) => {
 
   return (
     <div>
+      <NavBar/>
+      <Search />
       <Container sx={{
         paddingTop: "20px"
       }}>

@@ -1,15 +1,28 @@
-import { Container, Grid, Card, CardMedia, CardContent, Typography, Rating, Button, Stack } from "@mui/material";
+import { Container, Grid, Card, CardMedia, CardContent, Typography, Rating, Button, Stack} from "@mui/material";
 import { useLocation } from "react-router";
 import { useEffect } from "react";
 import { renderAuthors } from "../hooks/renderAuthors";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Book = () => {
   const { state } = useLocation();
   const book = state;
+  const userId = useSelector(state => state.user.id)
 
-  console.log(book)
 
-  
+
+  const bookObj = {
+    user: userId,
+    selfLink: book.selfLink || "",
+    title: book.volumeInfo.title || "",
+    authors: book.volumeInfo.authors || "",
+    pageCount: book.volumeInfo.pageCount || "",
+    image: book.volumeInfo.imageLinks.thumbnail || "",
+    categories: book.volumeInfo.categories || ""
+  }
+
+  console.log(bookObj)
 
   const formatDescription = () => {
     const description = book.volumeInfo.description;
@@ -50,6 +63,11 @@ const Book = () => {
     }
     
   }
+
+  const addToRead = async () => {
+    await axios.post("http://localhost:8000/books/addBook", bookObj).then((response) => console.log(response))
+  }
+
   return (
     <Container >
       <Card>
@@ -75,7 +93,7 @@ const Book = () => {
         </Grid>
         <Grid item md={4}>
           <Stack align="left" maxWidth="200px" sx={{gap: "10px"}}>
-           <Button variant="contained">I've Read This Book</Button>
+           <Button variant="contained" onClick={addToRead}>I've Read This Book</Button>
            <Button variant="contained">I Want To read this book</Button>
            </Stack>
         </Grid>

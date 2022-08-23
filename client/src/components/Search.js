@@ -3,30 +3,28 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useState } from "react";
 import axios from "axios";
 import SearchResults from "./SearchResults";
+import { useNavigate } from "react-router";
 
 const apiUrl = "https://www.googleapis.com/books/v1/volumes?q="
 
 const Search = () => {
   const [input, setInput] = useState("");
-  const [books, setBooks] = useState([]);
+  
+
+  const navigate = useNavigate();
 
   const submitSearch = async (e) => {
     e.preventDefault();
     
-    await axios.get(apiUrl + input + "&maxResults=9").then(response => {
-      const results = response.data.items;
-       setBooks(results);
-       console.log("api called")
-    })
-  }
 
-  const renderSearchResults = () => {
-
-    if (books.length === 9) {
-      return (
-        <div><SearchResults books={books}/></div>
-      )
+    const fetchBooks = async () => {
+      const response = await axios.get(apiUrl + input + "&maxResults=9")
+      return response.data.items  
     }
+   
+    fetchBooks().then((response) => {
+      navigate("/search", {state: response})
+    })
   }
   
   return (
@@ -46,7 +44,6 @@ const Search = () => {
         }}>Search</Button>
       </Container>
       </form>
-      {renderSearchResults()}
     </div>
   )
 }

@@ -4,6 +4,7 @@ import {useFormik} from "formik";
 import axios from 'axios';
 import Home from "./Home"
 import { useNavigate } from "react-router";
+import { useState } from "react";
 // import { Link } from "react-router-dom"
 import { styled } from "@mui/material/styles"
 
@@ -21,13 +22,13 @@ const validationSchema = Yup.object({
 })
 
 const Login = () => {
-
   const navigate = useNavigate();
 
-  const testEnd = async (values) => {
+  const submitLogin = async (values) => {
     await axios.post("http://localhost:8000/users/login", values).then((response) => {
       localStorage.setItem('token', response.data.token);
-      navigate("/home")
+      const user = response.data.user
+      navigate("/home", {state: user})
     })
   }
 
@@ -37,11 +38,10 @@ const Login = () => {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => testEnd(values)
+    onSubmit: (values) => submitLogin(values)
   })
 
   return (
-    
     <Container component={"main"} maxWidth="xs">
       <Box 
         display="flex"

@@ -2,9 +2,12 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import Logout from "./components/Logout"
-import Search from "./components/Search";
 import Book from "./components/Book";
+import NavBar from "./components/NavBar";
 import {Routes, Route} from "react-router-dom";
+import SearchResults from "./components/SearchResults";
+import { Provider } from "react-redux";
+import { store } from "./store"
 
 
 function App() {
@@ -15,7 +18,7 @@ function App() {
         <Route path="signup" element={<Signup/>}/>
         <Route path="home" element={<Home/>}/>
         <Route path="logout" element={<Logout/>}/>
-        <Route path="search" element={<Search/>}/>
+        <Route path="search" element={<SearchResults/>}/>
         <Route path="books/:book" element={<Book/>}/>
       </Routes>
     </div>
