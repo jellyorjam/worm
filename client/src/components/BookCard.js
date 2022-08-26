@@ -1,10 +1,30 @@
 import { useGetBookQuery } from "../reducers/libraryApi";
+import { useSelector, useDispatch } from "react-redux";
+import { setBooks } from "../reducers/bookSlice";
+import { useEffect } from "react";
+import { useLoadBooksArray } from "../hooks/useLoadBooksArray";
+import { CardActionArea, ImageListItem, Typography } from "@mui/material";
 
 const BookCard = (props) => {
+  const dispatch = useDispatch();
   
   const bookId = props.book;
-  const { data, error, isLoading } = useGetBookQuery(bookId)
-  console.log(data)
+  const { data, error, isLoading } = useGetBookQuery(bookId);
+
+  useLoadBooksArray(isLoading);
+
+  //  const bookData = useSelector(state => state.libraryApi.queries);
+  //  const userBooks = useSelector(state => state.user.user.books)
+
+  // const dataArray = [];
+
+  // useEffect(() => {
+  //   for (const book in bookData) {
+  //     const data = bookData[book].data
+  //     dataArray.push(data);
+  //   }
+  //  dispatch(setBooks(dataArray));
+  // }, [userBooks, isLoading])
 
   if (isLoading) {
     return (
@@ -18,7 +38,13 @@ const BookCard = (props) => {
   }
   if (data) {
     return (
-      <div>{data.title}</div>
+      <CardActionArea>
+      <ImageListItem>
+        
+        <img src={data.image} alt="book cover"></img>
+        
+      </ImageListItem>
+      </CardActionArea>
     )
   }
 }

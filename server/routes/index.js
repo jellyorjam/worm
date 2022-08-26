@@ -7,5 +7,5 @@ const ensureAuthenticated = passport.authenticate('jwt', {session: false})
 
 router.get('/', controllers.testGet);
 
-router.get('/home', ensureAuthenticated, controllers.homePage)
+router.get('/auth', ensureAuthenticated, controllers.auth)
 module.exports = router;

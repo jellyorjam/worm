@@ -3,9 +3,12 @@ import Signup from "./components/Signup";
 import MyLibrary from "./components/MyLibrary"
 import Logout from "./components/Logout"
 import Book from "./components/Book";
-import NavBar from "./components/NavBar";
+import Insights from "./components/insights/Insights";
+import GeoInsights from "./components/insights/GeoInsights";
 import {Routes, Route} from "react-router-dom";
 import SearchResults from "./components/SearchResults";
+import PublishYearInsights from "./components/insights/PublishYearInsights";
+import USInsights from "./components/insights/maps/USInsights";
 import { Provider } from "react-redux";
 import { store } from "./store"
 
@@ -20,6 +23,10 @@ function App() {
         <Route path="logout" element={<Logout/>}/>
         <Route path="search" element={<SearchResults/>}/>
         <Route path="books/:book" element={<Book/>}/>
+        <Route path="insights" element={<Insights/>}/>
+        <Route path="insights/year" element={<PublishYearInsights/>}/>
+        <Route path="insights/geo" element={<GeoInsights/>}/>
+        <Route path="insights/geo/us" element={<USInsights/>}/>
       </Routes>
     </div>
   );

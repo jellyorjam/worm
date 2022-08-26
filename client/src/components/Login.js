@@ -24,14 +24,11 @@ const validationSchema = Yup.object({
 })
 
 const Login = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const submitLogin = async (values) => {
     await axios.post("http://localhost:8000/users/login", values).then((response) => {
       localStorage.setItem('token', response.data.token);
-      const user = response.data.user;
-      dispatch(setUser(user))
       navigate("/home")
     });
 

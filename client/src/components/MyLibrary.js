@@ -5,21 +5,37 @@ import { useLoginHook } from "../hooks/useLoginHook";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useGetBookQuery } from "../reducers/libraryApi";
+import { ImageList, Container, Card, Typography } from "@mui/material";
+
 
 
 // ask about security of isLoggedIn prop
 const MyLibrary = () => {
-  const library = useSelector(state => state.library);
   const books = useSelector(state => state.user.user.books);
 
 
-  const { loggedIn } = useLoginHook()
+  const { loggedIn } = useLoginHook();
+
+  // const bookData = useSelector(state => state.libraryApi.queries);
+
+  // const dataArray = [];
+
+  // useEffect(() => {
+
+  //   for (const book in bookData) {
+      
+  //     const data = bookData[book].data
+  //     dataArray.push(data);
+  //     console.log(dataArray)
+  //   }
+  // }, []);
+
 
   const renderBooks = () => {
     if (books) {
-      return books.map((book) => {
+      return books.map((book, i) => {
         return (
-          <BookCard book={book}/>
+          <BookCard book={book} key={i}/>
         )
       })
     }
@@ -29,10 +45,12 @@ const MyLibrary = () => {
     return (
       <div>
         <NavBar/>
-        <Search />
-        <div>
+        <Container sx={{paddingTop: "20px"}}>
+        <Typography variant="h1" align="center">My Library</Typography>
+        <ImageList cols={6} rowHeight={"auto"}>
           {renderBooks()}
-        </div>
+        </ImageList>
+        </Container>
       </div>
     )
   }

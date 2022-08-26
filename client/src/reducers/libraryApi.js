@@ -1,6 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import axios from "axios";
 
 export const libraryApi = createApi({
   reducerPath: 'libraryApi',

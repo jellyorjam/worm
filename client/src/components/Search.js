@@ -28,23 +28,23 @@ const Search = () => {
   }
   
   return (
-    <div>
+
       <form onSubmit={submitSearch}>
-      <Container maxWidth="md" 
+      <Container maxWidth="md" align="center"
       sx={{
         display: "flex",
-        gap: "10px"
+        gap: "10px",
+        
       }}
       >
-        <TextField id="standard-basic" label="Search Books" variant="standard" fullWidth={true} onChange={e => setInput(e.target.value)}/>  
-        <Button variant="contained"  type="submit" startIcon={<SearchIcon/>} sx={{
+        <TextField  id="standard-basic" label="Search Books" variant="standard"  onChange={e => setInput(e.target.value)}/>  
+        <Button variant="contained"  color="secondary" type="submit" startIcon={<SearchIcon/>} sx={{
           maxWidth: "200px",
-          alignSelf: "center",
-      
+          alignSelf: "center"
         }}>Search</Button>
       </Container>
       </form>
-    </div>
+
   )
 }
 

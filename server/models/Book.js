@@ -7,7 +7,8 @@ const BookSchema = new mongoose.Schema({
   authors: Array,
   pageCount: String,
   image: String,
-  categories: Array,
+  googleCategories: Array,
+  openLibraryCategories: Array,
   firstPublishYear: String,
   SubjectPlace: Array,
   SubjectTime: Array

@@ -1,5 +1,5 @@
 import { Container, Grid, Card, CardMedia, CardContent, Typography, Rating, Button, Stack} from "@mui/material";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useEffect } from "react";
 import { renderAuthors } from "../hooks/renderAuthors";
 import axios from "axios";
@@ -7,24 +7,45 @@ import { useSelector } from "react-redux";
 import NavBar from "./NavBar";
 import Search from "./Search";
 
+
 const Book = () => {
+  const navigate = useNavigate();
   const { state } = useLocation();
   const book = state;
-  const userId = useSelector(state => state.user.id)
+  console.log(book)
+  const userId = useSelector(state => state.user.user._id);
 
+  const categories = book.volumeInfo.categories;
+  
+  const organizedCategories = []
 
+  if (categories) {
+    categories.map((category) => {
+      if(category.includes(" / ")) {
+        const splitCategories = category.split(" / ");
+        splitCategories.map((category) => {
+          
+          if (!organizedCategories.includes(category) && category !== "General") {
+            organizedCategories.push(category)
+          }
+          return organizedCategories;
+        })
+      }
+      return organizedCategories;
+    })
+  }
+  
 
   const bookObj = {
     user: userId,
     selfLink: book.selfLink || "",
     title: book.volumeInfo.title || "",
-    authors: book.volumeInfo.authors || "",
+    authors: book.volumeInfo.authors || [],
     pageCount: book.volumeInfo.pageCount || "",
     image: book.volumeInfo.imageLinks.thumbnail || "",
-    categories: book.volumeInfo.categories || []
+    categories: organizedCategories || []
   }
 
-  console.log(bookObj)
 
   const formatDescription = () => {
     const description = book.volumeInfo.description;
@@ -67,15 +88,16 @@ const Book = () => {
   }
 
   const addToRead = async () => {
-    await axios.post("http://localhost:8000/books/addBook", bookObj).then((response) => console.log(response))
+    await axios.post("http://localhost:8000/books/addBook", bookObj).then((response) => console.log(response.data));
+   //make a modal saying "added to your library"
+
   }
 
   return (
     <div>
       <NavBar/>
-      <Search/>
-    <Container >
-      <Card>
+    <Container sx={{paddingTop: "20px"}} >
+      <Card >
       <Grid container sx={{paddingTop: "15px"}}>
         <Grid item md={4} align="center">
           <CardMedia
@@ -98,8 +120,8 @@ const Book = () => {
         </Grid>
         <Grid item md={4}>
           <Stack align="left" maxWidth="200px" sx={{gap: "10px"}}>
-           <Button variant="contained" onClick={addToRead}>I've Read This Book</Button>
-           <Button variant="contained">I Want To read this book</Button>
+           <Button variant="contained" color="secondary" onClick={addToRead}>I've Read This Book</Button>
+           <Button variant="contained" color="secondary">I Want To read this book</Button>
            </Stack>
         </Grid>
         <Grid item md={12}>

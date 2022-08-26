@@ -17,7 +17,6 @@ const SearchResults = () => {
 
   useEffect(() => {
     if (index !== "") {
-      console.log("teset")
       const book = books[index];
       let bookData = {}
       const fetchBook = async() => {
@@ -27,7 +26,7 @@ const SearchResults = () => {
     }
   }, [index])
 
-  console.log(books)
+ 
 
   const renderCardMedia = (book) => {
     if (book.volumeInfo.imageLinks) {
@@ -73,7 +72,6 @@ const SearchResults = () => {
   return (
     <div>
       <NavBar/>
-      <Search />
       <Container sx={{
         paddingTop: "20px"
       }}>
