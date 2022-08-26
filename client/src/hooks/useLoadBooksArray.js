@@ -18,4 +18,3 @@ export const useLoadBooksArray = (isLoading) => {
   dispatch(setBooks(dataArray));
  }, [userBooks, isLoading]);
 }
-

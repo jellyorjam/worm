@@ -12,7 +12,9 @@ import { Typography, Grid, Card, Container, Button } from "@mui/material";
 const Insights = () => {
   
   const library = useSelector(state => state.books);
-  const [isDashboard, setIsDashboard] = useState(true)
+  const [isDashboard, setIsDashboard] = useState(true);
+
+  console.log(library)
 
   const { loggedIn, navigate, dispatch } = useLoginHook();
   useLoadBooksArray();

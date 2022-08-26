@@ -8,10 +8,13 @@ export const bookSlice = createSlice({
   reducers: {
     setBooks: (state, action) => {
       return action.payload
+    },
+    editBooks: (state, action) => {
+    state[action.payload.index] = action.payload.newBookObj;
     }
   }
 });
 
-export const {setBooks} = bookSlice.actions
+export const {setBooks, editBooks} = bookSlice.actions
 
 export default bookSlice.reducer;

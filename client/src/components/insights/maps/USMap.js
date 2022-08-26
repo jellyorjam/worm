@@ -17,7 +17,7 @@ const USMap = ({setTooltipContent, content}) => {
   const [isClicked, setIsClicked] = useState(false);
   const [stateClicked, setStateClicked] = useState("");
 
-  const books = useSelector(state => state.insights.sortedByYear)
+  const books = useSelector(state => state.books)
   
   const statesRead = [];
 

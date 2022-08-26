@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { editBooks } from "../../../reducers/bookSlice";
 import { useState, useEffect } from "react";
 import { Grid, Container, Typography, Autocomplete, TextField, Button } from "@mui/material"
 import { setBooks } from "../../../reducers/bookSlice";
@@ -8,8 +9,9 @@ import { useLoadBooksArray } from "../../../hooks/useLoadBooksArray";
 
 
 const USInfo = ({state, booksFromState}) => {
+  const dispatch = useDispatch();
 
-  const books = useSelector(state => state.insights.sortedByYear);
+  const books = useSelector(state => state.books);
 
   const [value, setValue] = useState("");
   const [stateBooks, setStateBooks] = useState([]);
@@ -49,7 +51,13 @@ const USInfo = ({state, booksFromState}) => {
      subjectArray.push(state);
      setStateBooks(arr => [...arr, value]);
      const newBookObj = {...value, SubjectPlace: subjectArray};
-     await axios.put("http://localhost:8000/books/editBook/" + value._id, newBookObj).then((response) => console.log(response))
+     const index = books.findIndex((book) => book._id === value._id )
+     const obj = {
+       newBookObj,
+       index
+     }
+     dispatch(editBooks(obj))
+    //  await axios.put("http://localhost:8000/books/editBook/" + value._id, newBookObj).then((response) => console.log(response))
     
    }
 

@@ -9,7 +9,10 @@ const BookCard = (props) => {
   const dispatch = useDispatch();
   
   const bookId = props.book;
-  const { data, error, isLoading } = useGetBookQuery(bookId);
+  const { data, error, isLoading, refetch } = useGetBookQuery(bookId);
+
+  useEffect(() => {
+    refetch();  }, [])
 
   useLoadBooksArray(isLoading);
 
