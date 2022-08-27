@@ -1,7 +1,7 @@
 import { memo, useState } from "react";
 import { useSelector } from "react-redux";
 import { allStates } from "../../../data/geoLists";
-import USInfo from "./USInfo";
+import GeoInfo from "./GeoInfo";
 import {
   ComposableMap,
   Geographies,
@@ -37,16 +37,16 @@ const USMap = ({setTooltipContent, content}) => {
     if (statesRead.includes(geo.properties.name)) {
       return {
         default: {
-          fill: "#0097A7",
+          fill: "#689f38",
           outline: "none",
           stroke: "#000000"
         },
         hover: {
-          fill: "#F53",
+          fill: "#e6ee9c",
           outline: "none"
         },
         pressed: {
-          fill: "#E42",
+          fill: "#6b9b37",
           outline: "none"
         }
       }
@@ -54,16 +54,16 @@ const USMap = ({setTooltipContent, content}) => {
     else {
       return {
         default: {
-          fill: "#D6D6DA",
+          fill: "#e0e0e0",
           outline: "none",
           stroke: "#000000"
         },
         hover: {
-          fill: "#F53",
+          fill: "#e6ee9c",
           outline: "none"
         },
         pressed: {
-          fill: "#E42",
+          fill: "#6b9b37",
           outline: "#none"
         }
       }
@@ -88,7 +88,7 @@ const USMap = ({setTooltipContent, content}) => {
   const renderUSInfoDiv = () => {
     if (isClicked) {
       return (
-        <div><USInfo state={stateClicked} booksFromState={booksFromState}/></div>
+        <div><GeoInfo state={stateClicked} booksFromState={booksFromState}/></div>
       )
     }
   }
@@ -112,6 +112,7 @@ const USMap = ({setTooltipContent, content}) => {
                   setTooltipContent(`${geo.properties.name}`);
                   setIsClicked(true);
                   setStateClicked(content)
+
                 }}
                 onMouseLeave={() => {
                   setTooltipContent("");

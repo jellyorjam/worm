@@ -8,7 +8,7 @@ import { useLoginHook } from "../../../hooks/useLoginHook";
 import { useLoadBooksArray } from "../../../hooks/useLoadBooksArray";
 
 
-const USInfo = ({state, booksFromState}) => {
+const GeoInfo = ({state, booksFromState}) => {
   const dispatch = useDispatch();
 
   const books = useSelector(state => state.books);
@@ -109,4 +109,4 @@ const USInfo = ({state, booksFromState}) => {
   )
 }
 
-export default USInfo;
+export default GeoInfo;

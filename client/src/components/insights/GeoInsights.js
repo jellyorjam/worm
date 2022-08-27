@@ -18,17 +18,25 @@ const GeoInsights = ({dashboard}) => {
         )
     }
   }
+  const renderBreadcrumbs = () => {
+    if (!dashboard) {
+      return (
+      <Breadcrumbs sx={{display: "flex", justifyContent:"center"}}>
+        <Button color="secondary" onClick={() => navigate("/insights/geo")}>World</Button>
+        <Button color="secondary" onClick={() => navigate("/insights/geo/us")}>United States</Button> 
+      </Breadcrumbs>
+      )
+      
+    }
+  }
 
   return (
     <div>
     {renderNav()}
     <Container align="center">
-      <Typography variant="h4">Travel Insights</Typography>
-      <Breadcrumbs sx={{display: "flex", justifyContent:"center"}}>
-        <Button color="secondary" onClick={() => navigate("/insights/geo")}>World</Button>
-        <Button color="secondary" onClick={() => navigate("/insights/geo/us")}>United States</Button> 
-      </Breadcrumbs>
-      <WorldMap setTooltipContent={setContent} content={content}/>
+      <Typography variant={dashboard ? "h4" : "h2"} sx={dashboard ? {paddingBottom: "50px"} : {paddingTop: "20px"}}>Travel Insights</Typography>
+      {renderBreadcrumbs()}
+      <WorldMap setTooltipContent={setContent} content={content} dashboard={dashboard}/>
       <ReactTooltip>{content}</ReactTooltip>
     </Container>
     </div>

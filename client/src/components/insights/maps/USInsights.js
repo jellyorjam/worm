@@ -1,4 +1,4 @@
-import { Container, Breadcrumbs, Button } from "@mui/material";
+import { Container, Breadcrumbs, Button, Typography } from "@mui/material";
 import ReactTooltip from "react-tooltip";
 import USMap from "./USMap";
 import NavBar from "../../NavBar";
@@ -16,10 +16,12 @@ const USInsights = () => {
       <NavBar/>
     
       <Container align="center">
+      <Typography variant="h2" sx={{paddingTop: "20px"}}>Travel Insights</Typography>
       <Breadcrumbs sx={{display: "flex", justifyContent:"center"}}>
         <Button color="secondary" onClick={() => navigate("/insights/geo")}>World</Button>
         <Button color="secondary" onClick={() => navigate("/insights/geo/us")}>United States</Button> 
       </Breadcrumbs>
+      
         <USMap setTooltipContent={setUSContent} content={UScontent}/>
         <ReactTooltip>{UScontent}</ReactTooltip>
       </Container>
