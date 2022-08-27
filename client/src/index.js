@@ -3,29 +3,38 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from "react-router-dom";
 import './index.css';
 import App from './App';
+import "./App.css"
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 import { Provider } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
 
 
 const theme = createTheme({
   palette: {
     type: 'light',
     primary: {
-      main: '#fff8e1',
+      main: '#efebe9',
       light: '#ffffff',
-      dark: '#ccc5af',
+      dark: '#c7c7c7',
+    },
+    background: {
+      default: "#ffffff"
+      // default: '#bec5b7',
+      // home: "#ffffff"
     },
     secondary: {
-      main: '#a1887f',
-      light: '#d3b8ae',
-      dark: '#725b53',
+      // main: '#558b2f',
+      main: "#79b700",
+      light: '#85bb5c',
+      dark: '#255d00',
     },
   },
   typography: {
     fontFamily: 
-      "Lora"
+      "Lora",
+    color: "#000000"
   }
 })
 
@@ -35,6 +44,7 @@ root.render(
     <BrowserRouter>
     <Provider store={store}>
     <ThemeProvider theme={theme}>
+      <CssBaseline/>
       <App />
       </ThemeProvider>
       </Provider>

@@ -76,7 +76,7 @@ const PublishYearInsights = (props) => {
       {renderNav()}
       <Box>
         <Container align={dashboard ? "left" : "center"}>
-          <Typography variant="h4" align="center" sx={{paddingTop: "10px"}}>Publish Year Insights</Typography>
+          <Typography variant="h4" align="center" sx={dashboard ? {paddingBottom: "40px"} : ""}>Publish Year Insights</Typography>
           {renderDetail()}
           <ResponsiveContainer width="100%" height={300}>
           <BarChart data={data} >

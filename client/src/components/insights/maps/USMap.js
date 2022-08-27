@@ -112,7 +112,6 @@ const USMap = ({setTooltipContent, content}) => {
                   setTooltipContent(`${geo.properties.name}`);
                   setIsClicked(true);
                   setStateClicked(content)
-                  console.log(content)
                 }}
                 onMouseLeave={() => {
                   setTooltipContent("");

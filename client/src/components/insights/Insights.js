@@ -7,14 +7,35 @@ import { useEffect, useState } from "react";
 import { useLoginHook } from "../../hooks/useLoginHook";
 import { useLoadBooksArray } from "../../hooks/useLoadBooksArray"
 import { setLongestBook, setShortestBook, setSortedByYear } from "../../reducers/insightsSlice";
-import { Typography, Grid, Card, Container, Button } from "@mui/material";
+import { Typography, Grid, Card, Container, Button, Box } from "@mui/material";
+import GeoInsights from "./GeoInsights";
+import { styled } from "@mui/material/styles"
+
+//remember to map semantic headings for accessibility
+
+const StyledCard = styled('div')({
+  padding: "10px", 
+  paddingBottom: "20px",
+  height: 480, 
+  width: 550,
+  backgroundColor: "#eeeeee",
+  display: "flex", 
+  flexDirection: "column", 
+  justifyContent: "space-between"
+})
+
+
+
+//remember to map semantic headings for accessibility
+
+
 
 const Insights = () => {
   
   const library = useSelector(state => state.books);
   const [isDashboard, setIsDashboard] = useState(true);
 
-  console.log(library)
+
 
   const { loggedIn, navigate, dispatch } = useLoginHook();
   useLoadBooksArray();
@@ -72,7 +93,10 @@ const Insights = () => {
     })
     const sortedArray = filterLibrary.sort((a, b) => parseInt(a.firstPublishYear) - parseInt(b.firstPublishYear));
     return sortedArray;
-  }
+  };
+
+  const totalPages = library.reduce((accumulator, books) =>  accumulator + parseInt(books.pageCount), 0
+  ).toLocaleString("en-US");
 
 
   if (loggedIn) {
@@ -82,30 +106,51 @@ const Insights = () => {
         <Typography align="center" variant="h2" sx={{padding: "30px"}}>You have read {library.length} books</Typography>
         <Container sx={{paddingBottom: "20px"}}>
         <Grid container spacing={1} >
+
           <Grid item xs={1} md={6} >
-            <Card sx={{height: 450, width: 550}}>
-              <PagesReadInsights/>
+            <Card align="center" sx={{height: 480, width: 550,}}>
+            <StyledCard>
+              <Typography variant="h4" align="center">Pages Read</Typography>
+              <Typography align="center" sx={{fontSize: "70px"}}>{totalPages} pages</Typography>
+              <Button variant="contained" color="secondary" sx={{width: "90px", alignSelf: "center"}}>Details</Button>
+              </StyledCard>
             </Card>
           </Grid>
+          
           <Grid item xs={1} md={6}>
-          <Card sx={{height: 450, width: 550}}>
-              <GenreInsights/>
-            </Card>
-          </Grid>
-          <Grid item xs={1} md={6}>
-          <Card sx={{height: 450, width: 550}}>
-            <PublishYearInsights dashboard={isDashboard}/>
-            <Button variant="contained" onClick={() => {
-                setIsDashboard(false);
-                navigate("year")
+          <Card align="center" sx={{height: 480, width: 550, backgroundColor: "#eeeeee", paddingTop: "10px", }}>
+              <GenreInsights dashboard={isDashboard}/>
+              <Button variant="contained" color="secondary" sx={{width: "90px", marginTop: "15px"}} onClick={() => {
+                setIsDashboard(false)
+                navigate("genre");
               }}>Details</Button>
             </Card>
           </Grid>
+         
           <Grid item xs={1} md={6}>
-          <Card sx={{height: 450, width: 550}}>
-              <Button color="secondary" onClick={() => navigate("geo")}>Geo Insights</Button>
+          <Card align="center" sx={{height: 480, width: 550,}}>
+            <StyledCard >
+              <GeoInsights dashboard={isDashboard}/>
+              <Button color="secondary" variant="contained" sx={{width: "90px", alignSelf: "center"}} onClick={() => {
+                setIsDashboard(false)
+                navigate("geo")
+              }}>Details</Button>
+              </StyledCard>
             </Card>
           </Grid>
+
+          <Grid item xs={1} md={6}>
+          <Card align="center" sx={{height: 480, width: 550,}}>
+            <StyledCard sx={{paddingRight: "70px"}}>
+            <PublishYearInsights dashboard={isDashboard}/>
+            <Button variant="contained" color="secondary" sx={{width: "90px", alignSelf: "center", marginLeft: "70px"}} onClick={() => {
+                setIsDashboard(false);
+                navigate("year")
+              }}>Details</Button>
+              </StyledCard>
+            </Card>
+          </Grid>
+
         </Grid>
       </Container>
 

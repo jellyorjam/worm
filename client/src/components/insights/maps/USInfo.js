@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { editBooks } from "../../../reducers/bookSlice";
 import { useState, useEffect } from "react";
-import { Grid, Container, Typography, Autocomplete, TextField, Button } from "@mui/material"
+import { Grid, Container, Typography, Autocomplete, TextField, Button, Box } from "@mui/material"
 import { setBooks } from "../../../reducers/bookSlice";
 import axios from "axios";
 import { useLoginHook } from "../../../hooks/useLoginHook";
@@ -57,6 +57,7 @@ const USInfo = ({state, booksFromState}) => {
        index
      }
      dispatch(editBooks(obj))
+     setValue("")
     //  await axios.put("http://localhost:8000/books/editBook/" + value._id, newBookObj).then((response) => console.log(response))
     
    }
@@ -66,36 +67,44 @@ const USInfo = ({state, booksFromState}) => {
        return (
         <div>
         <img src={value.image} alt="book cover"/>
+        <Box>
         <Button variant="contained" color="secondary" onClick={editBook}>Add Book</Button>
+        </Box>
       </div>
        )
      }
    }
   
   return (
-    <Container>
-      <Grid container>
-        <Grid item md={4}>
-        <Typography>You've read {stateBooks.length} {stateBooks.length === 1 ? "book" : "books"} related to {state}</Typography>
-          {renderBooksRead()}
-        </Grid>
-        <Grid item md={4} align="left" sx={{paddingLeft: "20px"}}>
-          <Typography>Add books from your library</Typography>
+    <Container align="left" sx={{paddingBottom:"20px"}}>
+ 
+
+        <Typography variant="h5">You've read {stateBooks.length} {stateBooks.length === 1 ? "book" : "books"} related to {state}</Typography>
+          <Box display="flex" gap="10px" paddingTop="10px" paddingBottom="10px"  sx={{overflow: "auto"}}>{renderBooksRead()}</Box>
+          <Grid container>
+            <Grid item md={6}>
+          <Box>
+          <Typography variant="h5">Add books from your library</Typography>
           <Autocomplete
               onChange={(e, newValue) => setValue(newValue)}
               disablePortal
-              id="combo-box-demo"
               options={books}
               getOptionLabel={(option) => option.title + ", " + option.authors[0]}
               sx={{ width: 300 }}
               renderInput={(params) => <TextField {...params} label="Search Library" />}
             />
-          {renderBook()}
-        </Grid>
-        <Grid item md={4}>
-          <Typography>Discover books related to {state}</Typography>
-        </Grid>
-      </Grid>
+            {renderBook()}
+          
+          </Box>
+          </Grid>
+          <Grid item md={6}>
+
+          <Typography variant="h5" sx={{paddingTop: "10px"}}>Discover books related to {state}</Typography>
+          <Button variant="contained" color="secondary">Discover</Button>
+          </Grid>
+          </Grid>
+      
+    
     </Container>
   )
 }

@@ -12,7 +12,7 @@ const Book = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const book = state;
-  console.log(book)
+
   const userId = useSelector(state => state.user.user._id);
 
   const categories = book.volumeInfo.categories;

@@ -64,7 +64,6 @@ const renderStyle = (geo) => {
                   }}
                   onClick={() => {
                     setTooltipContent(`${geo.properties.name}`);
-                    console.log(content)
                   }}
                   onMouseLeave={() => {
                     setTooltipContent("");

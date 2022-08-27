@@ -11,6 +11,9 @@ import PublishYearInsights from "./components/insights/PublishYearInsights";
 import USInsights from "./components/insights/maps/USInsights";
 import { Provider } from "react-redux";
 import { store } from "./store"
+import { Container } from "@mui/material";
+import GenreInsights from "./components/insights/GenreInsights";
+
 
 
 function App() {
@@ -27,6 +30,7 @@ function App() {
         <Route path="insights/year" element={<PublishYearInsights/>}/>
         <Route path="insights/geo" element={<GeoInsights/>}/>
         <Route path="insights/geo/us" element={<USInsights/>}/>
+        <Route path="insights/genre" element={<GenreInsights/>}/>
       </Routes>
     </div>
   );

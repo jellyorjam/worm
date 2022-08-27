@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useGetBookQuery } from "../reducers/libraryApi";
 import { ImageList, Container, Card, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+
 
 
 
@@ -13,7 +15,7 @@ import { ImageList, Container, Card, Typography } from "@mui/material";
 const MyLibrary = () => {
   const books = useSelector(state => state.user.user.books);
 
-
+const theme = useTheme();
   const { loggedIn } = useLoginHook();
 
   // const bookData = useSelector(state => state.libraryApi.queries);
@@ -45,11 +47,13 @@ const MyLibrary = () => {
     return (
       <div>
         <NavBar/>
-        <Container sx={{paddingTop: "20px"}}>
+        <Container >
         <Typography variant="h1" align="center">My Library</Typography>
+        {/* <Card sx={{padding: "15px", backgroundColor: theme.palette.primary.main}}> */}
         <ImageList cols={6} rowHeight={"auto"}>
           {renderBooks()}
         </ImageList>
+        {/* </Card> */}
         </Container>
       </div>
     )

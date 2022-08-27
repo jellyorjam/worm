@@ -1,5 +1,6 @@
 import { Button, Box, Typography, TextField, Container, Stack, Link} from "@mui/material"
-import { useFormik } from "formik"
+import { useFormik } from "formik";
+import { useNavigate } from "react-router";
 import * as Yup from "yup"
 import axios from "axios"
 import Login from "./Login"
@@ -27,9 +28,12 @@ const validationSchema = Yup.object({
 })
 
 const Signup = () => {
-  const testEnd =  async (values) => {
+  const navigate = useNavigate();
+
+  const signup =  async (values) => {
     await axios.post("http://localhost:8000/users/signup", values).then((response) => {
-      console.log(response.data)
+      
+      return navigate("/login", {state: "success"})
     });
     
   }
@@ -44,50 +48,52 @@ const Signup = () => {
       passwordConfirmation: ""
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => testEnd(values)
+    onSubmit: (values) => signup(values)
   })
   return (
-    <Container component={"main"} maxWidth="xs">
+    <Container component={"main"} align="center" maxWidth="xs">
+     <img src={"../../images/croppedworm.jpg"} alt="little worm"/>
     <Box 
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight="100vh">
+     >
         <Stack spacing={2}>
           <Typography variant={"h4"} align="center">Signup</Typography>
           <form onSubmit={formik.handleSubmit}>
             <Stack spacing={2}>
-              <TextField id="firstName" name="firstName" label="First Name" variant="outlined" 
+              <TextField id="firstName" name="firstName" label="First Name" variant="outlined" color="secondary"
               value={formik.values.firstName}
               onChange={formik.handleChange}
               error={formik.touched.firstName && Boolean(formik.errors.firstName)}
               helperText={formik.touched.firstName && formik.errors.firstName}/>
-              <TextField id="lastName" name="lastName" label="Last Name" variant="outlined" 
+              <TextField id="lastName" name="lastName" label="Last Name" variant="outlined" color="secondary"
               value={formik.values.lastName}
               onChange={formik.handleChange}
               error={formik.touched.lastName && Boolean(formik.errors.lastName)}
               helperText={formik.touched.lastName && formik.errors.lastName}/>
-              <TextField id="email" name="email" label="Email" variant="outlined" 
+              <TextField id="email" name="email" label="Email" variant="outlined" color="secondary"
               value={formik.values.email}
               onChange={formik.handleChange}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}/>
-              <TextField id="password" name="password" label="Create Password" variant="outlined" 
+              <TextField id="password" name="password" type="password" label="Create Password" variant="outlined" color="secondary"
               value={formik.values.password}
               onChange={formik.handleChange}
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}/>
-              <TextField id="passwordConfirmation" name="passwordConfirmation" label="Confirm Password" variant="outlined" 
+              <TextField id="passwordConfirmation" type="password" name="passwordConfirmation" label="Confirm Password" color="secondary" variant="outlined" 
               value={formik.values.passwordConfirmation}
               onChange={formik.handleChange}
               error={formik.touched.passwordConfirmation && Boolean(formik.errors.passwordConfirmation)}
               helperText={formik.touched.passwordConfirmation && formik.errors.passwordConfirmation}/>
-              <Button variant="contained" type="submit">Let's Go!</Button>
+              <Button variant="contained" color="secondary" type="submit">Let's Go!</Button>
              </Stack>
           </form>
-          <Typography variant={"body1"}>Already have an account?   <Link href="login">Log in</Link></Typography>
+          <Typography variant={"body1"}>Already have an account?   <Link href="login" color="secondary">Log in</Link></Typography>
         </Stack>
     </Box>
+    
   </Container>
   )
 }
