@@ -162,7 +162,7 @@ const GenreInsights = ({dashboard}) => {
       <NavBar/>
       <Container align="left">
         
-        <Typography variant="h2" align="center" sx={{paddingBottom: "50px"}}>Your Top Genres</Typography>
+        <Typography variant="h2" align="center" sx={{paddingBottom: "50px", paddingTop: "20px"}}>Your Top Genres</Typography>
         <Container sx={{display: "flex"}}>
         <PieChart width={400} height={400} >
           <Pie

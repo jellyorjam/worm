@@ -49,7 +49,7 @@ const Login = () => {
   const renderMessage = () => {
     if (state) {
       return (
-        <Typography variant="h4">Account successfully created. Please log in.</Typography>
+        <Typography variant="body1">Account successfully created. Please log in.</Typography>
       )
     }
   }

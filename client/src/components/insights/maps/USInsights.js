@@ -18,8 +18,8 @@ const USInsights = () => {
       <Container align="center">
       <Typography variant="h2" sx={{paddingTop: "20px"}}>Travel Insights</Typography>
       <Breadcrumbs sx={{display: "flex", justifyContent:"center"}}>
-        <Button color="secondary" onClick={() => navigate("/insights/geo")}>World</Button>
-        <Button color="secondary" onClick={() => navigate("/insights/geo/us")}>United States</Button> 
+        <Button color="inherit" onClick={() => navigate("/insights/geo")}>World</Button>
+        <Button color="inherit" onClick={() => navigate("/insights/geo/us")}>United States</Button> 
       </Breadcrumbs>
       
         <USMap setTooltipContent={setUSContent} content={UScontent}/>

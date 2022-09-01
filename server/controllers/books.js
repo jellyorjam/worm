@@ -93,10 +93,14 @@ exports.getBook = (req, res) => {
 
 exports.editBook = (req, res) => {
   const { bookId } = req.params;
-  console.log(req.body)
 
   Book.findByIdAndUpdate(bookId, req.body, {new: true}, (err, book) => {
     if (err) throw err;
     return res.send(book)
   })
+}
+
+exports.deleteBook = (req, res) => {
+  const { bookId } = req.params;
+  // you don't want to delete the book but the user associated with it
 }

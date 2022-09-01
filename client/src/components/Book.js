@@ -1,6 +1,6 @@
 import { Container, Grid, Card, CardMedia, CardContent, Typography, Rating, Button, Stack} from "@mui/material";
 import { useLocation, useNavigate } from "react-router";
-import { useEffect } from "react";
+import { useEffect , useState } from "react";
 import { renderAuthors } from "../hooks/renderAuthors";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -9,15 +9,26 @@ import Search from "./Search";
 
 
 const Book = () => {
-  const navigate = useNavigate();
   const { state } = useLocation();
   const book = state;
-
+  console.log(book)
+  
+  const books = useSelector(state => state.books);
   const userId = useSelector(state => state.user.user._id);
 
+  const [inLibrary, setInLibrary] = useState(false);
+
+  useEffect(() => {
+    books.forEach((title) => {
+      if (title.googleLink === book.selfLink) {
+        setInLibrary(true)
+      }
+    })
+  }, [])
+
+
   const categories = book.volumeInfo.categories;
-  
-  const organizedCategories = []
+  const organizedCategories = [];
 
   if (categories) {
     categories.map((category) => {
@@ -93,11 +104,33 @@ const Book = () => {
 
   }
 
+  const renderButtons = () => {
+    if (inLibrary) {
+      return (
+        <Stack maxWidth="250px">
+          <Button variant="contained" color="secondary" onClick={async () => {
+
+            setInLibrary(false)
+            }}>Remove from my library</Button>
+        </Stack>
+      )
+    }
+    else {
+      return (
+        <Stack align="left" maxWidth="200px" sx={{gap: "10px"}}>
+            <Button variant="contained" color="secondary" onClick={addToRead}>I've Read This Book</Button>
+           <Button variant="contained" color="secondary">I Want To read this book</Button>
+        </Stack>
+      )
+      
+    }
+  }
+
   return (
     <div>
       <NavBar/>
     <Container sx={{paddingTop: "20px"}} >
-      <Card >
+     
       <Grid container sx={{paddingTop: "15px"}}>
         <Grid item md={4} align="center">
           <CardMedia
@@ -119,10 +152,7 @@ const Book = () => {
           <div>{renderCategories(book.volumeInfo.categories)}</div>
         </Grid>
         <Grid item md={4}>
-          <Stack align="left" maxWidth="200px" sx={{gap: "10px"}}>
-           <Button variant="contained" color="secondary" onClick={addToRead}>I've Read This Book</Button>
-           <Button variant="contained" color="secondary">I Want To read this book</Button>
-           </Stack>
+            {renderButtons()}
         </Grid>
         <Grid item md={12}>
           <CardContent>
@@ -131,7 +161,7 @@ const Book = () => {
           </CardContent>
         </Grid>
       </Grid>
-      </Card>
+    
       
     </Container>
     </div>

@@ -22,8 +22,8 @@ const GeoInsights = ({dashboard}) => {
     if (!dashboard) {
       return (
       <Breadcrumbs sx={{display: "flex", justifyContent:"center"}}>
-        <Button color="secondary" onClick={() => navigate("/insights/geo")}>World</Button>
-        <Button color="secondary" onClick={() => navigate("/insights/geo/us")}>United States</Button> 
+        <Button color="inherit" onClick={() => navigate("/insights/geo")}>World</Button>
+        <Button color="inherit" onClick={() => navigate("/insights/geo/us")}>United States</Button> 
       </Breadcrumbs>
       )
       

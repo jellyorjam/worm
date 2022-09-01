@@ -39,16 +39,16 @@ const renderStyle = (geo) => {
   if (countriesRead.includes(geo.properties.name)) {
     return {
       default: {
-        fill: "#689f38",
+        fill: "#d84315",
         outline: "none",
         stroke: "#000000"
       },
       hover: {
-        fill: "#e6ee9c",
+        fill: "#ffd54f",
         outline: "none"
       },
       pressed: {
-        fill: "#6b9b37",
+        fill: "#ffa726",
         outline: "none"
       }
     }
@@ -61,11 +61,11 @@ const renderStyle = (geo) => {
         stroke: "#000000"
       },
       hover: {
-        fill: "#e6ee9c",
+        fill: "#ffd54f",
         outline: "none"
       },
       pressed: {
-        fill: "#6b9b37",
+        fill: "#ffa726",
         outline: "#none"
       }
     }
@@ -85,7 +85,7 @@ const booksFromCountry = []
    })
 
 const renderCountryInfoDiv = () => {
-  if (isClicked) {
+  if (isClicked && !dashboard) {
     return (
       <div><GeoInfo state={countryClicked} booksFromState={booksFromCountry}/></div>
     )

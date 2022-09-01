@@ -80,7 +80,7 @@ const GeoInfo = ({state, booksFromState}) => {
  
 
         <Typography variant="h5">You've read {stateBooks.length} {stateBooks.length === 1 ? "book" : "books"} related to {state}</Typography>
-          <Box display="flex" gap="10px" paddingTop="10px" paddingBottom="10px"  sx={{overflow: "auto"}}>{renderBooksRead()}</Box>
+          <Box display="flex" gap="10px" paddingTop="10px" paddingBottom="10px"  overflow="auto">{renderBooksRead()}</Box>
           <Grid container>
             <Grid item md={6}>
           <Box>

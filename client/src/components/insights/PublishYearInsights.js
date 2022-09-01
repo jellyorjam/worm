@@ -1,17 +1,27 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, Label, ResponsiveContainer } from "recharts"
-import { Box, Typography, Container } from "@mui/material";
+import { Box, Typography, Container, TextField, Button } from "@mui/material";
 import NavBar from "../NavBar";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import axios from "axios";
+import PublishYearRequest from "./PublishYearRequest";
 
 
 
 const PublishYearInsights = (props) => {
   const insights = useSelector(state => state.insights)
   const [isClicked, setClick] = useState(false);
-  const [yearClicked, setYearClicked] = useState("")
+  const [yearClicked, setYearClicked] = useState("");
+  const [searchSubmitted, setSearchSubmitted] = useState("");
+  const [responseData, setResponseData] = useState({})
   const { dashboard } = props;
-  console.log(dashboard)
+
+  useEffect(() => {
+    setSearchSubmitted("")
+  }, []);
+
   const count = {};
 
   const countYears = insights.sortedByYear.forEach((book) => {
@@ -44,7 +54,7 @@ const PublishYearInsights = (props) => {
      
       return (
         <div>
-          <Container sx={{marginLeft: "250px"}}>
+          <Container align="left">
           <Typography variant="h6" sx={{textDecoration: "underline"}}>Books Published in {yearClicked.name}</Typography>
           <Typography>{mapTitles()}</Typography>
           </Container>
@@ -68,29 +78,78 @@ const PublishYearInsights = (props) => {
        <Typography>Click on a bar for more details</Typography>
      )
    }
+ };
+
+
+ // figure out if i can search BCE
+
+ const validationSchema = Yup.object({
+   year: Yup.number().max(2022, "Cannot be greater than the current year").required("Enter a year")
+ });
+
+ const formik = useFormik({
+   initialValues: {
+     year: ""
+   },
+   validationSchema: validationSchema,
+   onSubmit: (values) => setSearchSubmitted(values)
+ });
+
+
+ const renderInput = () => {
+   if (!dashboard) {
+     return (
+       <Container align="left" sx={{padding: "20px", display: "flex", gap: "20px", alignItems: "flex-end"}}>
+         
+         <Typography sx={{fontSize: "25px"}}>I want to read a book published in</Typography>
+         <form onSubmit={formik.handleSubmit}>
+         <TextField id="year-published" name="year" label="Year" variant="standard" color="secondary" value={formik.values.year} onChange={formik.handleChange} error={formik.touched.year && Boolean(formik.errors.year)}
+              helperText={formik.touched.year && formik.errors.year} sx={{}}/>
+         <Button type="submit" variant="contained" color="secondary" sx={{marginTop: "15px", marginLeft: "20px"}}>Submit</Button>
+         </form>
+         
+       </Container>
+     )
+   }
  }
 
+ const renderDiscover = () => {
+   if (searchSubmitted) {
+     return (
+     
+         <PublishYearRequest search={searchSubmitted}/>
+     
+       
+     )
+   }
+ }
 
   return (
     <div>
       {renderNav()}
       <Box>
         <Container align={dashboard ? "left" : "center"}>
-          <Typography variant="h4" align="center" sx={dashboard ? {paddingBottom: "40px"} : ""}>Publish Year Insights</Typography>
+          <Typography variant={dashboard ? "h4" : "h2"} align="center" sx={dashboard ? {paddingBottom: "40px", paddingLeft: "60px"} : {paddingTop: "20px"}}>Publish Year Insights</Typography>
           {renderDetail()}
           <ResponsiveContainer width="100%" height={300}>
           <BarChart data={data} >
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="Books"fill="#388e3c" onClick={(e) => {
+            <Bar dataKey="Books"fill="#6a1b9a" onClick={(e) => {
               setClick(true);
               setYearClicked(e)
             }}></Bar>
           </BarChart>
           </ResponsiveContainer>
+          {renderTitle()}
+          {renderInput()}
+          <Box display="flex" justifyContent="center" gap="10px" overflow="auto">
+          {renderDiscover()}
+          </Box>
        </Container>
-      {renderTitle()}
+      
+      
       </Box>
     </div>
   )

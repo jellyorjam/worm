@@ -31,12 +31,11 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const signup =  async (values) => {
-    await axios.post("http://localhost:8000/users/signup", values).then((response) => {
-      
-      return navigate("/login", {state: "success"})
-    });
+    await axios.post("http://localhost:8000/users/signup", values)
     
   }
+
+
 
 
   const formik = useFormik({
@@ -48,7 +47,10 @@ const Signup = () => {
       passwordConfirmation: ""
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => signup(values)
+    onSubmit: (values) => {
+      signup(values)
+      navigate("/login", {state: "success"})
+    }
   })
   return (
     <Container component={"main"} align="center" maxWidth="xs">

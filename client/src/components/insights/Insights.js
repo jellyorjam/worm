@@ -18,7 +18,7 @@ const StyledCard = styled('div')({
   paddingBottom: "20px",
   height: 480, 
   width: 550,
-  backgroundColor: "#eeeeee",
+  backgroundColor: "#f4f4f0",
   display: "flex", 
   flexDirection: "column", 
   justifyContent: "space-between"
@@ -38,7 +38,7 @@ const Insights = () => {
 
 
   const { loggedIn, navigate, dispatch } = useLoginHook();
-  useLoadBooksArray();
+  // useLoadBooksArray();
 
   // get this hook to work right 
  
@@ -118,12 +118,24 @@ const Insights = () => {
           </Grid>
           
           <Grid item xs={1} md={6}>
-          <Card align="center" sx={{height: 480, width: 550, backgroundColor: "#eeeeee", paddingTop: "10px", }}>
+          <Card align="center" sx={{height: 480, width: 550, backgroundColor: "#f4f4f0", paddingTop: "10px", }}>
               <GenreInsights dashboard={isDashboard}/>
               <Button variant="contained" color="secondary" sx={{width: "90px", marginTop: "15px"}} onClick={() => {
                 setIsDashboard(false)
                 navigate("genre");
               }}>Details</Button>
+            </Card>
+          </Grid>
+
+          <Grid item xs={1} md={6}>
+          <Card align="center" sx={{height: 480, width: 550,}}>
+            <StyledCard sx={{paddingRight: "70px"}}>
+            <PublishYearInsights dashboard={isDashboard}/>
+            <Button variant="contained" color="secondary" sx={{width: "90px", alignSelf: "center", marginLeft: "70px"}} onClick={() => {
+                setIsDashboard(false);
+                navigate("year")
+              }}>Details</Button>
+              </StyledCard>
             </Card>
           </Grid>
          
@@ -139,17 +151,7 @@ const Insights = () => {
             </Card>
           </Grid>
 
-          <Grid item xs={1} md={6}>
-          <Card align="center" sx={{height: 480, width: 550,}}>
-            <StyledCard sx={{paddingRight: "70px"}}>
-            <PublishYearInsights dashboard={isDashboard}/>
-            <Button variant="contained" color="secondary" sx={{width: "90px", alignSelf: "center", marginLeft: "70px"}} onClick={() => {
-                setIsDashboard(false);
-                navigate("year")
-              }}>Details</Button>
-              </StyledCard>
-            </Card>
-          </Grid>
+         
 
         </Grid>
       </Container>
