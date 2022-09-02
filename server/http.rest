@@ -1,8 +1,8 @@
-PUT http://localhost:8000/books/editBook/123
+DELETE http://localhost:8000/books/deleteBook/123
 
-Content-Type: application/json
+# Content-Type: application/json
 
-{
-  "name": "emily"
-}
+# {
+#   "name": "emily"
+# }
 

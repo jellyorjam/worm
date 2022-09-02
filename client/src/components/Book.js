@@ -16,6 +16,7 @@ const Book = () => {
   
   const books = useSelector(state => state.books);
   const userId = useSelector(state => state.user.user._id);
+ 
 
   const [inLibrary, setInLibrary] = useState(false);
 
@@ -128,8 +129,10 @@ const Book = () => {
       return (
         <Stack maxWidth="250px">
           <Button variant="contained" color="secondary" onClick={async () => {
-
-            setInLibrary(false)
+            setInLibrary(false);
+            const bookToDelete = books.find((title) => title.googleLink === book.selfLink);
+            console.log(bookToDelete)
+            await axios.delete("http://localhost:8000/books/deleteBook/" + bookToDelete._id, {data: {user: userId}})
             }}>Remove from my library</Button>
         </Stack>
       )
