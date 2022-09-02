@@ -17,7 +17,8 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  books: [{type: mongoose.Schema.Types.ObjectId, ref: "book"}]
+  books: [{type: mongoose.Schema.Types.ObjectId, ref: "book"}],
+  wishlist: [{type: mongoose.Schema.Types.ObjectId, ref: "book"}]
 });
 
 

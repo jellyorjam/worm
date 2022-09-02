@@ -12,6 +12,7 @@ const BookCard = (props) => {
   const navigate = useNavigate();
   
   const bookId = props.book;
+ 
   const { data, error, isLoading, refetch } = useGetBookQuery(bookId);
 
   useEffect(() => {
@@ -19,18 +20,6 @@ const BookCard = (props) => {
 
   useLoadBooksArray(isLoading);
 
-  //  const bookData = useSelector(state => state.libraryApi.queries);
-  //  const userBooks = useSelector(state => state.user.user.books)
-
-  // const dataArray = [];
-
-  // useEffect(() => {
-  //   for (const book in bookData) {
-  //     const data = bookData[book].data
-  //     dataArray.push(data);
-  //   }
-  //  dispatch(setBooks(dataArray));
-  // }, [userBooks, isLoading])
 
   const showBook = () => {
     let bookData = {}

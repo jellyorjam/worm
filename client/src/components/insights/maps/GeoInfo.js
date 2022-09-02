@@ -6,6 +6,7 @@ import { setBooks } from "../../../reducers/bookSlice";
 import axios from "axios";
 import { useLoginHook } from "../../../hooks/useLoginHook";
 import { useLoadBooksArray } from "../../../hooks/useLoadBooksArray";
+import GeoRequest from "../GeoRequest";
 
 
 const GeoInfo = ({state, booksFromState}) => {
@@ -15,10 +16,15 @@ const GeoInfo = ({state, booksFromState}) => {
 
   const [value, setValue] = useState("");
   const [stateBooks, setStateBooks] = useState([]);
+  const [searchSubmitted, setSearchSubmitted] = useState(false)
 
   useEffect(() => {
     setStateBooks(booksFromState)
   }, [booksFromState])
+
+  useEffect(() => {
+    setSearchSubmitted(false)
+  }, [state])
   
   // const booksFromState = []
 
@@ -74,6 +80,14 @@ const GeoInfo = ({state, booksFromState}) => {
        )
      }
    }
+
+   const renderDiscover = () => {
+    if (searchSubmitted) {
+      return (
+        <GeoRequest state={state}/>
+      )
+    }
+   }
   
   return (
     <Container align="left" sx={{paddingBottom:"20px"}}>
@@ -100,10 +114,13 @@ const GeoInfo = ({state, booksFromState}) => {
           <Grid item md={6}>
 
           <Typography variant="h5" sx={{paddingTop: "10px"}}>Discover books related to {state}</Typography>
-          <Button variant="contained" color="secondary">Discover</Button>
+          <Button variant="contained" color="secondary" onClick={() => setSearchSubmitted(true)}>Discover</Button>
+        
           </Grid>
           </Grid>
-      
+          <Box display="flex" gap="10px" overflow="auto">
+          {renderDiscover()}
+          </Box>
     
     </Container>
   )

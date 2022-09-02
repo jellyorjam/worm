@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./reducers/userSlice";
 import bookReducer from "./reducers/bookSlice";
+import bookClickedReducer from "./reducers/bookClickedSlice"
 import insightsReducer from "./reducers/insightsSlice";
 import { libraryApi } from "./reducers/libraryApi";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
@@ -14,6 +15,7 @@ export const store = configureStore({
     [googleBooksApi.reducerPath]: googleBooksApi.reducer,
     user: userReducer,
     books: bookReducer,
+    bookClicked: bookClickedReducer,
     insights: insightsReducer
   },
   middleware: (getDefaultMiddleware) =>

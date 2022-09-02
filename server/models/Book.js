@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const BookSchema = new mongoose.Schema({
   users: [{type: mongoose.Schema.Types.ObjectId, ref: "user"}],
+  wishlistUsers: [{type: mongoose.Schema.Types.ObjectId, ref: "user"}],
   googleLink: String,
   title: String,
   authors: Array,

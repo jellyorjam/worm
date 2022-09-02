@@ -6,6 +6,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import NavBar from "./NavBar";
 import Search from "./Search";
+import { libraryApi } from "../reducers/libraryApi";
 
 
 const Book = () => {
@@ -49,6 +50,18 @@ const Book = () => {
 
   const bookObj = {
     user: userId,
+    type: "library",
+    selfLink: book.selfLink || "",
+    title: book.volumeInfo.title || "",
+    authors: book.volumeInfo.authors || [],
+    pageCount: book.volumeInfo.pageCount || "",
+    image: book.volumeInfo.imageLinks.thumbnail || "",
+    categories: organizedCategories || []
+  }
+
+  const wishlistObj = {
+    user: userId,
+    type: "wishlist",
     selfLink: book.selfLink || "",
     title: book.volumeInfo.title || "",
     authors: book.volumeInfo.authors || [],
@@ -104,6 +117,12 @@ const Book = () => {
 
   }
 
+  const addToWishlist = async () => {
+    await axios.post("http://localhost:8000/books/addBook", wishlistObj).then((response) => console.log(response.data));
+   //make a modal saying "added to your library"
+
+  }
+
   const renderButtons = () => {
     if (inLibrary) {
       return (
@@ -119,7 +138,7 @@ const Book = () => {
       return (
         <Stack align="left" maxWidth="200px" sx={{gap: "10px"}}>
             <Button variant="contained" color="secondary" onClick={addToRead}>I've Read This Book</Button>
-           <Button variant="contained" color="secondary">I Want To read this book</Button>
+           <Button variant="contained" color="secondary" onClick={addToWishlist}>I Want To read this book</Button>
         </Stack>
       )
       

@@ -63,7 +63,8 @@ exports.login = (req, res) => {
               firstName: user.firstName,
               lastName: user.lastName,
               email: user.email,
-              books: user.books
+              books: user.books,
+              wishlist: user.wishlist
             }
           })    
         } else {

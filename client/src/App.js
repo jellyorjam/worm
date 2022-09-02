@@ -13,6 +13,7 @@ import { Provider } from "react-redux";
 import { store } from "./store"
 import { Container } from "@mui/material";
 import GenreInsights from "./components/insights/GenreInsights";
+import Wishlist from "./components/Wishlist";
 
 
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="login" element={<Login/>}/>
         <Route path="signup" element={<Signup/>}/>
         <Route path="home" element={<MyLibrary/>}/>
+        <Route path="wishlist" element={<Wishlist/>}/>
         <Route path="logout" element={<Logout/>}/>
         <Route path="search" element={<SearchResults/>}/>
         <Route path="books/:book" element={<Book/>}/>

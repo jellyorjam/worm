@@ -1,14 +1,16 @@
 import { Grid, Card, Container, CardContent, Typography, CardMedia, CardActionArea } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import  {renderAuthors}  from "../hooks/renderAuthors";
+import { setBookClicked, setLibrary, setWishlist } from "../reducers/bookClickedSlice";
 import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import Search from "./Search";
 import NavBar from "./NavBar";
 
 const SearchResults = () => {
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const {state } = useLocation();
   const books = state;
@@ -24,7 +26,9 @@ const SearchResults = () => {
       }
       fetchBook().then(() => navigate("/books/" + book.volumeInfo.title, {state: bookData}))
     }
-  }, [index])
+  }, [index]);
+
+
 
  
 

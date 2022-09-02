@@ -2,7 +2,6 @@ import { AppBar, Toolbar, Typography, Button, Container, Box, Link } from "@mui/
 import { useTheme } from "@mui/material/styles";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import { setLoggedIn } from "../reducers/userSlice";
 import Search from "./Search"
 import { styled } from "@mui/material/styles"
 
@@ -22,7 +21,6 @@ const NavBar = () => {
 
   const logoutFunc = () => {
     localStorage.removeItem("token");
-    dispatch(setLoggedIn(false))
     navigate("/login")
   }
 
@@ -33,7 +31,7 @@ const NavBar = () => {
           <Box flexGrow={1}></Box>
           <Search/>
           <Button color="inherit" size="large" onClick={() => navigate("/home")}>My Library</Button>
-          <Button color="inherit" size="large">To Be Read</Button>
+          <Button color="inherit" size="large" onClick={() => navigate("/wishlist")}>To Be Read</Button>
           <Button color="inherit" size="large" onClick={() => navigate("/insights")}>My Insights</Button>
           <Button color="inherit" size="large" onClick={logoutFunc}>Log out</Button>
       </Toolbar>

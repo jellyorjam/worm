@@ -8,7 +8,8 @@ exports.auth = (req, res) => {
     firstName: req.user.firstName,
     lastName: req.user.lastName,
     email: req.user.email,
-    books: req.user.books
+    books: req.user.books,
+    wishlist: req.user.wishlist
   }
   res.send(user)
 }

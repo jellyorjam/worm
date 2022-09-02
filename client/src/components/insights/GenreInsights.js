@@ -1,11 +1,16 @@
 import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useNavigate} from "react-router"
 import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell, LabelList, Label} from "recharts";
-import { Container, Typography, Box } from "@mui/material";
+import { Container, Typography, Box, Button, CardActionArea, Card, CardContent } from "@mui/material";
 import NavBar from "../NavBar";
-
+import axios from "axios"
 
 const GenreInsights = ({dashboard}) => {
-  const books = useSelector(state => state.insights.sortedByYear);
+  const navigate = useNavigate();
+  const books = useSelector(state => state.books);
+
+  const [genreClicked, setGenreClicked] = useState("")
 
   const allGenres = [];
 
@@ -41,70 +46,71 @@ const GenreInsights = ({dashboard}) => {
 
   const COLORS = [ '#7986CB', '#aed581', '#fff176', '#ff8a65', '#e57373', '#7986CB', '#aed581', '#fff176', '#ff8a65', '#e57373'];
 
-  const renderCustomizedLabel = ({
-    x, y, name
-  }) => {
-    // if (dashboard) {
-      if (x > 345 && x < 350) {
-        return (
-          <text x={x + 80} y={y + 10} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
-            {name}  
-          </text>
-        );
-      }
-      if (x > 300 && x < 310){
-        return (
-          <text x={x + 40} y={y + 10} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
-            {name}  
-          </text>
-        );
-      }
+  // const renderCustomizedLabel = ({
+  //   x, y, name
+  // }) => {
+  //     if (x > 345 && x < 350) {
+  //       return (
+  //         <text x={x + 80} y={y + 10} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
+  //           {name}  
+  //         </text>
+  //       );
+  //     }
+  //     if (x > 290 && x < 330){
+  //       return (
+  //         <text x={x + 40} y={y + 10} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
+  //           {name}  
+  //         </text>
+  //       );
+  //     }
   
-      if (x > 250 && x < 270){
-        return (
-          <text x={x + 70} y={y + 20} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
-            {name}  
-          </text>
-        );
-      }
-      if (x > 202 && x < 210) {
-        return (
-          <text x={x + 20} y={y + 10} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
-            {name}  
-          </text>
-        );
-      }
-      if (x > 100 && x < 160) {
-        return (
-          <text x={x - 2} y={y} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
-            {name}  
-          </text>
-        );
-      }
-      if (x > 370) {
-        return (
-          <text x={x + 60} y={y} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
-            {name}  
-          </text>
-        );
-      }
-      else {
-        return (
-          <text x={x + 55} y={y - 2} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
-            {name}  
-          </text>
-        );
-      // }
-    }
+  //     if (x > 230 && x < 289){
+  //       return (
+  //         <text x={x + 70} y={y + 20} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
+  //           {name}  
+  //         </text>
+  //       );
+  //     }
+  //     if (x > 180 && x < 229) {
+  //       return (
+  //         <text x={x + 20} y={y + 5} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
+  //           {name}  
+  //         </text>
+  //       );
+  //     }
+  //     if (x > 100 && x < 179) {
+  //       return (
+  //         <text x={x - 2} y={y} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
+  //           {name}  
+  //         </text>
+  //       );
+  //     }
+  //     if (x > 379) {
+  //       return (
+  //         <text x={x + 100} y={y} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
+  //           {name}  
+  //         </text>
+  //       );
+  //     }
+  //     else {
+  //       return (
+  //         <text x={x + 55} y={y - 2} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
+  //           {name}  
+  //         </text>
+  //       );
+  //   }
   
   
-  };
+  // };
 
 
   const renderTopGenres = () => {
+    console.log(topTenGenres)
     return topTenGenres.map((genre, i) => {
       return (
-        <Typography key={i} sx={{fontSize: "20px"}}>{genre[0]} - {genre[1]}</Typography>
+        <CardActionArea onClick={(e) => setGenreClicked(e.target.firstChild.textContent)}>
+          <Typography sx={{fontSize: "20px"}}>{genre[0]} - {genre[1]}</Typography>
+        </CardActionArea>
       )
     })
   }
@@ -113,9 +119,43 @@ const GenreInsights = ({dashboard}) => {
     const top20 = sortedGenres.slice(10, 20);
     return top20.map((genre, i) => {
       return (
-        <Typography key={i} sx={{fontSize: "20px"}}>{genre[0]} - {genre[1]}</Typography>
+        <CardActionArea onClick={(e) => setGenreClicked(e.target.firstChild.textContent)}>
+          <Typography sx={{fontSize: "20px"}}>{genre[0]} - {genre[1]}</Typography>
+        </CardActionArea>
       )
     })
+  }
+
+  const showBook = (book) => {
+    let bookData = {}
+    const fetchBook = async() => {
+      await axios.get(book.googleLink).then((response) => {
+        bookData = response.data
+      })
+    }
+    fetchBook().then(() => navigate("/books/" + data.title, {state: bookData}))
+  }
+
+  const renderGenreClicked = () => {
+    
+    if (genreClicked) {
+     return books.map((book) => {
+        return book.googleCategories.map((category) => {
+          if (category === genreClicked) {
+            return (
+              <CardActionArea sx={{width: "125px", height: "200px"}} onClick={() => showBook(book)}>
+                
+                <img src={book.image} alt="book cover"></img>
+       
+              </CardActionArea>
+                
+          
+            )
+          }
+        })
+      })
+    }
+ 
   }
 
 
@@ -135,9 +175,9 @@ const GenreInsights = ({dashboard}) => {
             data={data}
             cx="50%"
             cy="50%"
-            outerRadius={120}
+            outerRadius={150}
             fill="#8884d8"
-            label={renderCustomizedLabel}
+            // label={renderCustomizedLabel}
            
           >
         
@@ -162,7 +202,8 @@ const GenreInsights = ({dashboard}) => {
       <NavBar/>
       <Container align="left">
         
-        <Typography variant="h2" align="center" sx={{paddingBottom: "50px", paddingTop: "20px"}}>Your Top Genres</Typography>
+        <Typography variant="h2" align="center" sx={{ paddingTop: "20px"}}>Your Top Genres</Typography>
+        <Typography align="center" sx={{paddingBottom: "50px"}}>Click on a slice for more details</Typography>
         <Container sx={{display: "flex"}}>
         <PieChart width={400} height={400} >
           <Pie
@@ -174,28 +215,35 @@ const GenreInsights = ({dashboard}) => {
             cy="50%"
             outerRadius={200}
             fill="#8884d8"
-        
+            
           >
         
             {
         data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index]}/>
+          <Cell key={`cell-${index}`} fill={COLORS[index]} onClick={() => setGenreClicked(entry.name)}/>
         ))
       }
             </Pie>
           <Tooltip/>
         </PieChart>
         <Container sx={{display: "flex"}}>
-        <Container>
+        <Container 
+        sx={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}
+        >
           <Typography variant="h4" sx={{textDecoration: "underline"}}>Top 10 Genres</Typography>
           {renderTopGenres()}
         </Container>
-        <Container>
+        <Container sx={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
           <Typography variant="h4" sx={{textDecoration: "underline"}}>Runner ups</Typography>
           {renderOtherGenres()}
         </Container>
         </Container>
         </Container>
+        <Typography variant="h5">{genreClicked}</Typography>
+        <Box paddingTop="10px" display="flex" flexWrap="wrap" gap="20px">
+
+        {renderGenreClicked()}
+        </Box>
       </Container>
    
     </div>

@@ -3,84 +3,164 @@ const Book = require("../models/Book");
 const User = require("../models/User");
 
 exports.addBook =  (req, res) => {
-  const { user, selfLink, title, authors, pageCount, image, categories} = req.body
+  const { user, type, selfLink, title, authors, pageCount, image, categories} = req.body
 
   const apiUrl = "http://openlibrary.org/search.json?"
 
-  Book.findOne({googleLink: selfLink}, async (err, book) => {
-    if (book) {
-      if (book.users.includes(user)) {
-        res.status(200).send("You have already read this book")
+  if (type === "library") {
+    Book.findOne({googleLink: selfLink}, async (err, book) => {
+      if (book) {
+        if (book.users.includes(user)) {
+          res.status(200).send("You have already read this book")
+        }
+        else {
+          User.findById(user, (err, user) => {
+            if (err) throw err;
+            user.books.push(book);
+            book.users.push(user);
+            user.save();
+            book.save();
+            res.send("Book added to library")
+          })
+        }
       }
       else {
-        User.findById(user, (err, user) => {
-          if (err) throw err;
-          user.books.push(book);
-          book.users.push(user);
-          user.save();
-          book.save();
-          res.send("Book added")
-        })
+        const author = authors.length ? authors[0] : ""
+        await axios.get(apiUrl + "q=" + title + " " + author + "&limit=1").then((response) => {
+          const docs = response.data.docs;
+          const data =  response.data.docs[0]
+       
+          if (docs.length) {
+            const newBook = new Book({
+              users: user,
+              googleLink: selfLink,
+              title: title,
+              authors: authors,
+              pageCount: pageCount,
+              image: image,
+              googleCategories: categories,
+              openLibraryCategories: data.subject,
+              firstPublishYear: data.first_publish_year,
+              SubjectPlace: data.place,
+              SubjectTime: data.time 
+            });
+  
+            newBook.save();
+      
+            User.findById(user, (err, user) => {
+              if (err) throw err;
+              user.books.push(newBook)
+              user.save()
+            })
+          }
+          
+          else {
+            const newBook = new Book({
+              users: user,
+              googleLink: selfLink,
+              title: title,
+              authors: authors,
+              pageCount: pageCount,
+              image: image,
+              googleCategories: categories,
+              openLibraryCategories: [],
+              firstPublishYear: "",
+              SubjectPlace: [],
+              SubjectTime: [] 
+            });
+  
+            newBook.save();
+      
+            User.findById(user, (err, user) => {
+              if (err) throw err;
+              user.books.push(newBook)
+              user.save()
+            })
+          }
+        });
+  
+        res.status(200).send("Book added to library")
       }
-    }
-    else {
-      const author = authors.length ? authors[0] : ""
-      await axios.get(apiUrl + "q=" + title + " " + author + "&limit=1").then((response) => {
-        const docs = response.data.docs;
-        const data =  response.data.docs[0]
-     
-        if (docs.length) {
-          const newBook = new Book({
-            users: user,
-            googleLink: selfLink,
-            title: title,
-            authors: authors,
-            pageCount: pageCount,
-            image: image,
-            googleCategories: categories,
-            openLibraryCategories: data.subject,
-            firstPublishYear: data.first_publish_year,
-            SubjectPlace: data.place,
-            SubjectTime: data.time 
-          });
-
-          newBook.save();
-    
-          User.findById(user, (err, user) => {
-            if (err) throw err;
-            user.books.push(newBook)
-            user.save()
-          })
+    })
+  }
+  
+  else if (type === "wishlist") {
+    Book.findOne({googleLink: selfLink}, async (err, book) => {
+      if (book) {
+        if (book.wishlistUsers.includes(user)) {
+          res.status(200).send("This book is already on your wishlist")
         }
-        
         else {
-          const newBook = new Book({
-            users: user,
-            googleLink: selfLink,
-            title: title,
-            authors: authors,
-            pageCount: pageCount,
-            image: image,
-            googleCategories: categories,
-            openLibraryCategories: [],
-            firstPublishYear: "",
-            SubjectPlace: [],
-            SubjectTime: [] 
-          });
-
-          newBook.save();
-    
           User.findById(user, (err, user) => {
             if (err) throw err;
-            user.books.push(newBook)
-            user.save()
+            user.wishlist.push(book);
+            book.wishlistUsers.push(user);
+            user.save();
+            book.save();
+            res.send("Book added to wishlist")
           })
         }
-      });
-
-      res.status(200).send("book added")
-    }
-  })
+      }
+      else {
+        const author = authors.length ? authors[0] : ""
+        await axios.get(apiUrl + "q=" + title + " " + author + "&limit=1").then((response) => {
+          const docs = response.data.docs;
+          const data =  response.data.docs[0]
+       
+          if (docs.length) {
+            const newBook = new Book({
+              wishlistUsers: user,
+              googleLink: selfLink,
+              title: title,
+              authors: authors,
+              pageCount: pageCount,
+              image: image,
+              googleCategories: categories,
+              openLibraryCategories: data.subject,
+              firstPublishYear: data.first_publish_year,
+              SubjectPlace: data.place,
+              SubjectTime: data.time 
+            });
+  
+            newBook.save();
+      
+            User.findById(user, (err, user) => {
+              if (err) throw err;
+              user.wishlist.push(newBook)
+              user.save()
+            })
+          }
+          
+          else {
+            const newBook = new Book({
+              wishlistUsers: user,
+              googleLink: selfLink,
+              title: title,
+              authors: authors,
+              pageCount: pageCount,
+              image: image,
+              googleCategories: categories,
+              openLibraryCategories: [],
+              firstPublishYear: "",
+              SubjectPlace: [],
+              SubjectTime: [] 
+            });
+  
+            newBook.save();
+      
+            User.findById(user, (err, user) => {
+              if (err) throw err;
+              user.wishlist.push(newBook)
+              user.save()
+            })
+          }
+        });
+  
+        res.status(200).send("Book added to wishlist")
+      }
+    })
+  }
+  
 }
 
 exports.getBook = (req, res) => {
