@@ -12,7 +12,7 @@ import GeoRequest from "../GeoRequest";
 const GeoInfo = ({state, booksFromState}) => {
   const dispatch = useDispatch();
 
-  const books = useSelector(state => state.books);
+  const { books } = useLoadBooksArray();
 
   const [value, setValue] = useState("");
   const [stateBooks, setStateBooks] = useState([]);

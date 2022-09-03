@@ -26,7 +26,7 @@ const validationSchema = Yup.object({
 const Login = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  console.log(state)
+
 
   const submitLogin = async (values) => {
     await axios.post("http://localhost:8000/users/login", values).then((response) => {

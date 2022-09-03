@@ -7,6 +7,7 @@ import {
   Geographies,
   Geography,
 } from "react-simple-maps";
+import { useLoadBooksArray } from "../../../hooks/useLoadBooksArray";
 
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
@@ -17,7 +18,7 @@ const USMap = ({setTooltipContent, content}) => {
   const [isClicked, setIsClicked] = useState(false);
   const [stateClicked, setStateClicked] = useState("");
 
-  const books = useSelector(state => state.books)
+  const { books } = useLoadBooksArray();
   
   const statesRead = [];
 

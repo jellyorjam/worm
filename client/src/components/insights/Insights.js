@@ -32,13 +32,18 @@ const StyledCard = styled('div')({
 
 const Insights = () => {
   
-  const library = useSelector(state => state.books);
+  // const library = useSelector(state => state.books);
   
   const [isDashboard, setIsDashboard] = useState(true);
 
 
 
   const { loggedIn, navigate, dispatch } = useLoginHook();
+  const { books, wishlist } = useLoadBooksArray();
+  console.log(books)
+
+  const library = books
+
   // useLoadBooksArray();
 
   // get this hook to work right 
@@ -92,7 +97,7 @@ const Insights = () => {
     const filterLibrary = sortLibrary.filter((book) => {
       return book.firstPublishYear !== ""
     })
-    console.log(filterLibrary)
+
     const sortedArray = filterLibrary.sort((a, b) => parseInt(a.firstPublishYear) - parseInt(b.firstPublishYear));
     return sortedArray;
   };

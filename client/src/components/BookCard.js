@@ -18,7 +18,7 @@ const BookCard = (props) => {
   useEffect(() => {
     refetch();  }, [])
 
-  useLoadBooksArray(isLoading);
+  // useLoadBooksArray(isLoading);
 
 
   const showBook = () => {

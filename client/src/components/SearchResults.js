@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import  {renderAuthors}  from "../hooks/renderAuthors";
-import { setBookClicked, setLibrary, setWishlist } from "../reducers/bookClickedSlice";
+import { setBookClicked, setLibrary, setWishlist } from "../reducers/wishlistSlice";
 import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import Search from "./Search";
 import NavBar from "./NavBar";

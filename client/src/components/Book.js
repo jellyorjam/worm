@@ -7,23 +7,30 @@ import { useSelector } from "react-redux";
 import NavBar from "./NavBar";
 import Search from "./Search";
 import { libraryApi } from "../reducers/libraryApi";
+import { useLoadBooksArray } from "../hooks/useLoadBooksArray";
 
 
 const Book = () => {
   const { state } = useLocation();
   const book = state;
-  console.log(book)
   
-  const books = useSelector(state => state.books);
+  const { books, wishlist } = useLoadBooksArray();
   const userId = useSelector(state => state.user.user._id);
  
 
   const [inLibrary, setInLibrary] = useState(false);
+  const [inWishlist, setInWishlist] = useState(false)
 
   useEffect(() => {
     books.forEach((title) => {
       if (title.googleLink === book.selfLink) {
         setInLibrary(true)
+      }
+    })
+
+    wishlist.forEach((title) => {
+      if (title.googleLink === book.selfLink) {
+        setInWishlist(true)
       }
     })
   }, [])
@@ -131,9 +138,21 @@ const Book = () => {
           <Button variant="contained" color="secondary" onClick={async () => {
             setInLibrary(false);
             const bookToDelete = books.find((title) => title.googleLink === book.selfLink);
-            console.log(bookToDelete)
+    
             await axios.delete("http://localhost:8000/books/deleteBook/" + bookToDelete._id, {data: {user: userId}})
             }}>Remove from my library</Button>
+        </Stack>
+      )
+    }
+    else if (inWishlist) {
+      return (
+        <Stack maxWidth="250px">
+          <Button variant="contained" color="secondary" onClick={async () => {
+            setInWishlist(false);
+            const bookToDelete = books.find((title) => title.googleLink === book.selfLink);
+            
+            // await axios.delete("http://localhost:8000/books/deleteBook/" + bookToDelete._id, {data: {user: userId}})
+            }}>Remove from my wishlist</Button>
         </Stack>
       )
     }

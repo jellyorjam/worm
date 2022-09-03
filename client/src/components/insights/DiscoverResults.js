@@ -14,7 +14,7 @@ const DiscoverResults = ({doc}) => {
   }
 
   if (data) {
-    console.log(data)
+    
     
     const englishResult =  data.items ? data.items.find(item => item.volumeInfo.language === "en") : null;
 

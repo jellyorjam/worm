@@ -5,11 +5,12 @@ import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell, LabelList, Label} fr
 import { Container, Typography, Box, Button, CardActionArea, Card, CardContent } from "@mui/material";
 import NavBar from "../NavBar";
 import axios from "axios"
+import { useLoadBooksArray } from "../../hooks/useLoadBooksArray";
 
 const GenreInsights = ({dashboard}) => {
   const navigate = useNavigate();
-  const books = useSelector(state => state.books);
-
+  const { books } = useLoadBooksArray();
+  console.log('test')
   const [genreClicked, setGenreClicked] = useState("")
 
   const allGenres = [];

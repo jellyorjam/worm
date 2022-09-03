@@ -9,12 +9,13 @@ import {
 } from "react-simple-maps";
 import { allCountries } from "../../../data/geoLists";
 import GeoInfo from "./GeoInfo";
+import { useLoadBooksArray } from "../../../hooks/useLoadBooksArray";
 
 
 
 
 const WorldMap = ({ setTooltipContent, content, dashboard }) => {
-  const books = useSelector(state => state.books);
+  const { books } = useLoadBooksArray();
 
   const [isClicked, setIsClicked] = useState(false);
   const [countryClicked, setCountryClicked] = useState("");
