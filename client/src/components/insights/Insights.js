@@ -33,6 +33,7 @@ const StyledCard = styled('div')({
 const Insights = () => {
   
   const library = useSelector(state => state.books);
+  
   const [isDashboard, setIsDashboard] = useState(true);
 
 
@@ -91,6 +92,7 @@ const Insights = () => {
     const filterLibrary = sortLibrary.filter((book) => {
       return book.firstPublishYear !== ""
     })
+    console.log(filterLibrary)
     const sortedArray = filterLibrary.sort((a, b) => parseInt(a.firstPublishYear) - parseInt(b.firstPublishYear));
     return sortedArray;
   };
@@ -112,7 +114,7 @@ const Insights = () => {
             <StyledCard>
               <Typography variant="h4" align="center">Pages Read</Typography>
               <Typography align="center" sx={{fontSize: "70px"}}>{totalPages} pages</Typography>
-              <Button variant="contained" color="secondary" sx={{width: "90px", alignSelf: "center"}}>Details</Button>
+              <Button variant="contained" color="secondary" sx={{width: "90px", alignSelf: "center"}} onClick={() => navigate("pages", {state: totalPages})}>Details</Button>
               </StyledCard>
             </Card>
           </Grid>

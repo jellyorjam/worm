@@ -9,11 +9,9 @@ import {Routes, Route} from "react-router-dom";
 import SearchResults from "./components/SearchResults";
 import PublishYearInsights from "./components/insights/PublishYearInsights";
 import USInsights from "./components/insights/maps/USInsights";
-import { Provider } from "react-redux";
-import { store } from "./store"
-import { Container } from "@mui/material";
 import GenreInsights from "./components/insights/GenreInsights";
 import Wishlist from "./components/Wishlist";
+import PagesReadInsights from "./components/insights/PagesReadInsights";
 
 
 
@@ -29,6 +27,7 @@ function App() {
         <Route path="search" element={<SearchResults/>}/>
         <Route path="books/:book" element={<Book/>}/>
         <Route path="insights" element={<Insights/>}/>
+        <Route path="insights/pages" element={<PagesReadInsights/>}/>
         <Route path="insights/year" element={<PublishYearInsights/>}/>
         <Route path="insights/geo" element={<GeoInsights/>}/>
         <Route path="insights/geo/us" element={<USInsights/>}/>
