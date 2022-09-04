@@ -8,6 +8,7 @@ import {
   Geography,
 } from "react-simple-maps";
 import { useLoadBooksArray } from "../../../hooks/useLoadBooksArray";
+import { useGetBookQuery } from "../../../reducers/libraryApi";
 
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
@@ -18,7 +19,11 @@ const USMap = ({setTooltipContent, content}) => {
   const [isClicked, setIsClicked] = useState(false);
   const [stateClicked, setStateClicked] = useState("");
 
-  const { books } = useLoadBooksArray();
+  const usersBooks = useSelector(state => state.user.user.books)
+  const usersWishlist = useSelector(state => state.user.user.wishlist)
+
+  const { data: books, error, isLoading } = useGetBookQuery(usersBooks)
+
   
   const statesRead = [];
 

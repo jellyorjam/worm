@@ -14,10 +14,13 @@ import { useTheme } from "@mui/material/styles";
 // ask about security of isLoggedIn prop
 const MyLibrary = () => {
   const books = useSelector(state => state.user.user.books);
-
+  
 const theme = useTheme();
   const { loggedIn } = useLoginHook();
 
+  const { data, isLoading, error } = useGetBookQuery(books);
+  
+  console.log(data)
   // const bookData = useSelector(state => state.libraryApi.queries);
 
   // const dataArray = [];
@@ -34,8 +37,8 @@ const theme = useTheme();
 
 
   const renderBooks = () => {
-    if (books) {
-      return books.map((book, i) => {
+    if (data) {
+      return data.map((book, i) => {
         return (
           <BookCard book={book} key={i}/>
         )

@@ -173,8 +173,7 @@ exports.getBook = (req, res) => {
 
 exports.editBook = (req, res) => {
   const { bookId } = req.params;
-
-  Book.findByIdAndUpdate(bookId, req.body, {new: true}, (err, book) => {
+  Book.findByIdAndUpdate(bookId, req.body.newBookObj, {new: true}, (err, book) => {
     if (err) throw err;
     return res.send(book)
   })

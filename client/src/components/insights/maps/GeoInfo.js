@@ -7,16 +7,33 @@ import axios from "axios";
 import { useLoginHook } from "../../../hooks/useLoginHook";
 import { useLoadBooksArray } from "../../../hooks/useLoadBooksArray";
 import GeoRequest from "../GeoRequest";
+import { useGetBookQuery, useUpdateBookMutation } from "../../../reducers/libraryApi";
 
 
 const GeoInfo = ({state, booksFromState}) => {
   const dispatch = useDispatch();
 
-  const { books } = useLoadBooksArray();
+
+  // const { data, error, isLoading } = useGetBookQuery(undefined, {
+  //   selectFromResult: ({data, error, isLoading}) => ({
+  //     data: data?.filter((item) => item)
+  //   })
+  // })
+  
+
+  // console.log( data )
+  
+  const usersBooks = useSelector(state => state.user.user.books)
+  const usersWishlist = useSelector(state => state.user.user.wishlist)
+
+  const { data: books, error, isLoading } = useGetBookQuery(usersBooks)
+
 
   const [value, setValue] = useState("");
   const [stateBooks, setStateBooks] = useState([]);
-  const [searchSubmitted, setSearchSubmitted] = useState(false)
+  const [searchSubmitted, setSearchSubmitted] = useState(false);
+
+  const [updateBook, result] = useUpdateBookMutation();
 
   useEffect(() => {
     setStateBooks(booksFromState)
@@ -63,8 +80,12 @@ const GeoInfo = ({state, booksFromState}) => {
        index
      }
      dispatch(editBooks(obj))
-     setValue("")
-    //  await axios.put("http://localhost:8000/books/editBook/" + value._id, newBookObj).then((response) => console.log(response))
+     setValue("");
+     const id = value._id
+    //  console.log(newBookObj)
+    //  console.log(id)
+     updateBook({id, newBookObj})
+    //  await axios.put("http://localhost:8000/books/" + value._id, newBookObj).then((response) => console.log(response))
     
    }
 

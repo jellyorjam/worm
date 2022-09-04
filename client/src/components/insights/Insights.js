@@ -10,6 +10,7 @@ import { setLongestBook, setShortestBook, setSortedByYear } from "../../reducers
 import { Typography, Grid, Card, Container, Button, Box } from "@mui/material";
 import GeoInsights from "./GeoInsights";
 import { styled } from "@mui/material/styles"
+import { useGetBookQuery, useGetWishlistQuery } from "../../reducers/libraryApi";
 
 //remember to map semantic headings for accessibility
 
@@ -31,6 +32,13 @@ const StyledCard = styled('div')({
 
 
 const Insights = () => {
+  const usersBooks = useSelector(state => state.user.user.books)
+  const usersWishlist = useSelector(state => state.user.user.wishlist)
+
+  const { data: books, error, isLoading } = useGetBookQuery(usersBooks)
+  const { data: wishlist } = useGetWishlistQuery(usersWishlist)
+  
+
   
   // const library = useSelector(state => state.books);
   
@@ -39,7 +47,7 @@ const Insights = () => {
 
 
   const { loggedIn, navigate, dispatch } = useLoginHook();
-  const { books, wishlist } = useLoadBooksArray();
+
   console.log(books)
 
   const library = books

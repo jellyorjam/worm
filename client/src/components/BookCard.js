@@ -11,12 +11,12 @@ const BookCard = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-  const bookId = props.book;
+  const data = props.book;
  
-  const { data, error, isLoading, refetch } = useGetBookQuery(bookId);
+  // const { data, error, isLoading, refetch } = useGetBookQuery(bookId);
 
-  useEffect(() => {
-    refetch();  }, [])
+  // useEffect(() => {
+  //   refetch();  }, [])
 
   // useLoadBooksArray(isLoading);
 
@@ -31,16 +31,16 @@ const BookCard = (props) => {
     fetchBook().then(() => navigate("/books/" + data.title, {state: bookData}))
   }
 
-  if (isLoading) {
-    return (
-     <Skeleton variant="rectangular" height={300} width={200}></Skeleton>
-    )
-  }
-  if (error) {
-    return (
-      <div>ERROR</div>
-    )
-  }
+  // if (isLoading) {
+  //   return (
+  //    <Skeleton variant="rectangular" height={300} width={200}></Skeleton>
+  //   )
+  // }
+  // if (error) {
+  //   return (
+  //     <div>ERROR</div>
+  //   )
+  // }
   if (data) {
     return (
       <CardActionArea onClick={showBook}>

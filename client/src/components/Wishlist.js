@@ -2,16 +2,18 @@ import NavBar from "./NavBar";
 import { useLoginHook } from "../hooks/useLoginHook";
 import { useSelector } from "react-redux";
 import BookCard from "./BookCard";
-import { Container, Typography, ImageList } from "@mui/material"
+import { Container, Typography, ImageList } from "@mui/material";
+import { useGetWishlistQuery } from "../reducers/libraryApi";
 
 const Wishlist = () => {
   const books = useSelector(state => state.user.user.wishlist)
   const { loggedIn } = useLoginHook();
 
+  const { data, error, isLoading } = useGetWishlistQuery(books)
 
   const renderBooks = () => {
-    if (books) {
-      return books.map((book, i) => {
+    if (data) {
+      return data.map((book, i) => {
         return (
           <BookCard book={book} key={i} wishlist="true"/>
         )

@@ -8,14 +8,20 @@ import NavBar from "./NavBar";
 import Search from "./Search";
 import { libraryApi } from "../reducers/libraryApi";
 import { useLoadBooksArray } from "../hooks/useLoadBooksArray";
+import { useGetBookQuery, useGetWishlistQuery } from "../reducers/libraryApi";
 
 
 const Book = () => {
   const { state } = useLocation();
   const book = state;
-  
-  const { books, wishlist } = useLoadBooksArray();
   const userId = useSelector(state => state.user.user._id);
+  const usersBooks = useSelector(state => state.user.user.books)
+  const usersWishlist = useSelector(state => state.user.user.wishlist)
+
+  const { data: books, error, isLoading } = useGetBookQuery(usersBooks)
+  const { data: wishlist } = useGetWishlistQuery(usersWishlist)
+  
+
  
 
   const [inLibrary, setInLibrary] = useState(false);

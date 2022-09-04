@@ -6,10 +6,15 @@ import { Container, Typography, Box, Button, CardActionArea, Card, CardContent }
 import NavBar from "../NavBar";
 import axios from "axios"
 import { useLoadBooksArray } from "../../hooks/useLoadBooksArray";
+import { useGetBookQuery, useGetWishlistQuery } from "../../reducers/libraryApi";
 
 const GenreInsights = ({dashboard}) => {
   const navigate = useNavigate();
-  const { books } = useLoadBooksArray();
+  const usersBooks = useSelector(state => state.user.user.books)
+  const usersWishlist = useSelector(state => state.user.user.wishlist)
+
+  const { data: books, error, isLoading } = useGetBookQuery(usersBooks)
+  const { data: wishlist } = useGetWishlistQuery(usersWishlist)
   console.log('test')
   const [genreClicked, setGenreClicked] = useState("")
 

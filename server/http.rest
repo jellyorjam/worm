@@ -1,4 +1,4 @@
-DELETE http://localhost:8000/books/deleteBook/123
+GET http://localhost:8000/books/6307fe472b06d40c65cd7c74
 
 # Content-Type: application/json
 

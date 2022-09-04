@@ -10,12 +10,17 @@ import {
 import { allCountries } from "../../../data/geoLists";
 import GeoInfo from "./GeoInfo";
 import { useLoadBooksArray } from "../../../hooks/useLoadBooksArray";
+import { useGetBookQuery } from "../../../reducers/libraryApi";
 
 
 
 
 const WorldMap = ({ setTooltipContent, content, dashboard }) => {
-  const { books } = useLoadBooksArray();
+  const usersBooks = useSelector(state => state.user.user.books)
+
+
+  const { data: books, error, isLoading } = useGetBookQuery(usersBooks)
+
 
   const [isClicked, setIsClicked] = useState(false);
   const [countryClicked, setCountryClicked] = useState("");
