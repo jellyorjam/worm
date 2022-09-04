@@ -30,10 +30,6 @@ export const libraryApi = createApi({
         }
       }
     }),
-    // getBook: builder.query({
-    //   query: (id) => id,
-    //   providesTags: ['Books']
-    // }),
     updateBook: builder.mutation({
       query: ({id, ...editedBook}) => ({
         url: id,
@@ -43,8 +39,16 @@ export const libraryApi = createApi({
       transformResponse: (response, meta, arg) => response.data,
       invalidatesTags: ['Books'],
       
+    }),
+    deleteBook: builder.mutation({
+      query: ({id, payload}) => ({
+        url: id,
+        method: "DELETE",
+        body: payload
+      }),
+      invalidatesTags: ["Books"]
     })
   })
 })
 
-export const { useGetBookQuery, useGetWishlistQuery, useUpdateBookMutation } = libraryApi
+export const { useGetBookQuery, useGetWishlistQuery, useUpdateBookMutation, useDeleteBookMutation } = libraryApi

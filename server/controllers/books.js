@@ -181,25 +181,54 @@ exports.editBook = (req, res) => {
 
 exports.deleteBook = (req, res) => {
   const { bookId } = req.params;
-  const { user } = req.body
+  const { user, type } = req.body
+  console.log(req.body)
   
-  Book.findById(bookId, (err, book) => {
-    if (err) throw err;
-    const index = book.users.indexOf(user);
-    if (index > -1) {
-      book.users.splice(index, 1)
-    }
-    book.save();
-  })
+//how to make this code DRY
 
-  User.findById(user, (err, user) => {
-    if (err) throw err;
-    const index = user.books.indexOf(bookId);
-    if (index > -1) {
-      user.books.splice(index, 1)
-    }
-    user.save();
-  })
+  if (type === "library") {
+
+    Book.findById(bookId, (err, book) => {
+      if (err) throw err;
+      const index = book.users.indexOf(user);
+      if (index > -1) {
+        book.users.splice(index, 1)
+      }
+      book.save();
+    })
+  
+    User.findById(user, (err, user) => {
+      if (err) throw err;
+      const index = user.books.indexOf(bookId);
+      if (index > -1) {
+        user.books.splice(index, 1)
+      }
+      user.save();
+    })
+
+  }
+
+  if (type === "wishlist") {
+    Book.findById(bookId, (err, book) => {
+      if (err) throw err;
+      const index = book.wishlistUsers.indexOf(user);
+      if (index > -1) {
+        book.wishlistUsers.splice(index, 1)
+      }
+      book.save();
+    })
+  
+    User.findById(user, (err, user) => {
+      if (err) throw err;
+      const index = user.wishlist.indexOf(bookId);
+      if (index > -1) {
+        user.wishlist.splice(index, 1)
+      }
+      user.save();
+    })
+  }
+  
+ 
   // you don't want to delete the book but the user associated with it
   res.send("delete")
 }

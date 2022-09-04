@@ -8,7 +8,8 @@ import NavBar from "./NavBar";
 import Search from "./Search";
 import { libraryApi } from "../reducers/libraryApi";
 import { useLoadBooksArray } from "../hooks/useLoadBooksArray";
-import { useGetBookQuery, useGetWishlistQuery } from "../reducers/libraryApi";
+import { useGetBookQuery, useGetWishlistQuery, useDeleteBookMutation } from "../reducers/libraryApi";
+import { setIn } from "formik";
 
 
 const Book = () => {
@@ -18,8 +19,10 @@ const Book = () => {
   const usersBooks = useSelector(state => state.user.user.books)
   const usersWishlist = useSelector(state => state.user.user.wishlist)
 
-  const { data: books, error, isLoading } = useGetBookQuery(usersBooks)
-  const { data: wishlist } = useGetWishlistQuery(usersWishlist)
+  const { data: books, error,  isLoading: booksLoading } = useGetBookQuery(usersBooks)
+  const { data: wishlist, isLoading: wishlistLoading } = useGetWishlistQuery(usersWishlist)
+
+  const [deleteBook, result] = useDeleteBookMutation();
   
 
  
@@ -28,18 +31,22 @@ const Book = () => {
   const [inWishlist, setInWishlist] = useState(false)
 
   useEffect(() => {
-    books.forEach((title) => {
-      if (title.googleLink === book.selfLink) {
-        setInLibrary(true)
-      }
-    })
-
-    wishlist.forEach((title) => {
-      if (title.googleLink === book.selfLink) {
-        setInWishlist(true)
-      }
-    })
-  }, [])
+    if (books && wishlist) {
+      books.forEach((title) => {
+        if (title.googleLink === book.selfLink) {
+          setInLibrary(true)
+        }
+      })
+  
+      console.log(wishlist)
+      wishlist.forEach((title) => {
+        if (title.googleLink === book.selfLink) {
+          setInWishlist(true)
+        }
+      })
+    }
+  
+  }, [books, wishlist])
 
 
   const categories = book.volumeInfo.categories;
@@ -136,16 +143,24 @@ const Book = () => {
    //make a modal saying "added to your library"
 
   }
+  console.log(books)
+  console.log(book)
 
   const renderButtons = () => {
+  
+
     if (inLibrary) {
       return (
         <Stack maxWidth="250px">
-          <Button variant="contained" color="secondary" onClick={async () => {
-            setInLibrary(false);
+          <Button variant="contained" color="secondary" onClick={() => {
+            // setInLibrary(false);
             const bookToDelete = books.find((title) => title.googleLink === book.selfLink);
-    
-            await axios.delete("http://localhost:8000/books/deleteBook/" + bookToDelete._id, {data: {user: userId}})
+            const id = bookToDelete._id
+            const payload = {user: userId, type: "library"}
+
+            deleteBook({id, payload})
+            setInLibrary(false)
+            // await axios.delete("http://localhost:8000/books/" + bookToDelete._id, {data: {user: userId, type: "library"}})
             }}>Remove from my library</Button>
         </Stack>
       )
@@ -153,10 +168,13 @@ const Book = () => {
     else if (inWishlist) {
       return (
         <Stack maxWidth="250px">
-          <Button variant="contained" color="secondary" onClick={async () => {
-            setInWishlist(false);
-            const bookToDelete = books.find((title) => title.googleLink === book.selfLink);
-            
+          <Button variant="contained" color="secondary" onClick={() => {
+            // setInWishlist(false);
+            const bookToDelete = wishlist.find((title) => title.googleLink === book.selfLink);
+            const id = bookToDelete._id
+            const payload = {user: userId, type: "wishlist"}
+            deleteBook({id, payload})
+            setInWishlist(false)
             // await axios.delete("http://localhost:8000/books/deleteBook/" + bookToDelete._id, {data: {user: userId}})
             }}>Remove from my wishlist</Button>
         </Stack>
@@ -173,46 +191,50 @@ const Book = () => {
     }
   }
 
-  return (
-    <div>
-      <NavBar/>
-    <Container sx={{paddingTop: "20px"}} >
-     
-      <Grid container sx={{paddingTop: "15px"}}>
-        <Grid item md={4} align="center">
-          <CardMedia
-           component="img"
-           alt="book cover"
-           image={book.volumeInfo.imageLinks.thumbnail}
-           sx={{
-             maxWidth: "200px"
-           }}></CardMedia>
+  if (books && wishlist) {
+    return (
+      <div>
+        <NavBar/>
+      <Container sx={{paddingTop: "20px"}} >
+       
+        <Grid container sx={{paddingTop: "15px"}}>
+          <Grid item md={4} align="center">
+            <CardMedia
+             component="img"
+             alt="book cover"
+             image={book.volumeInfo.imageLinks.thumbnail}
+             sx={{
+               maxWidth: "200px"
+             }}></CardMedia>
+          </Grid>
+          <Grid item md={4} align="">
+             <Typography variant={"h4"}>{book.volumeInfo.title ? book.volumeInfo.title : "No Title Available"}</Typography>
+             <div>{renderAuthors(book.volumeInfo.authors, "h5")}</div>
+             <Typography>{book.volumeInfo.publisher ? `Published by ${book.volumeInfo.publisher}` : ""}</Typography>
+             <Typography>{book.volumeInfo.publishedDate ? `Published on ${renderDate(book.volumeInfo.publishedDate)}` : ""}</Typography>
+            <Typography>{book.volumeInfo.pageCount ? `${book.volumeInfo.pageCount} pages` : ""}</Typography>
+            <Typography>{book.volumeInfo.averageRating ? `Average Rating: ${book.volumeInfo.averageRating}` : "No Average Rate Available"}</Typography>
+            <Rating value={book.volumeInfo.averageRating ? book.volumeInfo.averageRating : 0} readOnly precision={0.5}></Rating>
+            <div>{renderCategories(book.volumeInfo.categories)}</div>
+          </Grid>
+          <Grid item md={4}>
+              {renderButtons()}
+          </Grid>
+          <Grid item md={12}>
+            <CardContent>
+              <Typography variant="h4">Description</Typography>
+              <Typography dangerouslySetInnerHTML={formatDescription()}></Typography>
+            </CardContent>
+          </Grid>
         </Grid>
-        <Grid item md={4} align="">
-           <Typography variant={"h4"}>{book.volumeInfo.title ? book.volumeInfo.title : "No Title Available"}</Typography>
-           <div>{renderAuthors(book.volumeInfo.authors, "h5")}</div>
-           <Typography>{book.volumeInfo.publisher ? `Published by ${book.volumeInfo.publisher}` : ""}</Typography>
-           <Typography>{book.volumeInfo.publishedDate ? `Published on ${renderDate(book.volumeInfo.publishedDate)}` : ""}</Typography>
-          <Typography>{book.volumeInfo.pageCount ? `${book.volumeInfo.pageCount} pages` : ""}</Typography>
-          <Typography>{book.volumeInfo.averageRating ? `Average Rating: ${book.volumeInfo.averageRating}` : "No Average Rate Available"}</Typography>
-          <Rating value={book.volumeInfo.averageRating ? book.volumeInfo.averageRating : 0} readOnly precision={0.5}></Rating>
-          <div>{renderCategories(book.volumeInfo.categories)}</div>
-        </Grid>
-        <Grid item md={4}>
-            {renderButtons()}
-        </Grid>
-        <Grid item md={12}>
-          <CardContent>
-            <Typography variant="h4">Description</Typography>
-            <Typography dangerouslySetInnerHTML={formatDescription()}></Typography>
-          </CardContent>
-        </Grid>
-      </Grid>
-    
       
-    </Container>
-    </div>
-  )
+        
+      </Container>
+      </div>
+    )
+  }
+
+ 
 }
 
 export default Book
