@@ -47,8 +47,16 @@ export const libraryApi = createApi({
         body: payload
       }),
       invalidatesTags: ["Books"]
+    }),
+    addBook: builder.mutation({
+      query: ({...payload}) => ({
+        url: "addBook",
+        method: "POST",
+        body: payload
+      }),
+      invalidatesTags: ["Books"]
     })
   })
 })
 
-export const { useGetBookQuery, useGetWishlistQuery, useUpdateBookMutation, useDeleteBookMutation } = libraryApi
+export const { useGetBookQuery, useGetWishlistQuery, useUpdateBookMutation, useDeleteBookMutation, useAddBookMutation } = libraryApi

@@ -3,6 +3,7 @@ const Book = require("../models/Book");
 const User = require("../models/User");
 
 exports.addBook =  (req, res) => {
+  console.log(req.body)
   const { user, type, selfLink, title, authors, pageCount, image, categories} = req.body
 
   const apiUrl = "http://openlibrary.org/search.json?"

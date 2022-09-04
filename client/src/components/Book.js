@@ -6,7 +6,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import NavBar from "./NavBar";
 import Search from "./Search";
-import { libraryApi } from "../reducers/libraryApi";
+import { libraryApi, useAddBookMutation } from "../reducers/libraryApi";
 import { useLoadBooksArray } from "../hooks/useLoadBooksArray";
 import { useGetBookQuery, useGetWishlistQuery, useDeleteBookMutation } from "../reducers/libraryApi";
 import { setIn } from "formik";
@@ -23,6 +23,7 @@ const Book = () => {
   const { data: wishlist, isLoading: wishlistLoading } = useGetWishlistQuery(usersWishlist)
 
   const [deleteBook, result] = useDeleteBookMutation();
+  const [addBook, addBookresult] = useAddBookMutation();
   
 
  
@@ -80,16 +81,8 @@ const Book = () => {
     categories: organizedCategories || []
   }
 
-  const wishlistObj = {
-    user: userId,
-    type: "wishlist",
-    selfLink: book.selfLink || "",
-    title: book.volumeInfo.title || "",
-    authors: book.volumeInfo.authors || [],
-    pageCount: book.volumeInfo.pageCount || "",
-    image: book.volumeInfo.imageLinks.thumbnail || "",
-    categories: organizedCategories || []
-  }
+  const wishlistObj = {...bookObj, type: "wishlist"}
+
 
 
   const formatDescription = () => {
@@ -132,14 +125,17 @@ const Book = () => {
     
   }
 
-  const addToRead = async () => {
-    await axios.post("http://localhost:8000/books/addBook", bookObj).then((response) => console.log(response.data));
+  const addToRead = () => {
+    addBook(bookObj);
+    console.log(bookObj)
+    // await axios.post("http://localhost:8000/books/addBook", bookObj).then((response) => console.log(response.data));
    //make a modal saying "added to your library"
 
   }
 
-  const addToWishlist = async () => {
-    await axios.post("http://localhost:8000/books/addBook", wishlistObj).then((response) => console.log(response.data));
+  const addToWishlist = () => {
+    addBook(wishlistObj)
+    // await axios.post("http://localhost:8000/books/addBook", wishlistObj).then((response) => console.log(response.data));
    //make a modal saying "added to your library"
 
   }
@@ -153,14 +149,14 @@ const Book = () => {
       return (
         <Stack maxWidth="250px">
           <Button variant="contained" color="secondary" onClick={() => {
-            // setInLibrary(false);
+      
             const bookToDelete = books.find((title) => title.googleLink === book.selfLink);
             const id = bookToDelete._id
             const payload = {user: userId, type: "library"}
 
             deleteBook({id, payload})
             setInLibrary(false)
-            // await axios.delete("http://localhost:8000/books/" + bookToDelete._id, {data: {user: userId, type: "library"}})
+  
             }}>Remove from my library</Button>
         </Stack>
       )
@@ -169,13 +165,12 @@ const Book = () => {
       return (
         <Stack maxWidth="250px">
           <Button variant="contained" color="secondary" onClick={() => {
-            // setInWishlist(false);
             const bookToDelete = wishlist.find((title) => title.googleLink === book.selfLink);
             const id = bookToDelete._id
             const payload = {user: userId, type: "wishlist"}
             deleteBook({id, payload})
             setInWishlist(false)
-            // await axios.delete("http://localhost:8000/books/deleteBook/" + bookToDelete._id, {data: {user: userId}})
+      
             }}>Remove from my wishlist</Button>
         </Stack>
       )
