@@ -1,4 +1,4 @@
-import { Container, Grid, Card, CardMedia, CardContent, Typography, Rating, Button, Stack} from "@mui/material";
+import { Container, Grid, Box, CardMedia, CardContent, Typography, Rating, Button, Stack, Modal} from "@mui/material";
 import { useLocation, useNavigate } from "react-router";
 import { useEffect , useState } from "react";
 import { renderAuthors } from "../hooks/renderAuthors";
@@ -9,6 +9,7 @@ import Search from "./Search";
 import { libraryApi, useAddBookMutation } from "../reducers/libraryApi";
 import { useLoadBooksArray } from "../hooks/useLoadBooksArray";
 import { useGetBookQuery, useGetWishlistQuery, useDeleteBookMutation } from "../reducers/libraryApi";
+import { useLoginHook } from "../hooks/useLoginHook";
 
 import { setIn } from "formik";
 import { useGetBookDetailQuery } from "../reducers/googleBooksApi";
@@ -18,7 +19,7 @@ const Book = () => {
   const { state } = useLocation();
   const selfLink = state;
 
- 
+  const { loggedIn } = useLoginHook();
   const { data: book, error: bookError, isLoading} = useGetBookDetailQuery(selfLink);
 
  
@@ -36,7 +37,10 @@ const Book = () => {
  
 
   const [inLibrary, setInLibrary] = useState(false);
-  const [inWishlist, setInWishlist] = useState(false)
+  const [inWishlist, setInWishlist] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleOpen = () => setModalOpen(true);
+  const handleClose = () => setModalOpen(false)
 
   useEffect(() => {
     if (books && wishlist && book) {
@@ -45,7 +49,7 @@ const Book = () => {
           setInLibrary(true)
         }
       })
-  
+
  
       wishlist.forEach((title) => {
         if (title.googleLink === book.selfLink) {
@@ -54,9 +58,9 @@ const Book = () => {
       })
     }
   
-  }, [books, wishlist, book])
+  }, [books, book, wishlist])
 
-  if (books && wishlist && book) {
+  if (books && wishlist && book && loggedIn) {
     const categories = book.volumeInfo.categories;
     const organizedCategories = [];
   
@@ -75,7 +79,6 @@ const Book = () => {
         return organizedCategories;
       })
     }
-    
   
     const bookObj = {
       user: userId,
@@ -157,9 +160,10 @@ const Book = () => {
               const bookToDelete = books.find((title) => title.googleLink === book.selfLink);
               const id = bookToDelete._id
               const payload = {user: userId, type: "library"}
-  
+              
               deleteBook({id, payload})
-              setInLibrary(false)
+              setInLibrary(false) // these buttons aren't working 
+              handleOpen();
     
               }}>Remove from my library</Button>
           </Stack>
@@ -172,8 +176,10 @@ const Book = () => {
               const bookToDelete = wishlist.find((title) => title.googleLink === book.selfLink);
               const id = bookToDelete._id
               const payload = {user: userId, type: "wishlist"}
+             
               deleteBook({id, payload})
               setInWishlist(false)
+              handleOpen();
         
               }}>Remove from my wishlist</Button>
           </Stack>
@@ -226,6 +232,16 @@ const Book = () => {
               </CardContent>
             </Grid>
           </Grid>
+          <Modal
+            open={modalOpen}
+            onClose={handleClose}
+            // add aria labels
+            >
+              <Box>
+                <Typography>Test</Typography>
+              </Box>
+
+          </Modal>
         
           
         </Container>

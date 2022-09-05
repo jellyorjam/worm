@@ -8,14 +8,20 @@ import { setBookClicked, setLibrary, setWishlist } from "../reducers/wishlistSli
 import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import Search from "./Search";
 import NavBar from "./NavBar";
+import { useSearchBooksQuery } from "../reducers/googleBooksApi";
 
 const SearchResults = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {state } = useLocation();
-  const books = state;
+  // const books = state;
   const [index, setIndex] = useState("");
 
+  const input = state;
+
+  const { data: books, error, isLoading } = useSearchBooksQuery(input);
+
+  console.log(books)
 
   useEffect(() => {
     if (index !== "") {
@@ -26,18 +32,12 @@ const SearchResults = () => {
       const selfLink = splitLink[splitLink.length - 1];
       
       navigate("/books/" + book.volumeInfo.title, {state: selfLink})
-      // let bookData = {}
-      // const fetchBook = async() => {
-      //   await axios.get(book.selfLink).then((response) => bookData = response.data)
-      // }
-      // fetchBook().then(() => navigate("/books/" + book.volumeInfo.title, {state: bookData}))
     }
   }, [index]);
 
 
 
- 
-
+ if (books) {
   const renderCardMedia = (book) => {
     if (book.volumeInfo.imageLinks) {
       return (
@@ -91,6 +91,9 @@ const SearchResults = () => {
       </Container>
     </div>
   )
+ }
+
+ 
 }
 
 export default SearchResults

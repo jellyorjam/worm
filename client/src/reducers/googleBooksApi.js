@@ -9,8 +9,13 @@ export const googleBooksApi = createApi({
     }),
     getBookDetail: builder.query({
       query: (selfLink) => `volumes/${selfLink}`
-    })
+    }),
+    searchBooks: builder.query({
+      query: (input) => `volumes?q=${input}&maxResults=9`,
+      transformResponse: (response) => response.items
+    }),
+      
   })
 })
 
-export const { useGetYearDetailQuery, useGetBookDetailQuery } = googleBooksApi
+export const { useGetYearDetailQuery, useGetBookDetailQuery, useSearchBooksQuery } = googleBooksApi

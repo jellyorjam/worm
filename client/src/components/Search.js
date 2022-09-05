@@ -17,14 +17,15 @@ const Search = () => {
     e.preventDefault();
     
     setInput("");
-    const fetchBooks = async () => {
-      const response = await axios.get(apiUrl + input + "&maxResults=9")
-      return response.data.items  
-    }
+    navigate("/search", {state: input})
+    // const fetchBooks = async () => {
+    //   const response = await axios.get(apiUrl + input + "&maxResults=9")
+    //   return response.data.items  
+    // }
    
-    fetchBooks().then((response) => {
-      navigate("/search", {state: response})
-    })
+    // fetchBooks().then((response) => {
+    //   navigate("/search", {state: response})
+    // })
   }
   
   return (

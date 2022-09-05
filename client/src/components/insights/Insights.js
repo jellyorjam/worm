@@ -49,6 +49,7 @@ const Insights = () => {
   const { loggedIn, navigate, dispatch } = useLoginHook();
 
   console.log(books)
+  console.log('het')
 
   const library = books
 
