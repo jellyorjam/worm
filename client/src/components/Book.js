@@ -39,26 +39,52 @@ const Book = () => {
   const [inLibrary, setInLibrary] = useState(false);
   const [inWishlist, setInWishlist] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalText, setModalText] = useState("")
   const handleOpen = () => setModalOpen(true);
-  const handleClose = () => setModalOpen(false)
+  const handleClose = () => setModalOpen(false);
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
   useEffect(() => {
     if (books && wishlist && book) {
       books.forEach((title) => {
         if (title.googleLink === book.selfLink) {
-          setInLibrary(true)
+          if (title.users.includes(userId)) {
+            setInLibrary(true)
+          }
+          
         }
       })
-
+      
  
       wishlist.forEach((title) => {
         if (title.googleLink === book.selfLink) {
+          if (title.wishlistUsers.includes(userId))
           setInWishlist(true)
         }
       })
     }
   
-  }, [books, book, wishlist])
+  }, [books, book, wishlist]);
+  
+  console.log(inLibrary)
+  console.log(books)
+
+  useEffect(() => {
+    if (modalText) {
+      handleOpen()
+    }
+  }, [modalText])
 
   if (books && wishlist && book && loggedIn) {
     const categories = book.volumeInfo.categories;
@@ -135,17 +161,35 @@ const Book = () => {
       
     }
   
-    const addToRead = () => {
-      addBook(bookObj);
-      // await axios.post("http://localhost:8000/books/addBook", bookObj).then((response) => console.log(response.data));
-     //make a modal saying "added to your library"
-  
+    const addToRead = async () => {
+     const response = await addBook(bookObj).unwrap();
+     if (response.message === "Book added to library") {
+       setModalText(`${bookObj.title} has been added to your library!`);
+       setInLibrary(true);
+     }
+     else if (response.message === "Book already in library") {
+      setModalText(`${bookObj.title} is already in your library`)
+     }
+     else {
+      setModalText(`There was an issue adding ${bookObj.title} to your library, please try again.`)
+     }
+     
     }
   
-    const addToWishlist = () => {
-      addBook(wishlistObj)
-      // await axios.post("http://localhost:8000/books/addBook", wishlistObj).then((response) => console.log(response.data));
-     //make a modal saying "added to your library"
+    const addToWishlist = async () => {
+       const response = await addBook(wishlistObj).unwrap();
+
+        if (response.message === "Book added to wishlist") {
+          setModalText(`${wishlistObj.title} has been added to your wishlist!`);
+          setInWishlist(true);
+        }
+        else if (response.message === "This book is already on your wishlist") {
+          setModalText(`${wishlistObj.title} is already on your wishlist`)
+        }
+        else {
+          setModalText(`There was an issue adding ${wishlistObj.title} to your wishlist, please try again.`)
+        }
+      
   
     }
   
@@ -155,15 +199,24 @@ const Book = () => {
       if (inLibrary) {
         return (
           <Stack maxWidth="250px">
-            <Button variant="contained" color="secondary" onClick={() => {
+            <Button variant="contained" color="secondary" onClick={async () => {
         
               const bookToDelete = books.find((title) => title.googleLink === book.selfLink);
+              console.log(bookToDelete)
               const id = bookToDelete._id
               const payload = {user: userId, type: "library"}
               
-              deleteBook({id, payload})
-              setInLibrary(false) // these buttons aren't working 
-              handleOpen();
+              const response = await deleteBook({id, payload}).unwrap();
+              console.log(response)
+              if (response.message === "Book deleted") {
+                setModalText(`${bookToDelete.title} has been removed from your library`)
+                setInLibrary(false)
+              }
+              else {
+                setModalText(`There was an issue removing ${bookToDelete.title} from your library, please try again`)
+              }
+              
+             
     
               }}>Remove from my library</Button>
           </Stack>
@@ -172,14 +225,20 @@ const Book = () => {
       else if (inWishlist) {
         return (
           <Stack maxWidth="250px">
-            <Button variant="contained" color="secondary" onClick={() => {
+            <Button variant="contained" color="secondary" onClick={async () => {
               const bookToDelete = wishlist.find((title) => title.googleLink === book.selfLink);
               const id = bookToDelete._id
               const payload = {user: userId, type: "wishlist"}
              
-              deleteBook({id, payload})
+              const response = await deleteBook({id, payload});
+              if (response.data.message === "Book deleted") {
+                setModalText(`${bookToDelete.title} has been removed from your wishlist`)
+              }
+              else {
+                setModalText(`There was an issue removing ${bookToDelete.title} from your library, please try again`)
+              }
               setInWishlist(false)
-              handleOpen();
+              
         
               }}>Remove from my wishlist</Button>
           </Stack>
@@ -237,8 +296,8 @@ const Book = () => {
             onClose={handleClose}
             // add aria labels
             >
-              <Box>
-                <Typography>Test</Typography>
+              <Box sx={style}>
+                <Typography>{modalText}</Typography>
               </Box>
 
           </Modal>

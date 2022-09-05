@@ -83,7 +83,6 @@ const SearchResults = () => {
     })
   }
   const handlePagination = (event, value) => {
-    console.log(value)
 
     const startIndex = (value * 9) - 9
     setStartIndex(startIndex)

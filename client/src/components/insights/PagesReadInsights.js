@@ -13,8 +13,10 @@ const PagesReadInsights = () => {
 
 
   return (
-    <Container>
+    <div>
       <NavBar/>
+    <Container>
+     
       <Typography variant="h2" align="center" sx={{paddingTop: "20px"}}>Pages Read</Typography>
       <Typography variant="h4" align="center">You have read a total of 
         <Typography sx={{fontSize: "50px", paddingBottom: "10px", display: "inline"}}> {totalPages}</Typography> pages.
@@ -54,6 +56,7 @@ const PagesReadInsights = () => {
      
       
     </Container>
+    </div>
   )
 }
 

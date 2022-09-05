@@ -3,7 +3,6 @@ const Book = require("../models/Book");
 const User = require("../models/User");
 
 exports.addBook =  (req, res) => {
-  console.log(req.body)
   const { user, type, selfLink, title, authors, pageCount, image, categories} = req.body
 
   const apiUrl = "http://openlibrary.org/search.json?"
@@ -12,7 +11,9 @@ exports.addBook =  (req, res) => {
     Book.findOne({googleLink: selfLink}, async (err, book) => {
       if (book) {
         if (book.users.includes(user)) {
-          res.status(200).send("You have already read this book")
+          res.status(200).send({
+            message: "Book already in library"
+          })
         }
         else {
           User.findById(user, (err, user) => {
@@ -21,7 +22,9 @@ exports.addBook =  (req, res) => {
             book.users.push(user);
             user.save();
             book.save();
-            res.send("Book added to library")
+            res.send({
+              message: "Book added to library"
+            })
           })
         }
       }
@@ -80,7 +83,9 @@ exports.addBook =  (req, res) => {
           }
         });
   
-        res.status(200).send("Book added to library")
+        res.status(200).send({
+          message: "Book added to library"
+        })
       }
     })
   }
@@ -89,7 +94,9 @@ exports.addBook =  (req, res) => {
     Book.findOne({googleLink: selfLink}, async (err, book) => {
       if (book) {
         if (book.wishlistUsers.includes(user)) {
-          res.status(200).send("This book is already on your wishlist")
+          res.status(200).send({
+            message: "This book is already on your wishlist"
+          })
         }
         else {
           User.findById(user, (err, user) => {
@@ -98,7 +105,9 @@ exports.addBook =  (req, res) => {
             book.wishlistUsers.push(user);
             user.save();
             book.save();
-            res.send("Book added to wishlist")
+            res.send({
+              message: "Book added to wishlist"
+            })
           })
         }
       }
@@ -157,7 +166,9 @@ exports.addBook =  (req, res) => {
           }
         });
   
-        res.status(200).send("Book added to wishlist")
+        res.status(200).send({
+          message: "Book added to wishlist"
+        })
       }
     })
   }
@@ -183,7 +194,7 @@ exports.editBook = (req, res) => {
 exports.deleteBook = (req, res) => {
   const { bookId } = req.params;
   const { user, type } = req.body
-  console.log(req.body)
+
   
 //how to make this code DRY
 
@@ -231,5 +242,7 @@ exports.deleteBook = (req, res) => {
   
  
   // you don't want to delete the book but the user associated with it
-  res.send("delete")
+  res.send({
+    message: "Book deleted"
+  })
 }
