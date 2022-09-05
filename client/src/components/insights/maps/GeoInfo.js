@@ -13,15 +13,6 @@ import { useGetBookQuery, useUpdateBookMutation } from "../../../reducers/librar
 const GeoInfo = ({state, booksFromState}) => {
   const dispatch = useDispatch();
 
-
-  // const { data, error, isLoading } = useGetBookQuery(undefined, {
-  //   selectFromResult: ({data, error, isLoading}) => ({
-  //     data: data?.filter((item) => item)
-  //   })
-  // })
-  
-
-  // console.log( data )
   
   const usersBooks = useSelector(state => state.user.user.books)
   const usersWishlist = useSelector(state => state.user.user.wishlist)
@@ -82,8 +73,6 @@ const GeoInfo = ({state, booksFromState}) => {
      dispatch(editBooks(obj))
      setValue("");
      const id = value._id
-    //  console.log(newBookObj)
-    //  console.log(id)
      updateBook({id, newBookObj})
     //  await axios.put("http://localhost:8000/books/" + value._id, newBookObj).then((response) => console.log(response))
     

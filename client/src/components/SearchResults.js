@@ -20,11 +20,17 @@ const SearchResults = () => {
   useEffect(() => {
     if (index !== "") {
       const book = books[index];
-      let bookData = {}
-      const fetchBook = async() => {
-        await axios.get(book.selfLink).then((response) => bookData = response.data)
-      }
-      fetchBook().then(() => navigate("/books/" + book.volumeInfo.title, {state: bookData}))
+
+      const link = book.selfLink
+      const splitLink = link.split("/");
+      const selfLink = splitLink[splitLink.length - 1];
+      
+      navigate("/books/" + book.volumeInfo.title, {state: selfLink})
+      // let bookData = {}
+      // const fetchBook = async() => {
+      //   await axios.get(book.selfLink).then((response) => bookData = response.data)
+      // }
+      // fetchBook().then(() => navigate("/books/" + book.volumeInfo.title, {state: bookData}))
     }
   }, [index]);
 

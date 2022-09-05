@@ -15,27 +15,10 @@ import { useTheme } from "@mui/material/styles";
 const MyLibrary = () => {
   const books = useSelector(state => state.user.user.books);
   
-const theme = useTheme();
   const { loggedIn } = useLoginHook();
 
   const { data, isLoading, error } = useGetBookQuery(books);
   
-  console.log(data)
-  // const bookData = useSelector(state => state.libraryApi.queries);
-
-  // const dataArray = [];
-
-  // useEffect(() => {
-
-  //   for (const book in bookData) {
-      
-  //     const data = bookData[book].data
-  //     dataArray.push(data);
-  //     console.log(dataArray)
-  //   }
-  // }, []);
-
-  console.log(isLoading)
 
   const renderBooks = () => {
     if (data) {

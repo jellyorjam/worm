@@ -6,8 +6,11 @@ export const googleBooksApi = createApi({
   endpoints: (builder) => ({
     getYearDetail: builder.query({
       query: (book) => `volumes?langRestrict=en&q=${book}`
+    }),
+    getBookDetail: builder.query({
+      query: (selfLink) => `volumes/${selfLink}`
     })
   })
 })
 
-export const { useGetYearDetailQuery } = googleBooksApi
+export const { useGetYearDetailQuery, useGetBookDetailQuery } = googleBooksApi

@@ -20,15 +20,20 @@ const BookCard = (props) => {
 
   // useLoadBooksArray(isLoading);
 
+  const link = data.googleLink
+  const splitLink = link.split("/");
+  const selfLink = splitLink[splitLink.length - 1];
+
 
   const showBook = () => {
-    let bookData = {}
-    const fetchBook = async() => {
-      await axios.get(data.googleLink).then((response) => {
-        bookData = response.data
-      })
-    }
-    fetchBook().then(() => navigate("/books/" + data.title, {state: bookData}))
+    // let bookData = {}
+    // const fetchBook = async() => {
+    //   await axios.get(data.googleLink).then((response) => {
+    //     bookData = response.data
+    //   })
+    // }
+    // fetchBook().then(() => navigate("/books/" + data.title, {state: selfLink}))
+    navigate("/books/" + data.title, {state: selfLink})
   }
 
   // if (isLoading) {
