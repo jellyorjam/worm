@@ -1,10 +1,10 @@
-import { Grid, Card, Container, CardContent, Typography, CardMedia, CardActionArea } from "@mui/material";
+import { Grid, Card, Container, CardContent, Typography, CardMedia, CardActionArea, Pagination, Stack} from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import  {renderAuthors}  from "../hooks/renderAuthors";
-import { setBookClicked, setLibrary, setWishlist } from "../reducers/wishlistSlice";
+
 import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import Search from "./Search";
 import NavBar from "./NavBar";
@@ -16,12 +16,16 @@ const SearchResults = () => {
   const {state } = useLocation();
   // const books = state;
   const [index, setIndex] = useState("");
+  const [startIndex, setStartIndex] = useState(0)
+  console.log(startIndex)
 
-  const input = state;
+  const input = {
+    input: state,
+    startIndex: startIndex
+  }
 
   const { data: books, error, isLoading } = useSearchBooksQuery(input);
 
-  console.log(books)
 
   useEffect(() => {
     if (index !== "") {
@@ -70,7 +74,7 @@ const SearchResults = () => {
                 
                 <CardContent align="left">
                   <Typography variant="h5" sx={{fontSize: "20px"}}>{book.volumeInfo.title}</Typography>
-                  <div>{renderAuthors(book.volumeInfo.authors, "")}</div>
+                  <div>{renderAuthors(book.volumeInfo.authors, "body1")}</div>
                 </CardContent>
                 </CardActionArea>
               </Card>
@@ -78,17 +82,28 @@ const SearchResults = () => {
       )
     })
   }
+  const handlePagination = (event, value) => {
+    console.log(value)
+
+    const startIndex = (value * 9) - 9
+    setStartIndex(startIndex)
+  }
 
   return (
     <div>
       <NavBar/>
-      <Container sx={{
-        paddingTop: "20px"
-      }}>
-      <Grid container align="center" spacing={4}>
-        {renderResults()}
-      </Grid>
-      </Container>
+        <Container sx={{
+          paddingTop: "20px"
+        }}>
+          <Typography variant="h3" align="center">Results for "{input.input}"</Typography>
+          <Grid container align="center" spacing={4} sx={{paddingTop: "20px", paddingBottom: "20px"}}>
+            {renderResults()}
+           </Grid>
+            <Stack alignItems="center" sx={{paddingBottom: "20px"}}>
+            <Pagination count={10} onChange={handlePagination}></Pagination>
+           </Stack>
+        
+        </Container>
     </div>
   )
  }
