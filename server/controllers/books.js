@@ -29,36 +29,63 @@ exports.addBook =  (req, res) => {
         }
       }
       else {
-        const author = authors.length ? authors[0] : ""
-        await axios.get(apiUrl + "q=" + title + " " + author + "&limit=1").then((response) => {
-          const docs = response.data.docs;
-          const data =  response.data.docs[0]
-       
-          if (docs.length) {
-            const newBook = new Book({
-              users: user,
-              googleLink: selfLink,
-              title: title,
-              authors: authors,
-              pageCount: pageCount,
-              image: image,
-              googleCategories: categories,
-              openLibraryCategories: data.subject,
-              firstPublishYear: data.first_publish_year,
-              SubjectPlace: data.place,
-              SubjectTime: data.time 
-            });
-  
-            newBook.save();
-      
-            User.findById(user, (err, user) => {
-              if (err) throw err;
-              user.books.push(newBook)
-              user.save()
-            })
-          }
-          
-          else {
+        const author = authors.length ? authors[0] : "";
+        try {
+          await axios.get(apiUrl + "q=" + title + " " + author + "&limit=1").then((response) => {
+            const docs = response.data.docs;
+            const data =  response.data.docs[0]
+         
+            if (docs.length) {
+              const newBook = new Book({
+                users: user,
+                googleLink: selfLink,
+                title: title,
+                authors: authors,
+                pageCount: pageCount,
+                image: image,
+                googleCategories: categories,
+                openLibraryCategories: data.subject,
+                firstPublishYear: data.first_publish_year,
+                SubjectPlace: data.place,
+                SubjectTime: data.time 
+              });
+    
+              newBook.save();
+        
+              User.findById(user, (err, user) => {
+                if (err) throw err;
+                user.books.push(newBook)
+                user.save()
+              })
+            }
+            
+            else {
+              const newBook = new Book({
+                users: user,
+                googleLink: selfLink,
+                title: title,
+                authors: authors,
+                pageCount: pageCount,
+                image: image,
+                googleCategories: categories,
+                openLibraryCategories: [],
+                firstPublishYear: "",
+                SubjectPlace: [],
+                SubjectTime: [] 
+              });
+    
+              newBook.save();
+        
+              User.findById(user, (err, user) => {
+                if (err) throw err;
+                user.books.push(newBook)
+                user.save()
+              })
+            }
+          });
+        }
+        catch (err) {
+          if (err) {
             const newBook = new Book({
               users: user,
               googleLink: selfLink,
@@ -81,8 +108,7 @@ exports.addBook =  (req, res) => {
               user.save()
             })
           }
-        });
-  
+        }
         res.status(200).send({
           message: "Book added to library"
         })

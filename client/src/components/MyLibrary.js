@@ -5,7 +5,7 @@ import { useLoginHook } from "../hooks/useLoginHook";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useGetBookQuery } from "../reducers/libraryApi";
-import { ImageList, Container, Card, Typography } from "@mui/material";
+import { ImageList, Container, Card, Typography, Skeleton } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 
@@ -18,9 +18,23 @@ const MyLibrary = () => {
   const { loggedIn } = useLoginHook();
 
   const { data, isLoading, error } = useGetBookQuery(books);
-  
 
+ 
+  
+console.log(data)
   const renderBooks = () => {
+
+    if (isLoading) {
+      return (
+           <Skeleton variant="rectangular" height={300} width={200}></Skeleton>
+          )
+     }
+
+     if (error) {
+          return (
+            <div>ERROR</div>
+          )
+    }
     if (data) {
       return data.map((book, i) => {
         return (
@@ -28,7 +42,15 @@ const MyLibrary = () => {
         )
       })
     }
-    
+
+  }
+
+  const renderEmpty = () => {
+    if (!data.length) {
+      return (
+        <Typography variant="h4" align="center" sx={{paddingTop: "40px"}}>Search for books to add to your library!</Typography>
+      )
+    }
   }
   if (loggedIn) {
     return (
@@ -36,11 +58,10 @@ const MyLibrary = () => {
         <NavBar/>
         <Container >
         <Typography variant="h1" align="center">My Library</Typography>
-        {/* <Card sx={{padding: "15px", backgroundColor: theme.palette.primary.main}}> */}
+        {renderEmpty()}
         <ImageList cols={6} rowHeight={"auto"}>
           {renderBooks()}
         </ImageList>
-        {/* </Card> */}
         </Container>
       </div>
     )

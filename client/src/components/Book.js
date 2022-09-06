@@ -10,8 +10,7 @@ import { libraryApi, useAddBookMutation } from "../reducers/libraryApi";
 import { useLoadBooksArray } from "../hooks/useLoadBooksArray";
 import { useGetBookQuery, useGetWishlistQuery, useDeleteBookMutation } from "../reducers/libraryApi";
 import { useLoginHook } from "../hooks/useLoginHook";
-
-import { setIn } from "formik";
+import { styled } from "@mui/material/styles";
 import { useGetBookDetailQuery } from "../reducers/googleBooksApi";
 
 
@@ -47,13 +46,18 @@ const Book = () => {
     position: 'absolute',
     top: '50%',
     left: '50%',
-    transform: 'translate(-50%, -50%)',
+    transform: 'translate(-50%, -150%)',
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    // border: '2px solid #000',
     boxShadow: 24,
     p: 4,
   };
+
+  const Worm = styled('img')({
+    height: "50px",
+    width: "140px"
+  })
 
   useEffect(() => {
     if (books && wishlist && book) {
@@ -76,9 +80,6 @@ const Book = () => {
     }
   
   }, [books, book, wishlist]);
-  
-  console.log(inLibrary)
-  console.log(books)
 
   useEffect(() => {
     if (modalText) {
@@ -297,7 +298,8 @@ const Book = () => {
             // add aria labels
             >
               <Box sx={style}>
-                <Typography>{modalText}</Typography>
+                <Typography variant="h6" align="centers">{modalText}</Typography>
+                <Box display="flex" justifyContent="center"><Worm src="../../images/croppedworm.jpg" alt="little worm"/></Box>
               </Box>
 
           </Modal>

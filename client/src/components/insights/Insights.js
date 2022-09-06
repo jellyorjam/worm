@@ -70,7 +70,7 @@ const Insights = () => {
 
     const sortedByYear = organizeByYear();
     dispatch(setSortedByYear(sortedByYear));
-  }, [])
+  }, [books])
 
 
   const findLongestBook = () => {
@@ -112,11 +112,18 @@ const Insights = () => {
   const totalPages = library.reduce((accumulator, books) =>  accumulator + parseInt(books.pageCount), 0
   ).toLocaleString("en-US");
 
-
+  const renderEmpty = () => {
+    if (!books.length) {
+      return (
+        <Typography variant="h4" align="center" sx={{paddingTop: "40px"}}>Add books to your library to view your insights!</Typography>
+      )
+    }
+  }
   if (loggedIn) {
     return (
       <div>
         <NavBar/>
+        {renderEmpty()}
         <Typography align="center" variant="h2" sx={{padding: "30px"}}>You have read {library.length} books</Typography>
         <Container sx={{paddingBottom: "20px"}}>
         <Grid container spacing={1} >

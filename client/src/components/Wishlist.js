@@ -21,17 +21,25 @@ const Wishlist = () => {
     }
     
   }
+
+  const renderEmpty = () => {
+    if (!data.length) {
+      return (
+        <Typography variant="h4" align="center" sx={{paddingTop: "40px"}}>Search for books to add to your wishlist!</Typography>
+      )
+    }
+  }
+
   if (loggedIn) {
     return (
       <div>
         <NavBar/>
         <Container >
         <Typography variant="h1" align="center">To Be Read</Typography>
-        {/* <Card sx={{padding: "15px", backgroundColor: theme.palette.primary.main}}> */}
+        {renderEmpty()}
         <ImageList cols={6} rowHeight={"auto"}>
           {renderBooks()}
         </ImageList>
-        {/* </Card> */}
         </Container>
       </div>
     )

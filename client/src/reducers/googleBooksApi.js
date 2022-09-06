@@ -11,7 +11,7 @@ export const googleBooksApi = createApi({
       query: (selfLink) => `volumes/${selfLink}`
     }),
     searchBooks: builder.query({
-      query: (input) => `volumes?q=${input.input}&startIndex=${input.startIndex}&maxResults=9`,
+      query: (input) => `volumes?q=${input.input}&startIndex=${input.startIndex}&maxResults=9&langRestrict=en`,
       transformResponse: (response) => response.items
     }),
       
