@@ -35,6 +35,7 @@ exports.addBook =  (req, res) => {
             const docs = response.data.docs;
             const data =  response.data.docs[0]
          
+            console.log(docs)
             if (docs.length) {
               const newBook = new Book({
                 users: user,

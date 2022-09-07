@@ -170,12 +170,12 @@ const PublishYearInsights = (props) => {
  const renderDetailedChart = () => {
    if (!dashboard) {
      return (
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width={insights.sortedByYear.length > 5 ? "100%" : "50%"} height={300}>
       <BarChart data={data} >
         <XAxis dataKey="name" />
-        <YAxis />
+        <YAxis type="number" allowDecimals={false}/>
         <Tooltip />
-        <Bar dataKey="Books"fill="#6a1b9a" onClick={(e) => {
+        <Bar dataKey="Books" maxBarSize={100} fill="#6a1b9a" onClick={(e) => {
           setClick(true);
           setYearClicked(e)
         }}></Bar>
@@ -196,9 +196,9 @@ const PublishYearInsights = (props) => {
           <ResponsiveContainer width={dashboard ? "100%" : "50%"} height={300}>
           <BarChart data={dataForDecades} >
             <XAxis dataKey="name" />
-            <YAxis />
+            <YAxis type="number" allowDecimals={false}/>
             <Tooltip />
-            <Bar dataKey="Books"fill="#6a1b9a" onClick={(e) => {
+            <Bar dataKey="Books" maxBarSize={100} fill="#6a1b9a" onClick={(e) => {
               setDecadeIsClicked(true);
               setDecadeClicked(e)
             }}></Bar>
