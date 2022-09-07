@@ -220,7 +220,6 @@ const PublishYearInsights = (props) => {
   )
 }
 
-//make anoter graph grouped by century
 
 
 export default PublishYearInsights

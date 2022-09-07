@@ -36,29 +36,31 @@ console.log(data)
           )
     }
     if (data) {
-      return data.map((book, i) => {
-        return (
-          <BookCard book={book} key={i}/>
-        )
-      })
+      
+        if (!data.length) {
+          return (
+            <Typography variant="h4" align="center" sx={{paddingTop: "40px"}}>Search for books to add to your library!</Typography>
+          )
+        }
+      else {
+        return data.map((book, i) => {
+          return (
+            <BookCard book={book} key={i}/>
+          )
+        })
+      }
+      
     }
 
   }
 
-  const renderEmpty = () => {
-    if (!data.length) {
-      return (
-        <Typography variant="h4" align="center" sx={{paddingTop: "40px"}}>Search for books to add to your library!</Typography>
-      )
-    }
-  }
+ 
   if (loggedIn) {
     return (
       <div>
         <NavBar/>
         <Container >
         <Typography variant="h1" align="center">My Library</Typography>
-        {renderEmpty()}
         <ImageList cols={6} rowHeight={"auto"}>
           {renderBooks()}
         </ImageList>

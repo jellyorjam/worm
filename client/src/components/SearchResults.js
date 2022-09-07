@@ -1,4 +1,4 @@
-import { Grid, Card, Container, CardContent, Typography, CardMedia, CardActionArea, Pagination, Stack} from "@mui/material";
+import { Grid, Card, Container, CardContent, Typography, CardMedia, CardActionArea, Pagination, Stack, Skeleton} from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { useDispatch } from "react-redux";
@@ -39,6 +39,38 @@ const SearchResults = () => {
     }
   }, [index]);
 
+  if (isLoading) {
+    console.log("true")
+  //  const renderSkeleton = () => {
+
+  // //   return new Array(3).map((i) => {
+  // //    console.log()
+  // //     return (
+  // //       <Grid item md={4}>
+  // //         <Skeleton variant="rectangular" width={100} height={200}></Skeleton>
+  // //       </Grid>
+  // //     )
+  // //   } ) 
+  // //  } 
+   return (
+     <div>
+       <NavBar/>
+     <Container sx={{
+      paddingTop: "20px"
+    }}>
+     <Grid container align="center" spacing={4} sx={{paddingTop: "20px", paddingBottom: "20px"}}>
+      {Array.from(new Array(9)).map((item) => (
+        <Grid item md={4}>
+        <Skeleton variant="rectangular" width={210} height={300} />
+        </Grid>
+      ))}
+     </Grid>
+     </Container>
+     </div>
+   )
+  }
+
+ 
 
 
  if (books) {
