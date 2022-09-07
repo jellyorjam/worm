@@ -3,15 +3,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { setBooks } from "../reducers/bookSlice";
 import { useEffect } from "react";
 import { useLoadBooksArray } from "../hooks/useLoadBooksArray";
-import { CardActionArea, ImageListItem, Skeleton } from "@mui/material";
+import { CardActionArea, ImageListItem, Skeleton, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
-import axios from "axios"
+import axios from "axios";
+import { renderAuthors } from "../hooks/renderAuthors";
 
 const BookCard = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
   const data = props.book;
+  const checked = props.checked;
  
   // const { data, error, isLoading, refetch } = useGetBookQuery(bookId);
 
@@ -46,12 +48,28 @@ const BookCard = (props) => {
   //     <div>ERROR</div>
   //   )
   // }
-  if (data) {
+
+  
+  if (data && !checked) {
     return (
       <CardActionArea onClick={showBook}>
       <ImageListItem>
         
         <img src={data.image} alt="book cover"></img>
+        
+      </ImageListItem>
+      </CardActionArea>
+    )
+  }
+
+  if (data && checked) {
+    return (
+      <CardActionArea onClick={showBook}>
+      <ImageListItem>
+        
+        <img src={data.image} alt="book cover"></img>
+        <Typography variant="h5" sx={{fontSize: "20px"}}>{data.title}</Typography>
+        <div>{renderAuthors(data.authors, "body1")}</div>
         
       </ImageListItem>
       </CardActionArea>

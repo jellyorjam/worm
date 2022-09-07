@@ -40,18 +40,7 @@ const SearchResults = () => {
   }, [index]);
 
   if (isLoading) {
-    console.log("true")
-  //  const renderSkeleton = () => {
 
-  // //   return new Array(3).map((i) => {
-  // //    console.log()
-  // //     return (
-  // //       <Grid item md={4}>
-  // //         <Skeleton variant="rectangular" width={100} height={200}></Skeleton>
-  // //       </Grid>
-  // //     )
-  // //   } ) 
-  // //  } 
    return (
      <div>
        <NavBar/>
