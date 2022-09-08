@@ -1,12 +1,13 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, Label, ResponsiveContainer } from "recharts"
-import { Box, Typography, Container, TextField, Button } from "@mui/material";
+import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, Label, ResponsiveContainer, } from "recharts"
+import { Box, Typography, Container, TextField, Button,  CardActionArea} from "@mui/material";
 import NavBar from "../NavBar";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
 import PublishYearRequest from "./PublishYearRequest";
+import { useNavigate } from "react-router"
 
 
 
@@ -19,6 +20,7 @@ const PublishYearInsights = (props) => {
   const [searchSubmitted, setSearchSubmitted] = useState("");
   const [responseData, setResponseData] = useState({})
   const { dashboard } = props;
+  const navigate = useNavigate()
 
   useEffect(() => {
     setSearchSubmitted("")
@@ -54,6 +56,13 @@ const PublishYearInsights = (props) => {
     }
   })
 
+  const showBook = (book) => {
+    const link = book.googleLink
+    const splitLink = link.split("/");
+    const selfLink = splitLink[splitLink.length - 1];
+    navigate("/books/" + book.title, {state: selfLink})
+  }
+
   const renderTitle = () => {
     if (isClicked && !dashboard) {
       const booksOfYear = insights.sortedByYear.filter((book) => {
@@ -63,7 +72,11 @@ const PublishYearInsights = (props) => {
       const mapTitles = () => {
         return booksOfYear.map((book) => {
           return (
-            <div>{book.title} by {book.authors[0]}</div>
+            <CardActionArea sx={{width: "125px", height: "200px"}} onClick={() => showBook(book)}>
+                 
+                 <img src={book.image} alt="book cover"></img>
+        
+               </CardActionArea>
           )
         })
        }
@@ -71,10 +84,11 @@ const PublishYearInsights = (props) => {
      
       return (
         <div>
-          <Container align="left">
           <Typography variant="h6" sx={{textDecoration: "underline"}}>Books Published in {yearClicked.name}</Typography>
-          <Typography>{mapTitles()}</Typography>
-          </Container>
+          <Box paddingTop="10px" display="flex" flexWrap="wrap" gap="20px">
+          {mapTitles()}
+          </Box>
+       
         </div>
       )
     }
@@ -89,7 +103,11 @@ const PublishYearInsights = (props) => {
     const mapTitles = () => {
       return booksOfYear.map((book) => {
         return (
-          <div>{book.title} by {book.authors[0]}</div>
+          <CardActionArea sx={{width: "125px", height: "200px"}} onClick={() => showBook(book)}>
+                 
+          <img src={book.image} alt="book cover"></img>
+ 
+        </CardActionArea>
         )
       })
      }
@@ -97,10 +115,10 @@ const PublishYearInsights = (props) => {
    
     return (
       <div>
-        <Container align="left">
           <Typography variant="h6" sx={{textDecoration: "underline"}}>Books Published in {decadeClicked.name}</Typography>
-          <Typography>{mapTitles()}</Typography>
-        </Container>
+          <Box paddingTop="10px" display="flex" flexWrap="wrap" gap="20px">
+            {mapTitles()}
+          </Box>
       </div>
     )
   }
@@ -205,9 +223,15 @@ const PublishYearInsights = (props) => {
           </BarChart>
           
           </ResponsiveContainer>
-          {renderDecadeTitle()}
+          
+ 
+         {renderDecadeTitle()}
+     
           {renderDetailedChart()}
-          {renderTitle()}
+         
+ 
+         {renderTitle()}
+       
           {renderInput()}
           <Box display="flex" gap="10px" overflow="auto">
           {renderDiscover()}
