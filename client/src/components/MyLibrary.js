@@ -5,7 +5,7 @@ import { useLoginHook } from "../hooks/useLoginHook";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useGetBookQuery } from "../reducers/libraryApi";
-import { ImageList, Container, Card, Typography, Skeleton, FormGroup, FormControlLabel, Checkbox, Box } from "@mui/material";
+import { ImageList, Container, Card, Typography, Skeleton, FormGroup, FormControlLabel, Checkbox, Box, Autocomplete, TextField } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import ShowTextCheckBox from "./ShowTextCheckBox"
 
@@ -21,9 +21,28 @@ const MyLibrary = () => {
 
   const { data, isLoading, error } = useGetBookQuery(books);
 
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    if (search) {
+      console.log('search')
+    }
+  }, [search])
+
   let checkbox = ""
   if (data) {
-    checkbox = <Box display="flex" justifyContent="center"><ShowTextCheckBox/></Box>
+    checkbox = <ShowTextCheckBox/>
+  }
+
+  let searchBar = ""
+  if (data) {
+    searchBar =
+    <Autocomplete
+      onChange={(e, value) => setSearch(value)}
+      freeSolo
+      options={data.map((book) => book.title)}
+      renderInput={(params) => <TextField color="secondary" variant="standard" {...params} label="Search My Library" />}
+      sx={{width: "250px"}}></Autocomplete>
   }
 
   const renderBooks = () => {
@@ -46,6 +65,12 @@ const MyLibrary = () => {
             <Typography variant="h4" align="center" sx={{paddingTop: "40px"}}>Search for books to add to your library!</Typography>
           )
         }
+        if (search) {
+          const searched = data.find((book) => book.title.includes(search))
+          return (
+            <BookCard book={searched}/>
+          )
+        }
       else {
         return data.map((book, i) => {
           return (
@@ -65,7 +90,10 @@ const MyLibrary = () => {
         <NavBar/>
         <Container >
         <Typography variant="h1" align="center">My Library</Typography>
+       
+        {searchBar}
         {checkbox}
+
         <ImageList cols={6} rowHeight={"auto"}>
           {renderBooks()}
         </ImageList>
