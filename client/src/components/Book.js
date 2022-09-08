@@ -18,6 +18,7 @@ const Book = () => {
   const { state } = useLocation();
   const selfLink = state;
 
+  console.log(state)
   const { loggedIn } = useLoginHook();
   const { data: book, error: bookError, isLoading} = useGetBookDetailQuery(selfLink);
 
@@ -298,7 +299,7 @@ const Book = () => {
             // add aria labels
             >
               <Box sx={style}>
-                <Typography variant="h6" align="centers">{modalText}</Typography>
+                <Typography variant="h6" align="center">{modalText}</Typography>
                 <Box display="flex" justifyContent="center"><Worm src="../../images/croppedworm.jpg" alt="little worm"/></Box>
               </Box>
 

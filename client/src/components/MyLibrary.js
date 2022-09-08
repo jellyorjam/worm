@@ -19,7 +19,7 @@ const MyLibrary = () => {
 
   const { data, isLoading, error } = useGetBookQuery(books);
 
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState();
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };

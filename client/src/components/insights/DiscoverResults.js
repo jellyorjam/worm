@@ -19,11 +19,15 @@ const DiscoverResults = ({doc}) => {
     const englishResult =  data.items ? data.items.find(item => item.volumeInfo.language === "en") : null;
 
     if (englishResult) {
+      console.log(englishResult)
       if (englishResult.volumeInfo.authors) {
         if (doc.includes(englishResult.volumeInfo.authors[0])) {
           if (englishResult.volumeInfo.imageLinks) {
+            const link = englishResult.selfLink;
+            const splitLink = link.split("/");
+            const selfLink = splitLink[splitLink.length - 1];
             return (
-              <CardActionArea onClick={() => navigate("/books/" + englishResult.volumeInfo.title, {state: englishResult})}>
+              <CardActionArea onClick={() => navigate("/books/" + englishResult.volumeInfo.title, {state: selfLink})}>
                 <img src={englishResult.volumeInfo.imageLinks.thumbnail} alt="book cover"></img>
               </CardActionArea>  
         )
