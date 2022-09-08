@@ -8,11 +8,13 @@ import { useFormik } from "formik";
 import axios from "axios";
 import PublishYearRequest from "./PublishYearRequest";
 import { useNavigate } from "react-router"
+import ShowTextCheckBox from "../ShowTextCheckBox";
 
 
 
 const PublishYearInsights = (props) => {
   const insights = useSelector(state => state.insights)
+  const checked = useSelector(state => state.accessibility.showText)
   const [isClicked, setClick] = useState(false);
   const [yearClicked, setYearClicked] = useState("");
   const [decadeIsClicked, setDecadeIsClicked] = useState("");
@@ -72,9 +74,13 @@ const PublishYearInsights = (props) => {
       const mapTitles = () => {
         return booksOfYear.map((book) => {
           return (
-            <CardActionArea sx={{width: "125px", height: "200px"}} onClick={() => showBook(book)}>
+            <CardActionArea sx={{width: "125px", height: "auto"}} onClick={() => showBook(book)}>
                  
                  <img src={book.image} alt="book cover"></img>
+                 {checked ? <div>
+                  <Typography align="left">{book.title}</Typography>
+                  <Typography align="left">{book.authors[0]}</Typography>
+                </div> : ""}
         
                </CardActionArea>
           )
@@ -85,6 +91,9 @@ const PublishYearInsights = (props) => {
       return (
         <div>
           <Typography variant="h6" sx={{textDecoration: "underline"}}>Books Published in {yearClicked.name}</Typography>
+          <Box display="flex" justifyContent="center">
+          <ShowTextCheckBox/>
+          </Box>
           <Box paddingTop="10px" display="flex" flexWrap="wrap" gap="20px">
           {mapTitles()}
           </Box>
@@ -103,10 +112,13 @@ const PublishYearInsights = (props) => {
     const mapTitles = () => {
       return booksOfYear.map((book) => {
         return (
-          <CardActionArea sx={{width: "125px", height: "200px"}} onClick={() => showBook(book)}>
-                 
+          <CardActionArea sx={{width: "125px", height: "auto"}} onClick={() => showBook(book)}>
+           
           <img src={book.image} alt="book cover"></img>
- 
+          {checked ? <div>
+                  <Typography align="left">{book.title}</Typography>
+                  <Typography align="left">{book.authors[0]}</Typography>
+                </div> : ""}
         </CardActionArea>
         )
       })
@@ -116,6 +128,9 @@ const PublishYearInsights = (props) => {
     return (
       <div>
           <Typography variant="h6" sx={{textDecoration: "underline"}}>Books Published in {decadeClicked.name}</Typography>
+          <Box display="flex" justifyContent="center">
+          <ShowTextCheckBox/>
+          </Box>
           <Box paddingTop="10px" display="flex" flexWrap="wrap" gap="20px">
             {mapTitles()}
           </Box>

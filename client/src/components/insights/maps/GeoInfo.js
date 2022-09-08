@@ -2,12 +2,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { editBooks } from "../../../reducers/bookSlice";
 import { useState, useEffect } from "react";
 import { Grid, Container, Typography, Autocomplete, TextField, Button, Box } from "@mui/material"
-import { setBooks } from "../../../reducers/bookSlice";
-import axios from "axios";
-import { useLoginHook } from "../../../hooks/useLoginHook";
-import { useLoadBooksArray } from "../../../hooks/useLoadBooksArray";
 import GeoRequest from "../GeoRequest";
 import { useGetBookQuery, useUpdateBookMutation } from "../../../reducers/libraryApi";
+import ShowTextCheckBox from "../../ShowTextCheckBox";
+import { setShowText } from "../../../reducers/accessibilitySlice";
 
 
 const GeoInfo = ({state, booksFromState}) => {
@@ -15,7 +13,7 @@ const GeoInfo = ({state, booksFromState}) => {
 
   
   const usersBooks = useSelector(state => state.user.user.books)
-  const usersWishlist = useSelector(state => state.user.user.wishlist)
+  const checked = useSelector(state => state.accessibility.showText)
 
   const { data: books, error, isLoading } = useGetBookQuery(usersBooks)
 
@@ -48,11 +46,16 @@ const GeoInfo = ({state, booksFromState}) => {
   //  })
 
    const renderBooksRead = () => {
+     console.log(stateBooks)
     if (stateBooks.length) {
      return stateBooks.map((book, i) => {
       return (
         <div key={i}>
           <img src={book.image} alt="book cover"/>
+          {checked ? <div>
+            <Typography>{book.title}</Typography>
+            <Typography>{book.authors[0]}</Typography>
+          </div> : ""}
         </div>
       )
       })
@@ -80,9 +83,11 @@ const GeoInfo = ({state, booksFromState}) => {
 
    const renderBook = () => {
      if (value) {
+       console.log(value)
        return (
         <div>
-        <img src={value.image} alt="book cover"/>
+        <Box paddingTop="10px"><img src={value.image} alt="book cover"/></Box>
+      
         <Box>
         <Button variant="contained" color="secondary" onClick={editBook}>Add Book</Button>
         </Box>
@@ -104,11 +109,12 @@ const GeoInfo = ({state, booksFromState}) => {
  
 
         <Typography variant="h5">You've read {stateBooks.length} {stateBooks.length === 1 ? "book" : "books"} related to {state}</Typography>
+        {stateBooks.length ? <ShowTextCheckBox/> : ""}
           <Box display="flex" gap="10px" paddingTop="10px" paddingBottom="10px"  overflow="auto">{renderBooksRead()}</Box>
           <Grid container>
             <Grid item md={6}>
           <Box>
-          <Typography variant="h5">Add books from your library</Typography>
+          <Typography variant="h5" sx={{paddingBottom: "10px"}}>Add books from your library</Typography>
           <Autocomplete
               onChange={(e, newValue) => setValue(newValue)}
               disablePortal

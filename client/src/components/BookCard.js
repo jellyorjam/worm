@@ -7,20 +7,12 @@ import { CardActionArea, ImageListItem, Skeleton, Typography } from "@mui/materi
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { renderAuthors } from "../hooks/renderAuthors";
+import { setShowText } from "../reducers/accessibilitySlice";
 
 const BookCard = (props) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  
   const data = props.book;
-  const checked = props.checked;
- 
-  // const { data, error, isLoading, refetch } = useGetBookQuery(bookId);
-
-  // useEffect(() => {
-  //   refetch();  }, [])
-
-  // useLoadBooksArray(isLoading);
+  const checked = useSelector(state => state.accessibility.showText)
 
   const link = data.googleLink
   const splitLink = link.split("/");
@@ -28,13 +20,6 @@ const BookCard = (props) => {
 
 
   const showBook = () => {
-    // let bookData = {}
-    // const fetchBook = async() => {
-    //   await axios.get(data.googleLink).then((response) => {
-    //     bookData = response.data
-    //   })
-    // }
-    // fetchBook().then(() => navigate("/books/" + data.title, {state: selfLink}))
     navigate("/books/" + data.title, {state: selfLink})
   }
 

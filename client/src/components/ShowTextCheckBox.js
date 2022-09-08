@@ -1,22 +1,24 @@
 import { Box, FormGroup, FormControlLabel, Checkbox} from "@mui/material"
-import { useState } from "react"
+import { useState } from "react";
+import { setShowText } from "../reducers/accessibilitySlice";
+import { useDispatch, useSelector } from "react-redux";
 
-const ShowTextCheckBox = ({data}) => {
+const ShowTextCheckBox = () => {
+  const dispatch = useDispatch();
+  const checked = useSelector(state => state.accessibility.showText)
 
-  const [checked, setChecked] = useState(false);
   const handleChange = (event) => {
-    setChecked(event.target.checked);
+    dispatch(setShowText(event.target.checked));
   };
   
-  if (data) {
     return (
-      <Box display="flex" justifyContent="center">
+      // <Box display="flex" justifyContent="center">
       <FormGroup>
         <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange} color="secondary"/>} label="Show Text Details"  />
       </FormGroup>
-      </Box>
+      // {/* </Box> */}
     )
-  }
+
 }
 
 export default ShowTextCheckBox

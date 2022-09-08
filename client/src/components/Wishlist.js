@@ -2,15 +2,21 @@ import NavBar from "./NavBar";
 import { useLoginHook } from "../hooks/useLoginHook";
 import { useSelector } from "react-redux";
 import BookCard from "./BookCard";
-import { Container, Typography, ImageList } from "@mui/material";
+import { Container, Typography, ImageList, Box } from "@mui/material";
 import { useGetWishlistQuery } from "../reducers/libraryApi";
+import ShowTextCheckBox from "./ShowTextCheckBox";
 
 const Wishlist = () => {
   const books = useSelector(state => state.user.user.wishlist)
   const { loggedIn } = useLoginHook();
 
-  const { data, error, isLoading } = useGetWishlistQuery(books)
+  const { data, error, isLoading } = useGetWishlistQuery(books);
 
+  let checkbox = ""
+  if (data) {
+    checkbox = <Box display="flex" justifyContent="center"><ShowTextCheckBox/></Box>
+  }
+ 
   const renderBooks = () => {
     if (data) {
       return data.map((book, i) => {
@@ -36,6 +42,7 @@ const Wishlist = () => {
         <NavBar/>
         <Container >
         <Typography variant="h1" align="center">To Be Read</Typography>
+        {checkbox}
         {renderEmpty()}
         <ImageList cols={6} rowHeight={"auto"}>
           {renderBooks()}

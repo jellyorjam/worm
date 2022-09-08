@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useGetBookQuery } from "../reducers/libraryApi";
 import { ImageList, Container, Card, Typography, Skeleton, FormGroup, FormControlLabel, Checkbox, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import ShowTextCheckBox from "./ShowTextCheckBox"
 
 
 
@@ -14,29 +15,17 @@ import { useTheme } from "@mui/material/styles";
 // ask about security of isLoggedIn prop
 const MyLibrary = () => {
   const books = useSelector(state => state.user.user.books);
+ 
   
   const { loggedIn } = useLoginHook();
 
   const { data, isLoading, error } = useGetBookQuery(books);
 
-  const [checked, setChecked] = useState();
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
-  };
-
-
-  const renderCheckbox = () => {
-    if (data) {
-      return (
-        <Box display="flex" justifyContent="center">
-        <FormGroup>
-          <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange} color="secondary"/>} label="Show Text Details"  />
-        </FormGroup>
-        </Box>
-      )
-    }
-    
+  let checkbox = ""
+  if (data) {
+    checkbox = <Box display="flex" justifyContent="center"><ShowTextCheckBox/></Box>
   }
+
   const renderBooks = () => {
 
     if (isLoading) {
@@ -60,7 +49,7 @@ const MyLibrary = () => {
       else {
         return data.map((book, i) => {
           return (
-            <BookCard book={book} key={i} checked={checked}/>
+            <BookCard book={book} key={i}/>
           )
         })
       }
@@ -76,7 +65,7 @@ const MyLibrary = () => {
         <NavBar/>
         <Container >
         <Typography variant="h1" align="center">My Library</Typography>
-        {renderCheckbox()}
+        {checkbox}
         <ImageList cols={6} rowHeight={"auto"}>
           {renderBooks()}
         </ImageList>

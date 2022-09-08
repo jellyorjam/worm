@@ -5,11 +5,14 @@ import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell, LabelList, Label} fr
 import { Container, Typography, Box, Button, CardActionArea, Card, CardContent } from "@mui/material";
 import NavBar from "../NavBar";
 import { useGetBookQuery, useGetWishlistQuery } from "../../reducers/libraryApi";
+import ShowTextCheckBox from "../ShowTextCheckBox"
+import { setShowText } from "../../reducers/accessibilitySlice";
 
 const GenreInsights = ({dashboard}) => {
   const navigate = useNavigate();
   const usersBooks = useSelector(state => state.user.user.books)
   const usersWishlist = useSelector(state => state.user.user.wishlist)
+  const checked = useSelector(state => state.accessibility.showText)
 
   const { data: books, error, isLoading } = useGetBookQuery(usersBooks)
   const { data: wishlist } = useGetWishlistQuery(usersWishlist)
@@ -137,6 +140,12 @@ const GenreInsights = ({dashboard}) => {
      const selfLink = splitLink[splitLink.length - 1];
      navigate("/books/" + book.title, {state: selfLink})
    }
+
+   let checkbox = ""
+   if (genreClicked) {
+    checkbox = <ShowTextCheckBox/>
+   }
+
  
    const renderGenreClicked = () => {
      
@@ -145,9 +154,13 @@ const GenreInsights = ({dashboard}) => {
          return book.googleCategories.map((category) => {
            if (category === genreClicked) {
              return (
-               <CardActionArea sx={{width: "125px", height: "200px"}} onClick={() => showBook(book)}>
+               <CardActionArea sx={{width: "125px", height: "auto"}} onClick={() => showBook(book)}>
                  
                  <img src={book.image} alt="book cover"></img>
+                 {checked ? <div>
+                  <Typography>{book.title}</Typography>
+                  <Typography>{book.authors[0]}</Typography>
+                </div> : ""}
         
                </CardActionArea>
                  
@@ -159,6 +172,8 @@ const GenreInsights = ({dashboard}) => {
      }
   
    }
+
+  
  
  
    if (dashboard) {
@@ -242,6 +257,7 @@ const GenreInsights = ({dashboard}) => {
          </Container>
          </Container>
          <Typography variant="h5">{genreClicked}</Typography>
+         {checkbox}
          <Box paddingTop="10px" display="flex" flexWrap="wrap" gap="20px">
  
          {renderGenreClicked()}

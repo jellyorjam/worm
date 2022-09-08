@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setBooks } from "../reducers/bookSlice";
-import { setWishlist } from "../reducers/wishlistSlice";
+
 
 export const useLoadBooksArray = (isLoading) => {
   const dispatch = useDispatch();
