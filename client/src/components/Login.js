@@ -41,10 +41,12 @@ const Login = () => {
    }
 
   return (
-    <Container maxWidth={false} sx={{
-      backgroundImage: `url(${"../../images/bookshelf.jpg"})`, backgroundSize: "1400px",
-      backgroundPosition: "end"}}>    
-      <Container component={"main"} maxWidth="xs" align="center" sx={{minHeight:"100vh", paddingTop: "40px"}}>
+    <Container maxWidth={false}
+      //  sx={{
+      // backgroundImage: `url(${"../../images/bookshelf.jpg"})`, backgroundSize: "1400px",
+      // backgroundPosition: "end"}}
+      >    
+      <Container component={"main"} maxWidth="xs" align="center" sx={{minHeight:"100vh", paddingTop: "100px"}}>
         {renderMessage()}
         <img src={"../../favicon.ico"} alt="little worm"/>
         <form onSubmit={formik.handleSubmit}>
