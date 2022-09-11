@@ -7,6 +7,7 @@ import NavBar from "../NavBar";
 import { useGetBookQuery, useGetWishlistQuery } from "../../reducers/libraryApi";
 import ShowTextCheckBox from "../ShowTextCheckBox"
 import { setShowText } from "../../reducers/accessibilitySlice";
+import BackButton from "./BackButton";
 
 const GenreInsights = ({dashboard}) => {
   const navigate = useNavigate();
@@ -218,8 +219,8 @@ const GenreInsights = ({dashboard}) => {
      <div>
        <NavBar/>
        <Container align="left">
-         
-         <Typography variant="h2" align="center" sx={{ paddingTop: "20px"}}>Your Top Genres</Typography>
+         <BackButton/>
+         <Typography variant="h2" align="center">Your Top Genres</Typography>
          <Typography align="center" sx={{paddingBottom: "50px"}}>Click on a slice for more details</Typography>
          <Container sx={{display: "flex"}}>
          <PieChart width={400} height={400} >

@@ -9,6 +9,7 @@ import axios from "axios";
 import PublishYearRequest from "./PublishYearRequest";
 import { useNavigate } from "react-router"
 import ShowTextCheckBox from "../ShowTextCheckBox";
+import BackButton from "./BackButton";
 
 
 
@@ -223,6 +224,7 @@ const PublishYearInsights = (props) => {
       {renderNav()}
       <Box>
         <Container align={dashboard ? "left" : "center"}>
+        {dashboard ? "" : <Container align="left"><BackButton/></Container>}
           <Typography variant={dashboard ? "h4" : "h2"} align="center" sx={dashboard ? {paddingBottom: "40px", paddingLeft: "60px"} : {paddingTop: "20px"}}>Publish Year Insights</Typography>
           {renderDetail()}
 

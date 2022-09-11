@@ -15,7 +15,7 @@ const Wishlist = () => {
   const renderYourBooks = () => {
     if (data) {
       return (
-        <YourBooks data={data}/>
+        <YourBooks data={data} type="Wishlist"/>
       )
     }
     if (isLoading) {

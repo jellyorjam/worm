@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ImageList, Typography, Autocomplete, TextField } from "@mui/material";
 import ShowTextCheckBox from "./ShowTextCheckBox"
 
-const YourBooks = ({data}) => {
+const YourBooks = ({data, type}) => {
   const [search, setSearch] = useState("");
 
   let checkbox = ""
@@ -24,7 +24,7 @@ const YourBooks = ({data}) => {
 
   let emptyMessage = "";
   if (data && !data.length) {
-    emptyMessage = <Typography variant="h4" align="center" sx={{paddingTop: "40px"}}>Search for books to add to your library!</Typography>
+    emptyMessage = <Typography variant="h4" align="center" sx={{paddingTop: "40px"}}>Search for books to add to your {type}!</Typography>
   }
 
   const renderBooks = () => {
@@ -47,7 +47,7 @@ const YourBooks = ({data}) => {
 
   return (
     <div>
-         <Typography variant="h1" align="center">My Library</Typography>
+         <Typography variant="h1" align="center">My {type}</Typography>
           {searchBar}
           {checkbox}
           {emptyMessage}

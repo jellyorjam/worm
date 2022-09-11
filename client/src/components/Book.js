@@ -22,7 +22,6 @@ const Book = () => {
   const { loggedIn } = useLoginHook();
   const { data: book, error: bookError, isLoading} = useGetBookDetailQuery(selfLink);
 
- 
   const userId = useSelector(state => state.user.user._id);
   const usersBooks = useSelector(state => state.user.user.books)
   const usersWishlist = useSelector(state => state.user.user.wishlist)
@@ -33,9 +32,6 @@ const Book = () => {
   const [deleteBook, result] = useDeleteBookMutation();
   const [addBook, addBookresult] = useAddBookMutation();
   
-
- 
-
   const [inLibrary, setInLibrary] = useState(false);
   const [inWishlist, setInWishlist] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -71,7 +67,6 @@ const Book = () => {
         }
       })
       
- 
       wishlist.forEach((title) => {
         if (title.googleLink === book.selfLink) {
           if (title.wishlistUsers.includes(userId))
@@ -97,7 +92,6 @@ const Book = () => {
         if(category.includes(" / ")) {
           const splitCategories = category.split(" / ");
           splitCategories.map((category) => {
-            
             if (!organizedCategories.includes(category) && category !== "General") {
               organizedCategories.push(category)
             }
@@ -302,10 +296,7 @@ const Book = () => {
                 <Typography variant="h6" align="center">{modalText}</Typography>
                 <Box display="flex" justifyContent="center"><Worm src="../../favicon.ico" alt="little worm"/></Box>
               </Box>
-
           </Modal>
-        
-          
         </Container>
         </div>
       )

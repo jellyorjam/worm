@@ -5,6 +5,7 @@ import WorldMap from "./maps/WorldMap";
 import NavBar from "../NavBar";
 import USMap from "./maps/USMap";
 import { Container, Breadcrumbs, Button, Typography } from "@mui/material";
+import BackButton from "./BackButton";
 
 
 const GeoInsights = ({dashboard}) => {
@@ -34,7 +35,8 @@ const GeoInsights = ({dashboard}) => {
     <div>
     {renderNav()}
     <Container align="center">
-      <Typography variant={dashboard ? "h4" : "h2"} sx={dashboard ? {paddingBottom: "50px"} : {paddingTop: "20px"}}>Travel Insights</Typography>
+      {dashboard ? "" : <Container align="left"><BackButton/></Container>}
+      <Typography variant={dashboard ? "h4" : "h2"} sx={dashboard ? {paddingBottom: "50px"} : {}}>Travel Insights</Typography>
       {renderBreadcrumbs()}
       <WorldMap setTooltipContent={setContent} content={content} dashboard={dashboard}/>
       <ReactTooltip>{content}</ReactTooltip>

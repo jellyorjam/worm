@@ -1,6 +1,5 @@
 import NavBar from "./NavBar";
 import { useLoginHook } from "../hooks/useLoginHook";
-import { useState } from "react";
 import { useSelector} from "react-redux";
 import { useGetBookQuery } from "../reducers/libraryApi";
 import { Container, Skeleton } from "@mui/material";
@@ -9,7 +8,7 @@ import YourBooks from "./YourBooks";
 
 
 const MyLibrary = () => {
-  
+
   const books = useSelector(state => state.user.user.books);
   const { loggedIn } = useLoginHook();
   const { data, isLoading, error } = useGetBookQuery(books);
@@ -17,7 +16,7 @@ const MyLibrary = () => {
   const renderYourBooks = () => {
     if (data) {
       return (
-        <YourBooks data={data}/>
+        <YourBooks data={data} type="Library"/>
       )
     }
     if (isLoading) {
