@@ -5,7 +5,7 @@ const passport = require('passport');
 const cors = require('cors')
 require('dotenv').config();
 const keys = require('./config/keys');
-console.log(keys)
+const path = require("path");
 
 mongoose.connect(keys.MONGODB_URI, {
   useNewUrlParser: true,
@@ -23,9 +23,9 @@ app.use(
 );
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-  // const path = require("path");
-  // app.use(express.static(path.join(__dirname, '/../client/build')));
+  // app.use(express.static("client/build"));
+  
+  app.use(express.static(path.join(__dirname, "../client", "build")));
 }
 
 app.use(passport.initialize());
@@ -36,7 +36,9 @@ app.use("/users", require("./routes/users"))
 app.use("/books", require("./routes/books"))
 
 
-
+app.get("*", async (req, res) => {
+  res.sendFile(path.join(__dirname, "../client", "build", "index.html"))
+})
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
