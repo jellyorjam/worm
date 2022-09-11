@@ -5,6 +5,7 @@ const passport = require('passport');
 const cors = require('cors')
 require('dotenv').config();
 const keys = require('./config/keys');
+console.log(keys)
 
 mongoose.connect(keys.MONGODB_URI, {
   useNewUrlParser: true,
@@ -21,7 +22,10 @@ app.use(
   })
 );
 
-
+if (process.env.NODE_ENV === "production") {
+  const path = require("path");
+  app.use(express.static(path.join(__dirname, '/../client/build')));
+}
 
 app.use(passport.initialize());
 require('./config/passport');
@@ -30,10 +34,7 @@ app.use("/", require("./routes/index"))
 app.use("/users", require("./routes/users"))
 app.use("/books", require("./routes/books"))
 
-if (process.env.NODE_ENV === "production") {
-  const path = require("path");
-  app.use(express.static(path.join(__dirname, '/../client/build')));
-}
+
 
 const PORT = process.env.PORT || 8000;
 
