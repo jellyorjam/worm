@@ -128,7 +128,7 @@ const Insights = () => {
         <Container sx={{paddingBottom: "20px"}}>
         <Grid container spacing={1} >
 
-          <Grid item xs={1} md={6} >
+          <Grid item xs={12} md={6} >
             <Card align="center" sx={{height: 480, width: 550,}}>
             <StyledCard>
               <Typography variant="h4" align="center">Pages Read</Typography>
@@ -138,7 +138,7 @@ const Insights = () => {
             </Card>
           </Grid>
           
-          <Grid item xs={1} md={6}>
+          <Grid item xs={12} md={6}>
           <Card align="center" sx={{height: 480, width: 550, backgroundColor: "#f4f4f0", paddingTop: "10px", }}>
               <GenreInsights dashboard={isDashboard}/>
               <Button variant="contained" color="secondary" sx={{width: "90px", marginTop: "15px"}} onClick={() => {
@@ -148,7 +148,7 @@ const Insights = () => {
             </Card>
           </Grid>
 
-          <Grid item xs={1} md={6}>
+          <Grid item xs={12} md={6}>
           <Card align="center" sx={{height: 480, width: 550,}}>
             <StyledCard sx={{paddingRight: "70px"}}>
             <PublishYearInsights dashboard={isDashboard}/>
@@ -160,7 +160,7 @@ const Insights = () => {
             </Card>
           </Grid>
          
-          <Grid item xs={1} md={6}>
+          <Grid item xs={12} md={6}>
           <Card align="center" sx={{height: 480, width: 550,}}>
             <StyledCard >
               <GeoInsights dashboard={isDashboard}/>

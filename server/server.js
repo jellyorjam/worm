@@ -4,8 +4,9 @@ const bodyParser = require('body-parser')
 const passport = require('passport');
 const cors = require('cors')
 require('dotenv').config();
+const keys = require('./config/keys');
 
-mongoose.connect("mongodb://localhost/worm", {
+mongoose.connect(keys.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

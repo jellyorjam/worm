@@ -1,33 +1,23 @@
-import Search from "./Search";
 import NavBar from "./NavBar";
 import BookCard from "./BookCard";
 import { useLoginHook } from "../hooks/useLoginHook";
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
+import { useSelector} from "react-redux";
 import { useGetBookQuery } from "../reducers/libraryApi";
-import { ImageList, Container, Card, Typography, Skeleton, FormGroup, FormControlLabel, Checkbox, Box, Autocomplete, TextField } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { ImageList, Container, Typography, Skeleton, Autocomplete, TextField } from "@mui/material";
 import ShowTextCheckBox from "./ShowTextCheckBox"
+import ErrorPage from "./ErrorPage";
 
 
 
 
 // ask about security of isLoggedIn prop
 const MyLibrary = () => {
+
   const books = useSelector(state => state.user.user.books);
- 
-  
   const { loggedIn } = useLoginHook();
-
   const { data, isLoading, error } = useGetBookQuery(books);
-
   const [search, setSearch] = useState("");
-
-  useEffect(() => {
-    if (search) {
-      console.log('search')
-    }
-  }, [search])
 
   let checkbox = ""
   if (data) {
@@ -46,57 +36,47 @@ const MyLibrary = () => {
   }
 
   const renderBooks = () => {
-
     if (isLoading) {
-      return (
-           <Skeleton variant="rectangular" height={300} width={200}></Skeleton>
-          )
-     }
-
-     if (error) {
-          return (
-            <div>ERROR</div>
-          )
+      return (<Skeleton variant="rectangular" height={300} width={200}></Skeleton>)
     }
+
+    if (error) {
+      return (<ErrorPage/>)
+    }
+
     if (data) {
-      
-        if (!data.length) {
-          return (
-            <Typography variant="h4" align="center" sx={{paddingTop: "40px"}}>Search for books to add to your library!</Typography>
-          )
-        }
-        if (search) {
-          const searched = data.find((book) => book.title.includes(search))
-          return (
-            <BookCard book={searched}/>
-          )
-        }
+      if (!data.length) {
+        return (
+          <Typography variant="h4" align="center" sx={{paddingTop: "40px"}}>Search for books to add to your library!</Typography>
+        )
+      }
+      if (search) {
+        const searched = data.find((book) => book.title.includes(search))
+        return (
+          <BookCard book={searched}/>
+        )
+      }
       else {
         return data.map((book, i) => {
           return (
             <BookCard book={book} key={i}/>
           )
         })
-      }
-      
+      } 
     }
-
   }
 
- 
   if (loggedIn) {
     return (
       <div>
         <NavBar/>
         <Container >
-        <Typography variant="h1" align="center">My Library</Typography>
-       
-        {searchBar}
-        {checkbox}
-
-        <ImageList cols={6} rowHeight={"auto"}>
-          {renderBooks()}
-        </ImageList>
+          <Typography variant="h1" align="center">My Library</Typography>
+          {searchBar}
+          {checkbox}
+          <ImageList cols={6} rowHeight={"auto"}>
+            {renderBooks()}
+          </ImageList>
         </Container>
       </div>
     )

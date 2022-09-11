@@ -300,7 +300,7 @@ const Book = () => {
             >
               <Box sx={style}>
                 <Typography variant="h6" align="center">{modalText}</Typography>
-                <Box display="flex" justifyContent="center"><Worm src="../../images/croppedworm.jpg" alt="little worm"/></Box>
+                <Box display="flex" justifyContent="center"><Worm src="../../favicon.ico" alt="little worm"/></Box>
               </Box>
 
           </Modal>
