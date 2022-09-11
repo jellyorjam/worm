@@ -4,6 +4,7 @@ import { useState } from "react";
 import { setUser } from "../reducers/userSlice";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import { url } from "../config/keys";
 
 export const useLoginHook = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ export const useLoginHook = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    axios.get("http://localhost:8000/auth", {
+    axios.get(url + "/auth", {
       headers: {
         Authorization: token
       }

@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import {useFormik} from "formik";
 import axios from 'axios';
 import { useNavigate, useLocation } from "react-router";
+import { url } from "../config/keys"
 
 //remember to map semantic headings for accessibility
 
@@ -16,7 +17,7 @@ const Login = () => {
   const { state } = useLocation();
 
   const submitLogin = async (values) => {
-    await axios.post("http://localhost:8000/users/login", values).then((response) => {
+    await axios.post(url + "/users/login", values).then((response) => {
       localStorage.setItem('token', response.data.token);
       navigate("/home")
     });

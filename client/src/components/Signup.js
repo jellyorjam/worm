@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router";
 import * as Yup from "yup"
 import axios from "axios"
+import { url } from "../config/keys";
 
 const validationSchema = Yup.object({
   firstName: Yup
@@ -30,7 +31,7 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const signup =  async (values) => {
-    await axios.post("http://localhost:8000/users/signup", values) 
+    await axios.post(url + "/users/signup", values) 
   }
 
   const formik = useFormik({

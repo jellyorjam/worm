@@ -1,9 +1,10 @@
 
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { url } from "../config/keys"
 
 export const libraryApi = createApi({
   reducerPath: 'libraryApi',
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8000/books/"}),
+  baseQuery: fetchBaseQuery({ baseUrl: url + "/books/"}),
   keepUnusedDataFor: 2000000,
   tagTypes: ['Books'],
   endpoints: (builder) => ({
