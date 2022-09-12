@@ -10,9 +10,12 @@ Worm uses data from Google Books API and OpenLibrary API.
 This is my final individual capstone project for Parsity Coding School.
 
 **Demo**
-<a href="https://www.loom.com/share/75751250e8244591a3a42c3aeae2e0cc">
-    <p>WORM - Watch Video</p>
-    <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/75751250e8244591a3a42c3aeae2e0cc-1662988843350-with-play.gif">
-  </a>
 
 https://www.loom.com/share/75751250e8244591a3a42c3aeae2e0cc
+
+**In Progress**
+
+I am currently working on refactoring the code to 
+    - Make sure it all aligns with accessibility standards
+    - Handle all errors/edge cases
+    - Make it mobile responsive
