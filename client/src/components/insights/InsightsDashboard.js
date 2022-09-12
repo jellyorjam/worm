@@ -9,15 +9,14 @@ import PublishYearInsights from "./PublishYearInsights";
 import GeoInsights from "./GeoInsights";
 
 const InsightsDashboard = ({library}) => {
+  
   const { totalPages } = useInsights(library);
-
   const [isDashboard, setIsDashboard] = useState(true);
   const { loggedIn, navigate } = useLoginHook();
 
   useEffect(() => {
     setIsDashboard(true)
   }, []);
-
 
   const StyledCard = styled('div')({
     padding: "10px", 
