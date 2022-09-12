@@ -12,27 +12,21 @@ const GeoRequest = ({state}) => {
     )
   }
 
-
-
   if (data) {
     const titleAndAuthor = [];
-    
+  
     data.docs.forEach((doc) => {
-        if (doc.title && doc.author_name) {
-          titleAndAuthor.push(doc.title + " " + doc.author_name[0]);
-        }
-      })
+      if (doc.title && doc.author_name) {
+        titleAndAuthor.push(doc.title + " " + doc.author_name[0]);
+      }
+    })
 
     return titleAndAuthor.map((doc) => {
-    
       return (
-      
           <DiscoverResults doc={doc}/>
-   
       )
     })
-   
   }
-}
+};
 
-export default GeoRequest
+export default GeoRequest;

@@ -8,116 +8,29 @@ import { useGetBookQuery, useGetWishlistQuery } from "../../reducers/libraryApi"
 import ShowTextCheckBox from "../books/ShowTextCheckBox"
 import { setShowText } from "../../reducers/accessibilitySlice";
 import BackButton from "./BackButton";
+import { useGetGenres } from "../../hooks/useGetGenres";
+import { renderTopGenres, renderOtherGenres, renderGenreClicked} from "../../functions/renderGenres";
 
 const GenreInsights = ({dashboard}) => {
   const navigate = useNavigate();
   const usersBooks = useSelector(state => state.user.user.books)
-  const usersWishlist = useSelector(state => state.user.user.wishlist)
   const checked = useSelector(state => state.accessibility.showText)
-
   const { data: books, error, isLoading } = useGetBookQuery(usersBooks)
-  const { data: wishlist } = useGetWishlistQuery(usersWishlist)
-
   const [genreClicked, setGenreClicked] = useState("")
-
-  const allGenres = [];
+  const { data, topTenGenres, sortedGenres } = useGetGenres(books)
 
   if (books) {
-    books.forEach((book) => {
-      book.googleCategories.forEach(category => {
-        allGenres.push(category)
-      })
-    })
- 
-   const count = {}
- 
-   allGenres.forEach((genre) => {
-     count[genre] = (count[genre] || 0) + 1;  
-    });
- 
-   const sortableGenres = [];
-   for (let genre in count) {
-     sortableGenres.push([genre, count[genre]])
-   }
- 
-   const sortedGenres = sortableGenres.sort((a, b) => {
-     return b[1] - a[1]
-   })
- 
-   const topTenGenres = sortedGenres.slice(0, 10);
-   
-   const data = topTenGenres.map((genre) => {
-     return {
-       "name": genre[0],
-       "value": genre[1]
-     }
-   })
  
    const COLORS = [ '#7986CB', '#aed581', '#fff176', '#ff8a65', '#e57373', '#7986CB', '#aed581', '#fff176', '#ff8a65', '#e57373'];
 
-   const renderTopGenres = () => {
 
-     return topTenGenres.map((genre, i) => {
-       return (
-         <CardActionArea onClick={(e) => setGenreClicked(e.target.firstChild.textContent)}>
-           <Typography sx={{fontSize: "20px"}}>{genre[0]} - {genre[1]}</Typography>
-         </CardActionArea>
-       )
-     })
-   }
- 
-   const renderOtherGenres = () => {
-     const top20 = sortedGenres.slice(10, 20);
-     return top20.map((genre, i) => {
-       return (
-         <CardActionArea onClick={(e) => setGenreClicked(e.target.firstChild.textContent)}>
-           <Typography sx={{fontSize: "20px"}}>{genre[0]} - {genre[1]}</Typography>
-         </CardActionArea>
-       )
-     })
-   }
- 
-   const showBook = (book) => {
-     const link = book.googleLink
-     const splitLink = link.split("/");
-     const selfLink = splitLink[splitLink.length - 1];
-     navigate("/books/" + book.title, {state: selfLink})
-   }
 
    let checkbox = ""
    if (genreClicked) {
     checkbox = <ShowTextCheckBox/>
    }
 
- 
-   const renderGenreClicked = () => {
-     
-     if (genreClicked) {
-      return books.map((book) => {
-         return book.googleCategories.map((category) => {
-           if (category === genreClicked) {
-             return (
-               <CardActionArea sx={{width: "125px", height: "auto"}} onClick={() => showBook(book)}>
-                 
-                 <img src={book.image} alt="book cover"></img>
-                 {checked ? <div>
-                  <Typography>{book.title}</Typography>
-                  <Typography>{book.authors[0]}</Typography>
-                </div> : ""}
-        
-               </CardActionArea>
-                 
-           
-             )
-           }
-         })
-       })
-     }
-  
-   }
 
-  
- 
  
    if (dashboard) {
        return (
@@ -191,11 +104,11 @@ const GenreInsights = ({dashboard}) => {
          sx={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}
          >
            <Typography variant="h4" sx={{textDecoration: "underline"}}>Top 10 Genres</Typography>
-           {renderTopGenres()}
+           {renderTopGenres(topTenGenres, setGenreClicked)}
          </Container>
          <Container sx={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
            <Typography variant="h4" sx={{textDecoration: "underline"}}>Runner ups</Typography>
-           {renderOtherGenres()}
+           {renderOtherGenres(sortedGenres, setGenreClicked)}
          </Container>
          </Container>
          </Container>
@@ -203,7 +116,7 @@ const GenreInsights = ({dashboard}) => {
          {checkbox}
          <Box paddingTop="10px" display="flex" flexWrap="wrap" gap="20px">
  
-         {renderGenreClicked()}
+         {renderGenreClicked(navigate, genreClicked, books, checked)}
          </Box>
        </Container>
     
@@ -211,6 +124,7 @@ const GenreInsights = ({dashboard}) => {
    )
    }
   }
+  
 
   
  

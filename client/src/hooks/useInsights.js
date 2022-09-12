@@ -5,7 +5,7 @@ import { setLongestBook, setShortestBook, setSortedByYear } from "../reducers/in
 export const useInsights = (library) => {
   const dispatch = useDispatch();
 
-    useEffect(() => {
+  useEffect(() => {
     const bookWithMostPages = findLongestBook();
     const longestBook = bookWithMostPages[bookWithMostPages.length - 1];
     dispatch(setLongestBook(longestBook));

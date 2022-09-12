@@ -5,7 +5,7 @@ export const useCountYears = (insights) => {
     count[book.firstPublishYear] = (count[book.firstPublishYear] || 0) + 1;  
    })
 
-   const countKeys = Object.keys(count);
+  const countKeys = Object.keys(count);
 
   const data = countKeys.map((key) => {
    return {
@@ -20,7 +20,7 @@ export const useCountYears = (insights) => {
     countDecades[book.firstPublishYear.substring(0, 2)] = (countDecades[book.firstPublishYear.substring(0, 2)] || 0) + 1;  
    })
 
-   const countDecadesKeys = Object.keys(countDecades);
+  const countDecadesKeys = Object.keys(countDecades);
 
   const dataForDecades = countDecadesKeys.map((key) => {
    return {
