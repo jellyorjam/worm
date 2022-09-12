@@ -15,7 +15,7 @@ https://www.loom.com/share/75751250e8244591a3a42c3aeae2e0cc
 
 **In Progress**
 
-I am currently working on refactoring the code to 
-    - Make sure it all aligns with accessibility standards
-    - Handle all errors/edge cases
+I am currently working on refactoring the code to <br/>
+    - Make sure it all aligns with accessibility standards <br/>
+    - Handle all errors/edge cases <br/>
     - Make it mobile responsive
