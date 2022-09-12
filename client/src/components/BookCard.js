@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { CardActionArea, ImageListItem, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
-import { renderAuthors } from "../hooks/renderAuthors";
+import { renderAuthors } from "../functions/renderAuthors";
 
 const BookCard = (props) => {
   const navigate = useNavigate();

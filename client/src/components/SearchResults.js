@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import  {renderAuthors}  from "../hooks/renderAuthors";
+import  {renderAuthors}  from "../functions/renderAuthors";
 
 import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import Search from "./Search";

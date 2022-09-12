@@ -2,12 +2,7 @@ import { memo, useState } from "react";
 import { useSelector } from "react-redux";
 import { allStates } from "../../../data/geoLists";
 import GeoInfo from "./GeoInfo";
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-} from "react-simple-maps";
-import { useLoadBooksArray } from "../../../hooks/useLoadBooksArray";
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { useGetBookQuery } from "../../../reducers/libraryApi";
 
 

@@ -1,11 +1,9 @@
 import NavBar from "../NavBar";
 import PublishYearInsights from "./PublishYearInsights";
 import GenreInsights from "./GenreInsights";
-import PagesReadInsights from "./PagesReadInsights";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useLoginHook } from "../../hooks/useLoginHook";
-import { useLoadBooksArray } from "../../hooks/useLoadBooksArray"
 import { setLongestBook, setShortestBook, setSortedByYear } from "../../reducers/insightsSlice";
 import { Typography, Grid, Card, Container, Button, Box } from "@mui/material";
 import GeoInsights from "./GeoInsights";
@@ -44,16 +42,11 @@ const Insights = () => {
   
   const [isDashboard, setIsDashboard] = useState(true);
 
-
-
   const { loggedIn, navigate, dispatch } = useLoginHook();
 
 
   const library = books
 
-  // useLoadBooksArray();
-
-  // get this hook to work right 
  
   useEffect(() => {
     setIsDashboard(true)

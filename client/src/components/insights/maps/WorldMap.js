@@ -1,15 +1,9 @@
 import React, { memo, useState } from "react";
 import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
-import {
-  ZoomableGroup,
-  ComposableMap,
-  Geographies,
-  Geography
-} from "react-simple-maps";
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { allCountries } from "../../../data/geoLists";
 import GeoInfo from "./GeoInfo";
-import { useLoadBooksArray } from "../../../hooks/useLoadBooksArray";
 import { useGetBookQuery } from "../../../reducers/libraryApi";
 
 

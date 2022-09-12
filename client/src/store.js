@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./reducers/userSlice";
-import bookReducer from "./reducers/bookSlice";
 import accessibilityReducer from "./reducers/accessibilitySlice"
 import insightsReducer from "./reducers/insightsSlice";
 import { libraryApi } from "./reducers/libraryApi";
@@ -14,7 +13,6 @@ export const store = configureStore({
     [openLibraryApi.reducerPath]: openLibraryApi.reducer,
     [googleBooksApi.reducerPath]: googleBooksApi.reducer,
     user: userReducer,
-    books: bookReducer,
     accessibility: accessibilityReducer,
     insights: insightsReducer
   },

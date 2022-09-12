@@ -2,7 +2,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import MyLibrary from "./components/MyLibrary"
 import Logout from "./components/Logout"
-import Book from "./components/Book";
+import Book from "./components/books/Book";
 import Insights from "./components/insights/Insights";
 import GeoInsights from "./components/insights/GeoInsights";
 import {Routes, Route} from "react-router-dom";

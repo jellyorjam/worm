@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from "react-redux";
-import { editBooks } from "../../../reducers/bookSlice";
 import { useState, useEffect } from "react";
 import { Grid, Container, Typography, Autocomplete, TextField, Button, Box } from "@mui/material"
 import GeoRequest from "../GeoRequest";
@@ -73,7 +72,7 @@ const GeoInfo = ({state, booksFromState}) => {
        newBookObj,
        index
      }
-     dispatch(editBooks(obj))
+  
      setValue("");
      const id = value._id
      updateBook({id, newBookObj})
