@@ -1,7 +1,6 @@
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import MyLibrary from "./components/MyLibrary"
-import Logout from "./components/Logout"
+import MyLibrary from "./components/books/MyLibrary"
 import Book from "./components/books/Book";
 import Insights from "./components/insights/Insights";
 import GeoInsights from "./components/insights/GeoInsights";
@@ -10,7 +9,7 @@ import SearchResults from "./components/SearchResults";
 import PublishYearInsights from "./components/insights/PublishYearInsights";
 import USInsights from "./components/insights/maps/USInsights";
 import GenreInsights from "./components/insights/GenreInsights";
-import Wishlist from "./components/Wishlist";
+import Wishlist from "./components/books/Wishlist";
 import PagesReadInsights from "./components/insights/PagesReadInsights";
 
 
@@ -24,7 +23,6 @@ function App() {
         <Route path="signup" element={<Signup/>}/>
         <Route path="home" element={<MyLibrary/>}/>
         <Route path="wishlist" element={<Wishlist/>}/>
-        <Route path="logout" element={<Logout/>}/>
         <Route path="search" element={<SearchResults/>}/>
         <Route path="books/:book" element={<Book/>}/>
         <Route path="insights" element={<Insights/>}/>

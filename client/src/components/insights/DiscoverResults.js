@@ -14,8 +14,6 @@ const DiscoverResults = ({doc}) => {
   }
 
   if (data) {
-    
-    
     const englishResult =  data.items ? data.items.find(item => item.volumeInfo.language === "en") : null;
 
     if (englishResult) {
@@ -30,15 +28,12 @@ const DiscoverResults = ({doc}) => {
               <CardActionArea onClick={() => navigate("/books/" + englishResult.volumeInfo.title, {state: selfLink})}>
                 <img src={englishResult.volumeInfo.imageLinks.thumbnail} alt="book cover"></img>
               </CardActionArea>  
-        )
+            )
+          }
         }
-     
-      }
       }
     }
-  
-  
-}
-}
+  }
+};
 
-export default DiscoverResults
+export default DiscoverResults;

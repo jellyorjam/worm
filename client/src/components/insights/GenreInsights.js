@@ -5,7 +5,7 @@ import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell, LabelList, Label} fr
 import { Container, Typography, Box, Button, CardActionArea, Card, CardContent } from "@mui/material";
 import NavBar from "../NavBar";
 import { useGetBookQuery, useGetWishlistQuery } from "../../reducers/libraryApi";
-import ShowTextCheckBox from "../ShowTextCheckBox"
+import ShowTextCheckBox from "../books/ShowTextCheckBox"
 import { setShowText } from "../../reducers/accessibilitySlice";
 import BackButton from "./BackButton";
 
@@ -54,65 +54,7 @@ const GenreInsights = ({dashboard}) => {
    })
  
    const COLORS = [ '#7986CB', '#aed581', '#fff176', '#ff8a65', '#e57373', '#7986CB', '#aed581', '#fff176', '#ff8a65', '#e57373'];
- 
-   // const renderCustomizedLabel = ({
-   //   x, y, name
-   // }) => {
-   //     if (x > 345 && x < 350) {
-   //       return (
-   //         <text x={x + 80} y={y + 10} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
-   //           {name}  
-   //         </text>
-   //       );
-   //     }
-   //     if (x > 290 && x < 330){
-   //       return (
-   //         <text x={x + 40} y={y + 10} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
-   //           {name}  
-   //         </text>
-   //       );
-   //     }
-   
-   //     if (x > 230 && x < 289){
-   //       return (
-   //         <text x={x + 70} y={y + 20} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
-   //           {name}  
-   //         </text>
-   //       );
-   //     }
-   //     if (x > 180 && x < 229) {
-   //       return (
-   //         <text x={x + 20} y={y + 5} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
-   //           {name}  
-   //         </text>
-   //       );
-   //     }
-   //     if (x > 100 && x < 179) {
-   //       return (
-   //         <text x={x - 2} y={y} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
-   //           {name}  
-   //         </text>
-   //       );
-   //     }
-   //     if (x > 379) {
-   //       return (
-   //         <text x={x + 100} y={y} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
-   //           {name}  
-   //         </text>
-   //       );
-   //     }
-   //     else {
-   //       return (
-   //         <text x={x + 55} y={y - 2} fontFamily="Lora" fill="black" textAnchor="end" dominantBaseline="central">
-   //           {name}  
-   //         </text>
-   //       );
-   //   }
-   
-   
-   // };
- 
- 
+
    const renderTopGenres = () => {
 
      return topTenGenres.map((genre, i) => {

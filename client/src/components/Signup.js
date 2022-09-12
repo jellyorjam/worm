@@ -80,6 +80,6 @@ const Signup = () => {
       </Box> 
     </Container>
   )
-}
+};
 
 export default Signup

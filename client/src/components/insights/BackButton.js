@@ -8,6 +8,6 @@ const BackButton = () => {
   return (
     <Button variant="contained" color="secondary" sx={{marginTop: "40px", marginLeft: "40px"}} onClick={() => navigate(-1)}>Back to Insights</Button>
   )
-}
+};
 
-export default BackButton
+export default BackButton;

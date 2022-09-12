@@ -8,10 +8,8 @@ import { useFormik } from "formik";
 import axios from "axios";
 import PublishYearRequest from "./PublishYearRequest";
 import { useNavigate } from "react-router"
-import ShowTextCheckBox from "../ShowTextCheckBox";
+import ShowTextCheckBox from "../books/ShowTextCheckBox";
 import BackButton from "./BackButton";
-
-
 
 const PublishYearInsights = (props) => {
   const insights = useSelector(state => state.insights)
@@ -21,7 +19,6 @@ const PublishYearInsights = (props) => {
   const [decadeIsClicked, setDecadeIsClicked] = useState("");
   const [decadeClicked, setDecadeClicked] = useState("")
   const [searchSubmitted, setSearchSubmitted] = useState("");
-  const [responseData, setResponseData] = useState({})
   const { dashboard } = props;
   const navigate = useNavigate()
 

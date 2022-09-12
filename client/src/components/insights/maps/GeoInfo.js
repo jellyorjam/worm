@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Grid, Container, Typography, Autocomplete, TextField, Button, Box } from "@mui/material"
 import GeoRequest from "../GeoRequest";
 import { useGetBookQuery, useUpdateBookMutation } from "../../../reducers/libraryApi";
-import ShowTextCheckBox from "../../ShowTextCheckBox";
+import ShowTextCheckBox from "../../books/ShowTextCheckBox";
 import { setShowText } from "../../../reducers/accessibilitySlice";
 
 

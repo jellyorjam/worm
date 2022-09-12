@@ -1,9 +1,9 @@
-import NavBar from "./NavBar";
-import { useLoginHook } from "../hooks/useLoginHook";
+import NavBar from "../NavBar";
+import { useLoginHook } from "../../hooks/useLoginHook";
 import { useSelector} from "react-redux";
-import { useGetBookQuery } from "../reducers/libraryApi";
+import { useGetBookQuery } from "../../reducers/libraryApi";
 import { Container, Skeleton } from "@mui/material";
-import ErrorPage from "./ErrorPage";
+import ErrorPage from "../ErrorPage";
 import YourBooks from "./YourBooks";
 
 
@@ -41,4 +41,4 @@ const MyLibrary = () => {
  
 }
 
-export default MyLibrary
+export default MyLibrary;

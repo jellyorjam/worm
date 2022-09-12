@@ -6,12 +6,12 @@ import ShowTextCheckBox from "./ShowTextCheckBox"
 const YourBooks = ({data, type}) => {
   const [search, setSearch] = useState("");
 
-  let checkbox = ""
+  let checkbox = "";
   if (data.length) {
     checkbox = <ShowTextCheckBox/>
   }
 
-  let searchBar = ""
+  let searchBar = "";
   if (data.length) {
     searchBar =
     <Autocomplete
@@ -58,4 +58,4 @@ const YourBooks = ({data, type}) => {
   )
 }
 
-export default YourBooks
+export default YourBooks;

@@ -1,20 +1,22 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setLongestBook, setShortestBook, setSortedByYear } from "../reducers/insightsSlice";
 
-export const useInsights = () => {
-  const library = useSelector(state => state.books)
+export const useInsights = (library) => {
+  const dispatch = useDispatch();
 
-  useEffect(() => {
+    useEffect(() => {
     const bookWithMostPages = findLongestBook();
-    const bookWithLeastPages = findShortestBook();
-    const sortedArray = organizeByYear();
+    const longestBook = bookWithMostPages[bookWithMostPages.length - 1];
+    dispatch(setLongestBook(longestBook));
 
-    return {
-      bookWithMostPages,
-      bookWithLeastPages,
-      sortedArray
-    }
-  }, [])
+    const bookWithLeastPages = findShortestBook();
+    const shortestBook = bookWithLeastPages[bookWithLeastPages.length - 1];
+    dispatch(setShortestBook(shortestBook));
+
+    const sortedByYear = organizeByYear();
+    dispatch(setSortedByYear(sortedByYear));
+  }, [library])
 
 
   const findLongestBook = () => {
@@ -44,9 +46,19 @@ export const useInsights = () => {
   };
 
   const organizeByYear = () => {
-    const sortLibrary = [...library]
-    const sortedArray = sortLibrary.sort((a, b) => parseInt(a.firstPublishYear) - parseInt(b.firstPublishYear));
-    return sortedArray;
-  }
+    const sortLibrary = [...library];
+    const filterLibrary = sortLibrary.filter((book) => {
+      return book.firstPublishYear !== ""
+    })
 
+    const sortedArray = filterLibrary.sort((a, b) => parseInt(a.firstPublishYear) - parseInt(b.firstPublishYear));
+    return sortedArray;
+  };
+
+  const totalPages = library.reduce((accumulator, books) =>  accumulator + parseInt(books.pageCount), 0
+  ).toLocaleString("en-US");
+
+  return {
+    totalPages
+  }
 }

@@ -12,6 +12,6 @@ const ErrorPage = () => {
       </Container>
     </div>
   )
-}
+};
 
-export default ErrorPage
+export default ErrorPage;

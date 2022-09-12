@@ -1,14 +1,14 @@
-import NavBar from "./NavBar";
-import { useLoginHook } from "../hooks/useLoginHook";
+import NavBar from "../NavBar";
+import { useLoginHook } from "../../hooks/useLoginHook";
 import { useSelector } from "react-redux";
 import { Container, Skeleton } from "@mui/material";
-import { useGetWishlistQuery } from "../reducers/libraryApi";
-import ErrorPage from "./ErrorPage";
+import { useGetWishlistQuery } from "../../reducers/libraryApi";
+import ErrorPage from "../ErrorPage";
 import YourBooks from "./YourBooks";
 
 const Wishlist = () => {
  
-  const books = useSelector(state => state.user.user.wishlist)
+  const books = useSelector(state => state.user.user.wishlist);
   const { loggedIn } = useLoginHook();
   const { data, error, isLoading } = useGetWishlistQuery(books);
 
