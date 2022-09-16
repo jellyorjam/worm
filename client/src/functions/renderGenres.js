@@ -1,6 +1,5 @@
 import { CardActionArea } from "@mui/material";
 import { Typography } from "@mui/material";
-import ShowTextCheckBox from "../components/books/ShowTextCheckBox";
 
 export const renderTopGenres = (topTenGenres, setGenreClicked) => {
   return topTenGenres.map((genre, i) => {
@@ -12,7 +11,7 @@ export const renderTopGenres = (topTenGenres, setGenreClicked) => {
        })
 }
 
-export  const renderOtherGenres = (sortedGenres, setGenreClicked) => {
+export const renderOtherGenres = (sortedGenres, setGenreClicked) => {
      const top20 = sortedGenres.slice(10, 20);
      return top20.map((genre, i) => {
        return (
@@ -30,24 +29,20 @@ export const  showBook = (book, navigate, genreClicked) => {
      navigate("/books/" + book.title, {state: selfLink})
    }
 
-export  const renderGenreClicked = (navigate, genreClicked, books, checked) => {
+export const renderGenreClicked = (navigate, genreClicked, books, checked) => {
      
      if (genreClicked) {
       return books.map((book) => {
          return book.googleCategories.map((category) => {
            if (category === genreClicked) {
              return (
-               <CardActionArea sx={{width: "125px", height: "auto"}} onClick={() => showBook(book, navigate)}>
-                 
+               <CardActionArea sx={{width: "125px", height: "auto"}} onClick={() => showBook(book, navigate)}>  
                  <img src={book.image} alt="book cover"></img>
                  {checked ? <div>
                   <Typography>{book.title}</Typography>
                   <Typography>{book.authors[0]}</Typography>
                 </div> : ""}
-        
-               </CardActionArea>
-                 
-           
+               </CardActionArea>         
              )
            }
          })
