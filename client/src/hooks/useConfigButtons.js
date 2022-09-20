@@ -1,3 +1,5 @@
+//helps to configure buttons on the Book page by checking if the book is already in users wishlist or library
+
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux"
 

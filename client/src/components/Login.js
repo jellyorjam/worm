@@ -5,8 +5,6 @@ import axios from 'axios';
 import { useNavigate, useLocation } from "react-router";
 import { url } from "../config/keys"
 
-//remember to map semantic headings for accessibility
-
 const validationSchema = Yup.object({
   email: Yup.string('Enter your email').email('Enter a valid email').required('Email is required'),
   password: Yup.string('Enter your password').required('Password is required')

@@ -3,8 +3,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-
-
 const Search = () => {
 
   const [input, setInput] = useState("");

@@ -13,14 +13,10 @@ const USMap = ({setTooltipContent, content}) => {
 
   const [isClicked, setIsClicked] = useState(false);
   const [stateClicked, setStateClicked] = useState("");
-
   const usersBooks = useSelector(state => state.user.user.books)
-  const usersWishlist = useSelector(state => state.user.user.wishlist)
-
   const { data: books, error, isLoading } = useGetBookQuery(usersBooks)
 
   if (books) {
-
     const statesRead = [];
 
     books.forEach((book) => {
@@ -74,7 +70,6 @@ const USMap = ({setTooltipContent, content}) => {
   
     const booksFromState = []
   
-  
     books.forEach((book) => {
      if (book.SubjectPlace) {
        book.SubjectPlace.forEach((subject) => {
@@ -83,9 +78,7 @@ const USMap = ({setTooltipContent, content}) => {
          }
        })
      }
-     })
-  
-  
+    })
   
     const renderUSInfoDiv = () => {
       if (isClicked) {
@@ -98,7 +91,7 @@ const USMap = ({setTooltipContent, content}) => {
     return (
       <div data-tip="">
       <ComposableMap projection="geoAlbersUsa" projectionConfig={{scale: 850}} width={800} height={400}
-    style={{ width: "100%", height: "auto" }} >
+        style={{ width: "100%", height: "auto" }} >
         <Geographies geography={geoUrl}>
           {({ geographies }) => (
             <>
@@ -129,9 +122,7 @@ const USMap = ({setTooltipContent, content}) => {
       {renderUSInfoDiv()}
       </div>
     );
-  }
-
-  
+  } 
 };
 
 export default memo(USMap);

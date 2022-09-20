@@ -71,7 +71,7 @@ const PublishYearInsights = (props) => {
               }}></Bar>
             </BarChart>
           </ResponsiveContainer>
-          {renderDecadeTitle(decadeIsClicked, dashboard, decadeClicked, insights, checked)}
+          {renderDecadeTitle(decadeIsClicked, dashboard, decadeClicked, insights, checked, navigate)}
           {detailedChart}
           {renderTitle(isClicked, dashboard, insights, yearClicked, checked, navigate)}
           {renderInput}

@@ -1,3 +1,5 @@
+//renders categories of the book
+
 import { Typography } from "@mui/material"
 
 export const renderCategories = (categories) => {

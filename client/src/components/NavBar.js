@@ -1,9 +1,7 @@
 import { Toolbar, Button, Box} from "@mui/material";
 import { useNavigate } from "react-router";
-import Search from "./Search"
-import { styled } from "@mui/material/styles"
-
-//remember to map semantic headings for accessibility
+import Search from "./Search";
+import { styled } from "@mui/material/styles";
 
 const Worm = styled('img')({
   height: "50px",

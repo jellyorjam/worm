@@ -1,3 +1,5 @@
+//narrows down the data needed about each book to display to the user and to send to the database
+
 import { useSelector } from "react-redux";
 
 export const useCreateBookObj = (book) => {

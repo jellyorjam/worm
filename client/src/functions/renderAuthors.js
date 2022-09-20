@@ -1,3 +1,5 @@
+//reusable function to display author(s) name
+
 import { Typography } from "@mui/material"
 
 export function renderAuthors (authors, heading) {

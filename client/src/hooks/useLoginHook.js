@@ -1,3 +1,5 @@
+//makes sure user is logged in and has access to the page
+
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useState } from "react";

@@ -1,3 +1,5 @@
+//arrays of all countries and US states
+
 export const allCountries = [
   "Afghanistan",
   "Angola",
